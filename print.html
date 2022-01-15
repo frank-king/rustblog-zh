@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="zh" class="sidebar-visible no-js light">
+<html lang="zh" class="sidebar-visible no-js ayu">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -33,7 +33,7 @@
         <!-- Provide site root to javascript -->
         <script type="text/javascript">
             var path_to_root = "";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "ayu";
         </script>
 
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
@@ -59,7 +59,7 @@
             if (theme === null || theme === undefined) { theme = default_theme; }
             var html = document.querySelector('html');
             html.classList.remove('no-js')
-            html.classList.remove('light')
+            html.classList.remove('ayu')
             html.classList.add(theme);
             html.classList.add('js');
         </script>
@@ -78,7 +78,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="chapter_1.html"><strong aria-hidden="true">1.</strong> Chapter 1</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="overview.html">序言</a></li><li class="chapter-item expanded affix "><li class="part-title">2021-09</li><li class="chapter-item expanded "><a href="2021-09-ghost-cell/09-03-ghost-cell.html">Ghost Cell试用体验</a></li><li class="chapter-item expanded affix "><li class="part-title">2021-01</li><li class="chapter-item expanded "><a href="2021-01-proc-macro/00.html">Rust过程宏入门系列</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="2021-01-proc-macro/01-06-过程宏（一）-过程宏简介.html">（一）过程宏简介</a></li><li class="chapter-item expanded "><a href="2021-01-proc-macro/01-07-过程宏（二）-初探派生宏.html">（二）初探派生宏</a></li><li class="chapter-item expanded "><a href="2021-01-proc-macro/01-10-过程宏（三）-实现简易派生宏.html">（三）实现简易派生宏</a></li><li class="chapter-item expanded "><a href="2021-01-proc-macro/01-16-过程宏（四）-遍历结构体字段.html">（四）遍历结构体字段</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -96,11 +96,11 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu (default)</button></li>
                         </ul>
                         <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
@@ -140,7 +140,891 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="chapter-1"><a class="header" href="#chapter-1">Chapter 1</a></h1>
+                        <h1 id="序言"><a class="header" href="#序言">序言</a></h1>
+<p>本博客将不定期更新一些Rust相关的学习心得与开发体验，更新频率可能不会很高。文章按月组织，例序排列。</p>
+<h1 id="2021-09"><a class="header" href="#2021-09">2021-09</a></h1>
+<ul>
+<li><a href="2021-09-ghost-cell/09-03-ghost-cell.html">Ghost Cell试用体验</a></li>
+</ul>
+<h1 id="2021-01"><a class="header" href="#2021-01">2021-01</a></h1>
+<ul>
+<li><a href="2021-01-proc-macro/00.html">Rust过程宏入门系列</a>
+<ul>
+<li><a href="2021-01-proc-macro/01-06-%E8%BF%87%E7%A8%8B%E5%AE%8F%EF%BC%88%E4%B8%80%EF%BC%89-%E8%BF%87%E7%A8%8B%E5%AE%8F%E7%AE%80%E4%BB%8B.html">（一）过程宏简介</a></li>
+<li><a href="2021-01-proc-macro/01-07-%E8%BF%87%E7%A8%8B%E5%AE%8F%EF%BC%88%E4%BA%8C%EF%BC%89-%E5%88%9D%E6%8E%A2%E6%B4%BE%E7%94%9F%E5%AE%8F.html">（二）初探派生宏</a></li>
+<li><a href="2021-01-proc-macro/01-10-%E8%BF%87%E7%A8%8B%E5%AE%8F%EF%BC%88%E4%B8%89%EF%BC%89-%E5%AE%9E%E7%8E%B0%E7%AE%80%E6%98%93%E6%B4%BE%E7%94%9F%E5%AE%8F.html">（三）实现简易派生宏</a></li>
+<li><a href="2021-01-proc-macro/01-16-%E8%BF%87%E7%A8%8B%E5%AE%8F%EF%BC%88%E5%9B%9B%EF%BC%89-%E9%81%8D%E5%8E%86%E7%BB%93%E6%9E%84%E4%BD%93%E5%AD%97%E6%AE%B5.html">（四）遍历结构体字段</a></li>
+</ul>
+</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="ghost-cell与staticrc的试用体验"><a class="header" href="#ghost-cell与staticrc的试用体验">Ghost Cell与StaticRC的试用体验</a></h1>
+<p>写于2021年9月3日。最早发表于<a href="https://www.zhihu.com/question/482473609/answer/2101373347">知乎</a>。</p>
+<hr />
+<p>试用了下GhostCell<sup class="footnote-reference"><a href="#1">1</a></sup><sup class="footnote-reference"><a href="#2">2</a></sup> + StaticRc<sup class="footnote-reference"><a href="#3">3</a></sup>，用来写链表。总体感觉非常不错，很创新的一个概念，但如果能内置到编译器层面，可能使用上会更加方便。</p>
+<h2 id="ghostcell-安全零开销的内部可变性机制"><a class="header" href="#ghostcell-安全零开销的内部可变性机制"><code>GhostCell</code> ——安全、零开销的内部可变性机制</a></h2>
+<p><code>GhostCell</code>的思想大致是：通过一个<code>GhostToken</code>来控制一系列与之生命周期相等的<code>GhostCell</code>数据的读写行为，从而实现安全、零开销的内部可变性。</p>
+<p><code>GhostCell</code>文档首页给出的一个样例可以说明其使用方法。 </p>
+<pre><code class="language-rust ignore">use ghost_cell::{GhostToken, GhostCell};
+
+let n = 42;
+
+let value = GhostToken::new(|mut token| {
+    let cell = GhostCell::new(42);
+
+    let vec: Vec&lt;_&gt; = (0..n).map(|_| &amp;cell).collect();
+
+    *vec[n / 2].borrow_mut(&amp;mut token) = 33;
+
+    *cell.borrow(&amp;token)
+});
+
+assert_eq!(33, value);
+</code></pre>
+<p>首先通过<code>GhostToken::new</code>方法创建一个<code>token</code>，但这个<code>token</code>并非直接创建出来，而是绑定在一个局部作用域（即传入的闭包）内。</p>
+<p>所有装入<code>GhostCell</code>内的值，均可通过<code>GhostCell::borrow</code>与<code>GhostCell::borrow_mut</code>两个方法来读写。这两个方法的签名分别是：</p>
+<pre><code class="language-rust ignore">pub fn borrow&lt;'a&gt;(&amp;'a self, _: &amp;'a GhostToken&lt;'brand&gt;) -&gt; &amp;'a T;
+pub fn borrow_mut&lt;'a&gt;(&amp;'a self, _: &amp;'a mut GhostToken&lt;'brand&gt;) -&gt; &amp;'a mut T;
+</code></pre>
+<p>可见，不论读写，都只需要<code>GhostCell</code>的 <strong>不可变借用</strong> ，不同的是数据读取需要<code>&amp;token</code>，而数据写入需要<code>&amp;mut token</code>。 两种借用方式借得的<code>&amp;T</code>或<code>&amp;mut T</code>生命周期与<code>cell</code>和<code>token</code>同时绑定（即函数签名中的<code>'a</code>）。 </p>
+<p>由于<code>token</code>的生命周期与作用域内创建的所有<code>GhostCell</code>的生命周期都与<code>token</code>相等（<code>GhostCell&lt;'id, T&gt;</code>与<code>GhostToken&lt;'id&gt;</code>内的生命周期标识<code>'id</code>都是 <strong>不变 (invariant) ）</strong> 的，因此可以确保在<code>token</code>被借用时，或者允许多个<code>cell</code>的读取（通过<code>&amp;token</code>），或者允许单独某个<code>cell</code>写入（通过<code>&amp;mut token</code>）。 </p>
+<p>回到文档中的样例：</p>
+<pre><code class="language-rust ignore">    let cell = GhostCell::new(42);
+    let vec: Vec&lt;_&gt; = (0..n).map(|_| &amp;cell).collect();
+</code></pre>
+<p>这里将同一个<code>cell</code>的只读引用复制了<code>n</code>遍放到一个数组中。如果数组未放到<code>GhostCell</code>内，就不可能在Safe Rust范围内改写数组内的元素。原本修改<code>cell</code>内的值需要可变借用<code>&amp;mut cell</code>，而引入<code>GhostCell</code>后，即使只能拿到<code>&amp;cell</code>，只需独占借用<code>&amp;mut token</code>，即可实现安全的内部可变性，类似一种「可变借用转移」的效果。</p>
+<p>不同于<code>RefCell</code>的是，<code>GhostCell</code>是零开销的。<code>RefCell</code>虽然也可以通过<code>RefCell::borrow_mut(&amp;cell)</code>来实现内部可变，但其内部会记录当前值的借用状态，并在运行时检查。<code>GhostCell</code>的检查是在编译期完成的，因为<code>token</code>的读写是互斥的，所以在当前<code>token</code>的生命周期内，所有的<code>GhostCell</code>的读写都是安全的，并且是<code>Send + Sync</code>的。 </p>
+<p>[<sup class="footnote-reference"><a href="#1">1</a></sup>] 中给出了GhostCell安全性的证明。 </p>
+<h2 id="staticrc零开销的共享所有权机制"><a class="header" href="#staticrc零开销的共享所有权机制"><code>StaticRc</code>——零开销的共享所有权机制</a></h2>
+<p><code>ghost_cell</code>库中提到了<code>static_rc</code> <sup class="footnote-reference"><a href="#3">3</a></sup> 库，实现了一种编译期检查的零开销共享所有权机制。其思想是：将<code>Box</code>的所有权分开，引入有理数（大于0，不大于1）范围意义的所有权。<code>StaticRc&lt;T, const NUM: usize, const DEN: usize&gt;</code>的所有权值为有理数<code>NUM/DEN</code>（<code>NUM &lt;= DEN</code>）。当<code>NUM/DEN</code> = 1时，代表该指针拥有完全的所有权，即等价于<code>Box</code>；当<code>NUM/DEN</code> &lt; 1时，代表与其他指针共享所有权；指同一对象的所有指针，其所有权值之和不大于<code>1</code>。</p>
+<p>引入<code>split</code>与<code>join</code>两个操作。其中<code>split</code>操作将一个指针一分为二，分为两个所有权值更小的指针（二者所有权值之和等于分裂前的所有权值）；<code>join</code>操作将两个指针合二为一，合成一个新指针，其所有权值之和等于合成后指针的所有权值（不大于一）。</p>
+<p>在<code>StaticRc</code>中，仅独占所有权的指针（即所有权值为1）具有完全操作所指对象的权限（读(<code>&amp;ptr</code>)、写(<code>&amp;mut ptr</code>)、消耗(<code>ptr</code>)），等同于<code>Box</code>；共享指针（即所有权值小于1）仅具有只读权限(<code>&amp;ptr</code>)。</p>
+<p>该库的安全性还有待证明。我不太熟悉生命周期证明的那套理论，仅从直觉上看没有什么大问题。不过看了一下该库的实现，共享所有权指针的<code>Drop</code>是静默的，仅独占所有权的指针会被释放，这可能很容易引起内存泄露，所以我认为将<code>StaticRc</code>设计成线性类型可能更好（即至少且至多被使用一次），对共享指针而言，必须将其合倂为独占指针再释放，否则报编译错误。 </p>
+<h2 id="安全零开销的链表实现尝试"><a class="header" href="#安全零开销的链表实现尝试">安全、零开销的链表实现尝试</a></h2>
+<p>[<sup class="footnote-reference"><a href="#1">1</a></sup>] 中已经提出了一种基于arena的双向链表实现方式，[<sup class="footnote-reference"><a href="#4">4</a></sup>] 中还给出了一种基于<code>GhostCell</code> + <code>Arc</code>的链表实现。我认为前者更优，因为后者需要<code>Arc</code>额外开销，所以基本上不会考虑这种实现。而前者虽然无额外开销，但arena的实现可能在节点删除后不能及时的释放，所以我就尝试了如下的第三种方式。</p>
+<p>考虑到（双向）链表中每个节点恰好由两个指针共享持有，因此想到可以用<code>StaticRc</code>来实现共享所有权，用<code>GhostCell</code>实现内部可变性，若<code>StaticRc</code>保持安全，便可实现安全、零开销的双向链表。</p>
+<p>定义链表的数据结构如下：</p>
+<pre><code class="language-rust ignore">pub struct List&lt;'id, T&gt; {
+    head: Option&lt;NodePtr&lt;'id, T&gt;&gt;,
+    tail: Option&lt;NodePtr&lt;'id, T&gt;&gt;,
+    len: usize,
+}
+
+struct Node&lt;'id, T&gt; {
+    next: Option&lt;NodePtr&lt;'id, T&gt;&gt;,
+    prev: Option&lt;NodePtr&lt;'id, T&gt;&gt;,
+    elem: T,
+}
+
+type NodePtr&lt;'id, T&gt; = Half&lt;GhostCell&lt;'id, Node&lt;'id, T&gt;&gt;&gt;;
+
+type Half&lt;T&gt; = StaticRc&lt;T, 1, 2&gt;;
+type Full&lt;T&gt; = StaticRc&lt;T, 2, 2&gt;;
+</code></pre>
+<p>其中，<code>head</code>,<code>tail</code>,<code>next</code>,<code>prev</code>都是共享所有权（1/2）的指针（<code>Half</code>），套上<code>GhostCell</code>。每个节点由一前一后两个指向其的指针共享所有权；链表首/尾节点则由<code>head</code>/<code>tail</code>指针共享另一半所有权。 <code>Half</code>指针只能拿到不可变引用，但可借助<code>GhostCell</code>实现内部可变性，看起来十分完美，于是我就写了一个简单的<code>push</code> / <code>pop</code>操作：</p>
+<pre><code class="language-rust ignore">    pub fn push_back(&amp;mut self, side: usize, elem: T, token: &amp;mut GhostToken&lt;'id&gt;) {
+        // 创建新节点后即一分为二。
+        let (left, right) = Full::split(Full::new(GhostCell::new(Node::new(elem))));
+        match self.tail.take() {
+            Some(tail) =&gt; {
+                // 链接其左半边指针。若当前链表为空，则链接`self.head`。
+                tail.deref().borrow_mut(token).next = Some(left);
+                // 将插入前的`self.tail`所有权转移至新插入节点。
+                right.deref().borrow_mut(token).prev = Some(tail);
+            }
+            None =&gt; self.head = Some(left),
+        }
+        // 链接其右半边指针到新的`self.tail`。
+        self.tail = Some(right);
+    }
+    pub fn pop_back(&amp;mut self, side: usize, token: &amp;mut GhostToken&lt;'id&gt;) -&gt; Option&lt;T&gt; {
+        // 从`self.tail`取其右半边指针（若为空则返回`None`）。
+        let right = self.tail.take()?;
+        let left = match right.deref().borrow_mut(token).prev.take() {
+            Some(tail) =&gt; {
+                // 若`self.tail`的前一节点不为空，则从其`next`中取出左半边指针，
+                // 否则从`self.head`取出左半边指针。
+                let left = tail.deref().borrow_mut(token).next.take().unwrap();
+                // 重新链接`self.tail`
+                self.tail = Some(tail);
+                left
+            }
+            None =&gt; self.head.take().unwrap(),
+        };
+        // 将左右指针合二为一，并返回弹出的节点元素。弹出的元素在包含`Box`内，
+        // 用完后会随`Box`一起回收。
+        Some(Full::into_box(Full::join(left, right)).into_inner().elem)
+    }
+</code></pre>
+<p>至此都一切顺利，直到我想实现一个可变的迭代器。一开始按照标准的迭代器写法：</p>
+<pre><code class="language-rust ignore">pub struct IterMut&lt;'id, 'iter, T&gt; {
+    head: Option&lt;&amp;'iter NodePtr&lt;'id, T&gt;&gt;,
+    tail: Option&lt;&amp;'iter NodePtr&lt;'id, T&gt;&gt;,
+    len: usize,
+    token: &amp;'iter mut GhostToken&lt;'id&gt;,
+}
+
+impl&lt;'id, 'iter, T&gt; Iterator for IterMut&lt;'id, 'iter, T&gt; {
+    type Item = &amp;'iter mut T;
+
+    fn next(&amp;mut self) -&gt; Option&lt;Self::Item&gt; {
+        let current = self.head?;
+        self.head = current.deref().borrow(self.token).next;
+        self.len -= 1;
+        // 编译错误：token先被不可变借用，后被可变借用，且借用周期都等于`'iter`。
+        Some(&amp;current.deref().borrow_mut(self.token).elem)
+    }
+}
+</code></pre>
+<p>结果未能通过借用检查规则。原因很简单，遍历时获取每个节点的<code>next</code>指针需要不可变借用<code>token</code>，而返回节点中元素的可变引用，则需要可变借用<code>token</code>，且借出的<code>token</code>周期均为<code>'iter</code>（即整个迭代器的生命周期），自然不可能通过借用检查。</p>
+<p>后来又另辟溪径，参考[<sup class="footnote-reference"><a href="#4">4</a></sup>]中的一个迭代器实现，他的可变迭代并不像一般的设计模式那样返回一个迭代器结构，而是直接采用类似<code>Iterator::for_each</code>的方式，在闭包内完成可变借用，从而把可变借出的生命周期缩短。</p>
+<p>于是我也实现了一个<code>for_each_mut</code>的接口：</p>
+<pre><code class="language-rust ignore">    pub fn for_each_mut(&amp;self, token: &amp;mut GhostToken&lt;'id&gt;, mut f: impl FnMut(&amp;mut T)) {
+        let mut current = self.head.as_ref();
+        while let Some(node) = current {
+            let node = node.deref().borrow_mut(token);
+            f(&amp;mut node.elem);
+            current = node.deref().next.as_ref();
+        }
+    }
+</code></pre>
+<p>不幸地是，虽然看起来这个函数中只有一次<code>borrow_mut</code>，且只在循环体内，应该会在单次循环后归还。但由于每次获得<code>next</code>指针时依赖于上一次的借用，该借用的生命周期硬生生地被从循环体内拉长到了循环体外。 因此出现了如下的编译错误</p>
+<pre><code class="language-plaintext">error[E0499]: cannot borrow `*token` as mutable more than once at a time
+   --&gt; src/experiments.rs:182:48
+    |
+182 |             let node = node.deref().borrow_mut(token);
+    |                                                ^^^^^ `*token` was mutably borrowed here in the previous iteration of the loop
+</code></pre>
+<p>基于arena或<code>Arc</code>的实现则不存在这一问题。基于<code>arena</code>的实现中，所有的<code>next</code>或<code>prev</code>都是引用，且有单独的生命周期，因此在迭代时不存在需要借用才能拿到<code>next</code>的情况； 基于<code>Arc</code>的实现中，共享指针<code>Arc</code>可以在运行时复制一份指针，因此也不需要通过借用来获取<code>next</code>指针。而<code>StaticRc</code>并不支持在运行时临时新增一份引用，只能通过<code>split</code>的方式将其原有的半份所有权分裂开来。这种方式不仅涉及<code>next</code>字段的修改（需要用<code>Option::take</code>将整个<code>Half</code>指针按值的方式取出来，才能调用<code>split</code>），且在所有权一分为二后，又存在合井困难的问题（因为<code>next</code>指针的值仍然借用于分裂后的指针，会阻止分裂指针合井）。</p>
+<p>结论：该方案（<code>StaticRc</code> + <code>GhostCell</code>）在描述定义链表，或操作链表中的单个节点时虽能胜任安全零开销的实现。但对链表作遍历或其他更复杂的操作时，需要将链表的结构可变性与数据可变性作进一步分离，才能实现全功能的安全零开销链表。</p>
+<hr />
+<p>总之，我比较看好<code>GhostCell</code>的思想，将大有可能改进下一个Rust Edition中的借用检查的体验（就像2015的Lexical Lifetime到Non-Lexical Lifetime的改进一样）， 进一步平衡安全、性能、易用的三角。</p>
+<p><code>GhostCell</code>的不足之处：写起来比较繁琐，会需要多写不少的<code>GhostToken::new</code>、<code>GhostCell::new</code>、<code>borrow(token)</code>、<code>borrow_mut(token)</code>之类的代码。如果能集成到编译器内，通过更简洁的语法书写，使用体验会好很多。</p>
+<p>拭目以待。</p>
+<hr />
+<h3 id="参考资料"><a class="header" href="#参考资料">参考资料</a></h3>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p><a href="http://plv.mpi-sws.org/rustbelt/ghostcell/paper.pdf">http://plv.mpi-sws.org/rustbelt/ghostcell/paper.pdf</a></p>
+</div>
+<div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
+<p><a href="https://docs.rs/ghost-cell/0.2.2/ghost_cell/">https://docs.rs/ghost-cell/0.2.2/ghost_cell/</a></p>
+</div>
+<div class="footnote-definition" id="3"><sup class="footnote-definition-label">3</sup>
+<p><a href="https://docs.rs/static-rc/0.4.1/static_rc/">https://docs.rs/static-rc/0.4.1/static_rc/</a></p>
+</div>
+<div class="footnote-definition" id="4"><sup class="footnote-definition-label">4</sup>
+<p><a href="https://gitlab.mpi-sws.org/FP/ghostcell/-/blob/master/ghostcell/examples/dlist_arc.rs">https://gitlab.mpi-sws.org/FP/ghostcell/-/blob/master/ghostcell/examples/dlist_arc.rs</a></p>
+</div>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="rust过程宏入门系列"><a class="header" href="#rust过程宏入门系列">Rust过程宏入门系列</a></h1>
+<p>写于2022年1月15日。</p>
+<hr />
+<p>本系列文章写于2021年1月，最早于知乎发表。当时正初学Rust，选取了看起来比较有意思的过程宏入手。与之前学过的C++宏的预处理文本替换机制不同，Rust的过程宏提供了在AST（抽象语法树）层次上操作源代码的方式，自由度较高。但局限是也仅限于AST层次，无法获得类型信息。因此过程宏也仅仅只是一种生成代码的方式，但不能成为元编程的手段。</p>
+<p>由于过程宏在后来的编程实践中很少用到，因此本系列很可能再也不会更新了。但无论如何，本文用到的<a href="https://github.com/dtolnay/proc-macro-workshop/%E2%80%8B">dtolnay/proc-macro-workshop</a>仓库都可以作为很好的过程宏入门资料。</p>
+<p>附知乎原文链接：</p>
+<ul>
+<li><a href="https://zhuanlan.zhihu.com/p/342408254">Rust过程宏入门（一）——过程宏简介</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/342664529">Rust过程宏入门（二）——初探派生宏</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/343170504">Rust过程宏入门（三）——实现简易派生宏</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/344701514">Rust过程宏入门（四）——遍历结构体字段</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="rust过程宏入门一过程宏简介"><a class="header" href="#rust过程宏入门一过程宏简介">Rust过程宏入门（一）——过程宏简介</a></h1>
+<p>写于2021年1月6日。最早发表于<a href="https://zhuanlan.zhihu.com/p/342408254">知乎</a>。</p>
+<h2 id="什么是宏"><a class="header" href="#什么是宏">什么是宏？</a></h2>
+<p>熟悉C/C++的朋友应该很熟悉 <strong>宏（Macro）</strong> 的概念，而Rust初学者也必定会接触到Rust中的宏，其Hello world程序中就会用到<code>println!</code>宏。</p>
+<p>可以简单地理解为： <strong>宏即编译时将执行的一系列指令</strong>。其重点在于「编译时」，尽管宏与函数（或方法）形似，函数是在运行时发生调用的，而宏是在编译时执行的。</p>
+<p>不同于C/C++中的宏，Rust的宏并非简单的文本替换，而是在词法层面甚至语法树层面作替换，其功能更加强大，也更加安全。</p>
+<p>如下所示的一个C++的宏SQR的定义</p>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#define SQR(x) (x * x)
+int main() {
+    std::cout &lt;&lt; SQR(1 + 1) &lt;&lt; std::endl;
+    return 0;
+} 
+</code></pre>
+<p>我们希望它输出<code>4</code>，但很遗憾它将输出<code>3</code>，因为<code>SQR(1 + 1)</code>在预编译阶段通过文本替换展开将得到<code>(1 + 1 * 1 + 1)</code>，并非我们所期望的语义。</p>
+<p>而在Rust中，按如下方式定义的宏：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">macro_rules! sqr {
+    ($x:expr) =&gt; {$x * $x}
+}
+
+fn main() {
+    println!(&quot;{}&quot;, sqr!(1 + 1));
+}
+</code></pre></pre>
+<p>将得到正确的答案<code>4</code>。这是因为Rust的宏展开发生在语法分析阶段，此时编译器知道<code>sqr!</code>宏中的<code>$x</code>变量是一个表达式（用<code>$x:expr</code>标记），所以在展开后它知道如何正确处理，会将其展开为<code>((1 + 1) * (1 + 1))</code>。</p>
+<p>由于本文介绍的重点是过程宏，因此涉及普通宏的内容便不多赘述，有兴趣者可参考<a href="https://doc.rust-lang.org/rust-by-example/macros.html">官方文档</a>上的介绍。</p>
+<h2 id="什么是过程宏"><a class="header" href="#什么是过程宏">什么是过程宏？</a></h2>
+<p><strong>过程宏（Procedure Macro）</strong> 是Rust中的一种特殊形式的宏，它将提供比普通宏更强大的功能。方便起见，本文将Rust中由<code>macro_rules!</code>定义的宏称为 <strong>声明宏</strong> 以示区分。</p>
+<p>过程宏分为三种：</p>
+<ul>
+<li>派生宏（Derive macro）：用于结构体（struct）、枚举（enum）、联合（union）类型，可为其实现函数或特征（Trait）。</li>
+<li>属性宏（Attribute macro）：用在结构体、字段、函数等地方，为其指定属性等功能。如标准库中的<code>#[inline]</code>、<code>#[derive(...)]</code>等都是属性宏。</li>
+<li>函数式宏（Function-like macro）：用法与普通的声明宏类似，但功能更加强大，可实现任意语法树层面的转换功能。</li>
+</ul>
+<h2 id="过程宏的定义与使用方法"><a class="header" href="#过程宏的定义与使用方法">过程宏的定义与使用方法</a></h2>
+<h3 id="派生宏"><a class="header" href="#派生宏">派生宏</a></h3>
+<p>派生宏的定义方法如下：</p>
+<pre><code class="language-rust ignore">#[proc_macro_derive(Builder)]
+fn derive_builder(input: TokenStream) -&gt; TokenStream {
+    let _ = input;
+
+    unimplemented!()
+}
+</code></pre>
+<p>其使用方法如下：</p>
+<pre><code class="language-rust ignore">#[derive(Builder)]
+struct Command {
+    // ...
+}
+</code></pre>
+<h3 id="属性宏"><a class="header" href="#属性宏">属性宏</a></h3>
+<p>属性宏的定义方法如下：</p>
+<pre><code class="language-rust ignore">#[proc_macro_attribute]
+fn sorted(args: TokenStream, input: TokenStream) -&gt; TokenStream {
+    let _ = args;
+    let _ = input;
+
+    unimplemented!()
+}
+</code></pre>
+<p>使用方法如下：</p>
+<pre><code class="language-rust ignore">#[sorted]
+enum Letter {
+    A,
+    B,
+    C,
+    // ...
+}
+</code></pre>
+<h3 id="函数式宏"><a class="header" href="#函数式宏">函数式宏</a></h3>
+<p>函数式宏的定义方法如下：</p>
+<pre><code class="language-rust ignore">#[proc_macro]
+pub fn seq(input: TokenStream) -&gt; TokenStream {
+    let _ = input;
+
+    unimplemented!()
+}
+</code></pre>
+<p>使用方法如下：</p>
+<pre><code class="language-rust ignore">seq! { n in 0..10 {
+    /* ... */
+}}
+</code></pre>
+<h2 id="过程宏的原理"><a class="header" href="#过程宏的原理">过程宏的原理</a></h2>
+<p>以上三种过程宏的定义方法已全部介绍。可以发现，它的定义方式与普通函数无异，只不过其函数调用发生在编译阶段而已。下面以较为常见的派生宏为例，介绍过程宏的原理。</p>
+<p>回顾刚才的定义：</p>
+<pre><code class="language-rust ignore">#[proc_macro_derive(Builder)]
+fn derive_builder(input: TokenStream) -&gt; TokenStream {
+    let _ = input;
+
+    unimplemented!()
+}
+</code></pre>
+<p>首先，<code>#[proc_macro_derive(Builder)]</code>表明<code>derive_builder</code>是一个派生宏，<code>Builder</code>表示它将作用的地方。比如定义如下结构体</p>
+<pre><code class="language-rust ignore">#[derive(Builder)]
+struct Command {
+    // ...
+}
+</code></pre>
+<p>就会触发以上派生宏执行。至于其中的<code>Builder</code>具体代表什么含义，本期暂不展开，后面再详细介绍。</p>
+<p><code>fn derive_builder(input: TokenStream) -&gt; TokenStream</code>函数头部表明该函数将接受一个<code>TokenStream</code>对象作为输入，并返回一个<code>TokenStream</code>对象。</p>
+<p>要理解<code>TokenStream</code>，需要一些简单的编译原理知识。编译器在编译一段程序时，会首先将输入的文本转换成一系列的Token（标识符、关键字、符号、字面量等），同时忽略注释（文档注释除外）与空白字符等。</p>
+<p>例如<code>println!(&quot;Hello world&quot;);</code>这句代码将被转换成标识符<code>println</code> 、叹号<code>!</code> 、圆括号<code>(</code> 、字面量<code>&quot;Hello world&quot;</code> 、圆括号<code>)</code> 、分号<code>;</code>几个Token。</p>
+<p><code>TokenStream</code>顾名思义，是Rust中对一系列连续的Token的抽象。在宏展开的过程中，遇到派生宏时，会将整个结构体（或<code>enum</code>、<code>union</code>）展开成<code>TokenStream</code>作为派生宏函数的输入，然后将其输出的<code>TokenStream</code>附加到结构体后面，再继续作语法分析。</p>
+<hr />
+<p>本期的介绍到此结束，主要介绍了过程宏的基本概念、定义及使用方法、实现原理。接下来将通过几个具体实例详细介绍Rust过程宏的编程方法。</p>
+<p>实例来源自GitHub上的仓库： <a href="https://github.com/dtolnay/proc-macro-workshop/%E2%80%8B">dtolnay/proc-macro-workshop</a>。</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="rust过程宏入门二初探派生宏"><a class="header" href="#rust过程宏入门二初探派生宏">Rust过程宏入门（二）——初探派生宏</a></h1>
+<p>写于2021年1月7日。最早发表于<a href="https://zhuanlan.zhihu.com/p/342664529">知乎</a>。</p>
+<h2 id="认识派生宏手动实现生成代码"><a class="header" href="#认识派生宏手动实现生成代码">认识派生宏，手动实现生成代码</a></h2>
+<p>我们将从一个<a href="https://link.zhihu.com/?target=https%3A//github.com/whjpji/proc-macro-workshop%23derive-macro-derivebuilder">简单的案例</a>开始，设计一个Builder模式的派生宏。</p>
+<pre><code class="language-rust ignore">#[derive(Builder)]
+pub struct Command {
+    executable: String,
+    #[builder(each = &quot;arg&quot;)]
+    args: Vec&lt;String&gt;,
+    current_dir: Option&lt;String&gt;,
+}
+
+fn main() {
+    let command = Command::builder()
+        .executable(&quot;cargo&quot;.to_owned())
+        .arg(&quot;build&quot;.to_owned())
+        .arg(&quot;--release&quot;.to_owned())
+        .build()
+        .unwrap();
+
+    assert_eq!(command.executable, &quot;cargo&quot;);
+}
+</code></pre>
+<p>上述代码展示了我们希望呈现给用户的使用方式，即用户只需定义一个结构体（若结构体实现了成员函数或trait，下文中也称之为「类」），则派生宏将为其自动生成Builder类。</p>
+<h2 id="command类实现"><a class="header" href="#command类实现">Command类实现</a></h2>
+<p>首先从Builder类的使用方式入手，若欲手动实现Builder类，那么它大概会像这样：</p>
+<pre><code class="language-rust ignore">impl Command {
+    pub fn builder() -&gt; CommandBuilder {
+        CommandBuilder {
+            executable: None,
+            args: Vec::new(),
+            current_dir: None
+        }
+    }
+}
+
+pub struct CommandBuilder {
+    executable: Option&lt;String&gt;,
+    args: Vec&lt;String&gt;,
+    current_dir: Option&lt;String&gt;,
+}
+</code></pre>
+<p>其中，<code>impl Command</code>为<code>Command</code>结构体添加了<code>builder</code>成员函数，将返回一个<code>CommandBuilder</code>结构体， 并设置其成员变量的初始量。注意这里的<code>builder</code>不带任何参数（在C++、Java等语言中又称为静态函数或静态方法）。 </p>
+<p>而<code>CommandBuilder</code>结构体中的成员变量与<code>Command</code>基本一致，只是<code>executable</code>字段的类型由<code>String</code>变成了<code>Option&lt;String&gt;</code>，这是因为在刚创建<code>CommandBuilder</code>类时，<code>executable</code>的值未知，所以只好利用Rust自带的可选类型<code>Option&lt;T&gt;</code>，其定义很简单：</p>
+<pre><code class="language-rust ignore">pub enum Option&lt;T&gt; {
+    None,
+    Some(T),
+}
+</code></pre>
+<p>虽然在不少语言中（如C/C++、Java等）都有枚举类型的概念，但对不熟悉Rust的朋友或Rust初学者而言，这里有必要指出：Rust的枚举类型与其他语言稍有不同，除了包含枚举标签以外，它还可以额外附带任意值。例如<code>Option&lt;T&gt;</code>类型中，有「有值（<code>Some</code>）」与「无值（<code>None</code>）」两种状态，而处于「有值」的状态时，还附带一个T类型（即泛型参数）的值，这便很好地表示了可选类型。</p>
+<h2 id="commandbuilder类及实现"><a class="header" href="#commandbuilder类及实现">CommandBuilder类及实现</a></h2>
+<p>接下来，为<code>CommandBuilder</code>结构体实现相应的函数： </p>
+<pre><code class="language-rust ignore">impl CommandBuilder {
+    pub fn executable(mut self, executable: String) -&gt; Self {
+        self.executable = Some(executable);
+        self
+    }
+    pub fn arg(mut self, arg: String) -&gt; Self {
+        self.args.push(arg);
+        self
+    }
+    pub fn current_dir(mut self, current_dir: String) -&gt; Self {
+        self.current_dir = Some(current_dir);
+        self
+    }
+    pub fn build(self) -&gt; Result&lt;Command, String&gt; {
+        let executable = self.executable.ok_or(
+            &quot;executable required, but not set&quot;.to_owned())?;
+        let args = self.args;
+        let current_dir = self.current_dir;
+        Ok(Command { executable, args, current_dir })
+    }
+}
+</code></pre>
+<p>其中，<code>executable</code>、<code>arg</code>、<code>current_dir</code>函数分别对应三个字段的设置函数。其第一个参数<code>mut self</code>代表结构体自身（由于rust中的变量默认是不可变的，所以要修改<code>self</code>，需要加上<code>mut</code>。第二个参数是相应字段的值，最后返回结构体自身（这里用到了自身类型别名<code>Self</code>，须注意它与自身变量别名<code>self</code>是不同的）。</p>
+<p>最后的<code>build</code>函数则是返回所希望构建的<code>Command</code>类。由于最终构建<code>Command</code>类时，可能有必填字段未设置（如<code>executable</code>是必须设置的），此时不能构造一个有效的<code>Command</code>类，且需将此错误信息告知调用者。</p>
+<h2 id="错误处理"><a class="header" href="#错误处理">错误处理</a></h2>
+<p>说到这里，不得不提及Rust独特的错误处理机制。C语言中常通过返回非零值代表错误；C++、Java、Python语言中通常会中断当前函数执行并抛出异常信息交予调用者处理。而Rust得益于其特有的枚举类型，将错误信息直接返回调用者，且通常调用者无法直接忽略错误。Rust标准库中定义了<code>Result&lt;T, E&gt;</code>类型如下：</p>
+<pre><code class="language-rust ignore">pub enum Result&lt;T, E&gt; {
+    Ok(T),
+    Err(E),
+}
+</code></pre>
+<p>该类型有「正常（<code>Ok</code>）」与「错误（<code>Err</code>）」两种状态，因此调用者要么立即处理错误信息，要么将其向上传播。 不过<code>Result&lt;T, E&gt;</code>类中也提供了一个<code>unwarp</code>方法，可以直接取其正常状态的值。但若返回的是错误状态，调用<code>unwarp</code>会触发<code>panic!</code>并打印该错误信息。</p>
+<p>若忘记设置<code>executable</code>的值，运行时将输出如下错误信息。 </p>
+<pre><code class="language-plaintext">thread 'main' panicked at 'called `Result::unwrap()` on an `Err` value: &quot;executable required, but not set&quot;' 
+</code></pre>
+<hr />
+<p>本期的介绍到此结束，主要以较为常见的Builder模式为例，介绍了如何手动实现其主要功能，接下将逐步介绍如何通过Rust过程宏自动实现上述代码。</p>
+<p>实例来源自GitHub上的仓库： <a href="https://github.com/dtolnay/proc-macro-workshop/%E2%80%8B">dtolnay/proc-macro-workshop</a>。</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="rust过程宏入门三实现简易派生宏"><a class="header" href="#rust过程宏入门三实现简易派生宏">Rust过程宏入门（三）——实现简易派生宏</a></h1>
+<p>写于2021年1月10日。最早发表于<a href="https://zhuanlan.zhihu.com/p/343170504">知乎</a>。</p>
+<h2 id="再谈派生宏的原理"><a class="header" href="#再谈派生宏的原理">再谈派生宏的原理</a></h2>
+<p>简单起见，我们先假定<code>Command</code>结构体中只有必填单选项，无选填或多选项，简化后的<code>Command</code>类如下：</p>
+<pre><code class="language-rust ignore">#[derive(Builder)]
+pub struct Command {
+    executable: String,
+    args: Vec&lt;String&gt;,
+    current_dir: String,
+}
+</code></pre>
+<p>首先实现<code>Command</code>类中的<code>builder</code>函数：</p>
+<pre><code class="language-rust ignore">impl Command {
+    pub fn builder() -&gt; CommandBuilder {
+        CommandBuilder
+    }
+}
+
+pub struct CommandBuilder;
+</code></pre>
+<p>为此派生宏创建一个crate，注意需要在<code>Cargo.toml</code>中加上</p>
+<pre><code class="language-toml">[lib]
+proc-macro = true
+</code></pre>
+<p>以表示该crate将编译为一个过程宏库。
+回顾一下派生宏的定义方式，我们需要根据输入的<code>TokenStream</code>生成目标<code>TokenStream</code>。 </p>
+<pre><code class="language-rust ignore">#[proc_macro_derive(Builder)]
+fn derive_builder(input: TokenStream) -&gt; TokenStream {
+    let _ = input;
+
+    unimplemented!()
+}
+</code></pre>
+<p>编译器会将派生宏作用的结构体（或<code>enum</code>、<code>union</code>）展开成<code>TokenStream</code>作为函数参数传入。不出意料的话，展开后的<code>TokenStream</code>会由如下几项构成：</p>
+<blockquote>
+<p>关键字<code>pub</code> 关键字<code>struct</code> 标识符<code>Command</code> 花括号<code>{</code></p>
+<p>标识符<code>executable</code> 冒号<code>:</code> 标识符<code>String</code>逗号<code>,</code></p>
+<p>标识符<code>args</code> 冒号<code>:</code> 标识符<code>Vec</code> 小于号<code>&lt;</code> 标识符<code>String</code> 大于号<code>&gt;</code> 逗号<code>,</code> </p>
+<p>标识符<code>current_dir</code> 冒号<code>:</code> 标识符<code>String</code>逗号<code>,</code></p>
+<p>花括号<code>}</code></p>
+</blockquote>
+<p>我们需要用到的Token有：结构体名标识符<code>Command</code>，每个字段的名字标识符与类型的Token串。其他信息只起结构标记的作用，无需用到。</p>
+<p>应当如何提取这些信息呢？</p>
+<p>一种方法是利用<code>TokenStream</code>类的<code>to_string</code>函数，将这些Token转换为字符串，然后再用字符串处理的手段提取其中的信息。但这就有一个问题：编译器好不容易将源代码文件中的文本信息（也即字符串），转换成了语法树，在此处展开成<code>TokenStream</code>以调用过程宏处理，但我们反而再次将<code>TokenStream</code>转换为原始的字符串，岂不多此一举？</p>
+<p>另一种方法是使用<a href="https://docs.rs/syn/1.0.58/syn/index.html">syn库</a>。syn库提供了表示语法解析结果（一般为语法树上的某一节点）的一系列类。</p>
+<p>若要使用syn库，需要在项目的<code>Cargo.toml</code>文件中指定：</p>
+<pre><code class="language-toml">[dependencies]
+syn = &quot;1.0&quot; 
+</code></pre>
+<h2 id="认识deriveinput"><a class="header" href="#认识deriveinput">认识DeriveInput</a></h2>
+<p>由于派生宏的使用场景相对固定（目前只能作用于<code>struct</code>、<code>enum</code>、<code>union</code>），syn库中已提供了派生宏输入项的封装——<code>DeriveInput</code>。其结构如下：</p>
+<pre><code class="language-rust ignore">pub struct DeriveInput {
+    pub attrs: Vec&lt;Attribute&gt;,
+    pub vis: Visibility,
+    pub ident: Ident,
+    pub generics: Generics,
+    pub data: Data,
+} 
+</code></pre>
+<p>其中<code>ident</code>字段正是我们所需的结构体名的标识符。结合<code>parse_macro_input!</code>宏，容易将输入的<code>TokenStream</code>解析为<code>DeriveInput</code>：</p>
+<pre><code class="language-rust ignore">#[proc_macro_derive(Builder)]
+fn derive_builder(input: TokenStream) -&gt; TokenStream {
+    let input = parse_macro_input!(input as DeriveInput);
+    
+    unimplemented!()
+}
+</code></pre>
+<p>若以<code>#ident</code>指代结构体名<code>Command</code>，那么我们已经可以实现一个简易版的<code>builder</code>函数：</p>
+<pre><code class="language-rust ignore">impl #ident {
+    pub fn builder() -&gt; #identBuilder {
+<span class="boring">        identBuilder
+</span>    }
+}
+
+pub struct #identBuilder;
+</code></pre>
+<p>当然上述代码中的<code>#identBuilder</code>是有问题的，这里暂时跳过。</p>
+<h2 id="用quote宏生成tokenstream"><a class="header" href="#用quote宏生成tokenstream">用<code>quote!</code>宏生成<code>TokenStream</code></a></h2>
+<p>如何生成这段代码呢？不难想到，可以直接用字符串拼接的方法再转换成<code>TokenStream</code>输出，但这会让编译器再多一层词法分析的步骤，且不易阅读与扩展。（字符串格式化的占位符是<code>{}</code>，当输入代码篇幅较大时，占位符与实际传入参数相隔很远，且不便于一一对应。）</p>
+<p>另一种方法是用<a href="https://docs.rs/quote/1.0.8/quote/index.html">quote库</a>，同样需在<code>Cargo.toml</code>后面加上<code>quote = &quot;1.0&quot;</code>的依赖。</p>
+<p>quote库中的<code>quote!</code>宏提供了将Rust语法项展开为<code>TokenStream</code>的功能， 包含在<code>quote!</code>宏中的任何Rust代码都将展开为<code>TokenStream</code>，而以<code>#</code>开头的标识符将引用前文中已定义的标识符，而非像字符串格式化那样使用<code>{}</code>并在末尾传入参数的方式。这便是笔者在上文中用<code>#ident</code>指代<code>Command</code>类名的原因。</p>
+<p>需要注意的是，与syn库搭配的<code>TokenStream</code>来自<a href="https://docs.rs/proc-macro2/1.0.24/proc_macro2/struct.TokenStream.html">proc_macro2库</a>， 其别名为<code>TokenStream2</code>，需要用<code>.into()</code>方法转换为<code>TokenStream</code>才能作为过程宏函数的返回值。</p>
+<p>用<code>quote!</code>宏包含<code>Command::builder</code>函数的实现部分，得：</p>
+<pre><code class="language-rust ignore">#[proc_macro_derive(Builder)]
+fn derive_builder(input: TokenStream) -&gt; TokenStream {
+    let input = parse_macro_input!(input as DeriveInput);
+    let ident = input.ident;
+    let ident_builder = /* 暂时跳过 */;
+    quote!(
+        impl #ident {
+            pub fn builder() -&gt; #ident_builder {
+<span class="boring">                ident_builder::default()
+</span>            }
+        }
+        pub struct #ident_builder;
+    )
+    .into()
+}
+</code></pre>
+<h2 id="拼接标识符"><a class="header" href="#拼接标识符">拼接标识符</a></h2>
+<p>最后回到<code>CommandBuilder</code>标识符的问题。刚才提到，<code>Command</code>标识符可由<code>DeriveInput</code>直接获取，但<code>CommandBuilder</code>的标识符却需要手动拼接生成。</p>
+<p>笔者联想到C++中的宏定义中有<code>##</code>运算符可用于拼接标识符，譬如<code>#define CONCAT(a, b) a##b</code>，<code>CONCAT(foo, bar)</code>就会得到一个<code>foobar</code>的标识符，想必Rust应当也有类似的宏，于是搜索Rust标准库发现果然有一个名为<code>concat_idents!</code>的宏，然后这样写：</p>
+<pre><code class="language-rust ignore">pub struct concat_idents!(#ident, Builder);
+</code></pre>
+<p>但尝试未果，总是会报出类似<code>error: expected `where`, `{`, `(`, or `;` after struct name, found `!` </code>的错误。后来才发现Rust中并不支持在标识符位置的宏调用（详见<a href="https://github.com/rust-lang/rust/issues/4365">rust-lang/rust#4365 · Macros don't get expanded when used in item name token position</a>）。编译器会将<code>concat_idents</code>当作<code>struct</code>的名字标识符 ，然后并不知道如何处理这个叹号<code>!</code>Token， 故而只能报编译错误。</p>
+<p>几经周折，最终还是选择了手动拼接构造标识符，因为标识符位置不可用宏，所以一切基于宏的办法都失效了，总不至于退回到原始的字符串拼接的方式吧？</p>
+<p>所幸syn库中的<code>Ident</code>类有由字符串新建实例的构造函数<code>new</code>，但观察其构造函数</p>
+<pre><code class="language-rust ignore">pub fn new(string: &amp;str, span: Span) -&gt; Ident
+</code></pre>
+<p>发现，除了传入一个字符串以外，还需要一个<code>Span</code>对象。<code>Ident</code>类中的<a href="https://docs.rs/syn/1.0.58/syn/struct.Ident.html">文档示例代码</a>是传入了一个<code>Span::call_cite()</code>，如：</p>
+<pre><code class="language-rust ignore">let ident = Ident::new(&quot;demo&quot;, Span::call_site());
+let temp_ident = Ident::new(&amp;format!(&quot;new_{}&quot;, ident), Span::call_site());     
+</code></pre>
+<p>文档中对Span::call_cite()的解释是：</p>
+<blockquote>
+<p>identifiers created with this span will be resolved as if they were written directly at the location of the macro call, and other code at the macro call site will be able to refer to them as well. </p>
+</blockquote>
+<p>大致意思是，标识符的<code>span</code>会解析为宏调用的地方。如何理解「<code>span</code>」的含义呢？在<code>Span</code>的文档中有定义：</p>
+<blockquote>
+<p>A region of source code, along with macro expansion information.</p>
+</blockquote>
+<p>即<code>Span</code>代表了源代码的某一区间，并携带了宏展开的信息。也就是说，<code>Ident::new()</code>中传入的<code>Span</code>是用来定位标识符的位置的。而<code>CommandBuilder</code>标识符是与<code>Command</code>相关联的，不妨将其<code>span</code>设置为<code>Command</code>标识符的区间就好。 因此有：</p>
+<pre><code class="language-rust ignore">let ident = input.ident;
+let ident_builder = Ident::new(&amp;format!(&quot;{}Buidler&quot;, ident), ident.span());
+</code></pre>
+<h2 id="利用cargo-expand命令检验代码生成结果"><a class="header" href="#利用cargo-expand命令检验代码生成结果">利用<code>cargo expand</code>命令检验代码生成结果</a></h2>
+<p>将前面的代码全部综合到一起，得：</p>
+<pre><code class="language-rust ignore">use proc_macro::TokenStream;
+
+use quote::quote;
+use syn::{parse_macro_input, DeriveInput, Ident};
+
+#[proc_macro_derive(Builder)]
+pub fn derive(input: TokenStream) -&gt; TokenStream {
+    let input = parse_macro_input!(input as DeriveInput);
+    let ident = input.ident;
+    let ident_builder = Ident::new(&amp;format!(&quot;{}Builder&quot;, ident), ident.span());
+    quote! (
+        impl #ident {
+            pub fn builder() -&gt; #ident_builder {
+<span class="boring">                ident_builder
+</span>            }
+        }
+
+        pub struct #ident_builder;
+    )
+    .into()
+}
+</code></pre>
+<p>最后我们用<code>cargo expand</code>命令来检验生成的代码。这里要指出的是，使用过程宏须与定义过程中处在不同的crate中。</p>
+<pre><code class="language-rust ignore">use derive_builder::Builder;
+
+#[allow(dead_code)] // 忽略警告
+#[derive(Builder)]
+pub struct Command {
+    executable: String,
+    args: Vec&lt;String&gt;,
+    current_dir: String,
+}
+
+fn main() {}
+</code></pre>
+<p>展开后将得到：</p>
+<pre><code class="language-rust ignore">#![feature(prelude_import)]
+#[prelude_import]
+use std::prelude::v1::*;
+#[macro_use]
+extern crate std;
+use derive_builder::Builder;
+#[allow(dead_code)]
+pub struct Command {
+    executable: String,
+    args: Vec&lt;String&gt;,
+    current_dir: String,
+}
+impl Command {
+    pub fn builder() -&gt; CommandBuilder {
+        CommandBuilder
+    }
+}
+pub struct CommandBuilder;
+fn main() {}
+</code></pre>
+<p>正是所期望的结果。</p>
+<hr />
+<p>本期的介绍到此为止，主要介绍了如何将输入的<code>TokenStream</code>解析为<code>DeriveInput</code>，提取其中的名字信息，使用<code>Ident</code>类提供的构造函数拼接成新的标识符，最后用<code>quote!</code>宏生成目标代码的<code>TokenStream</code>。 接下来将继续介绍用派生宏实现<code>CommandBuilder</code>类的字段生成、函数实现等功能。 </p>
+<p>本文中的代码实现详见 <a href="https://github.com/frank-king/proc-macro-workshop/tree/example/builder/01-parse.rs/builder">https://github.com/frank-king/proc-macro-workshop/tree/example/builder/01-parse.rs/builder</a>。</p>
+<p>其中，测试用的<code>main.rs</code>代码见<a href="https://github.com/frank-king/proc-macro-workshop/blob/example/builder/01-parse.rs/main.rs"><code>example/builder/01-parse.rs</code>中的<code>main.rs</code>文件</a>。</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="rust过程宏入门四遍历结构体字段"><a class="header" href="#rust过程宏入门四遍历结构体字段">Rust过程宏入门（四）——遍历结构体字段</a></h1>
+<p>写于2021年1月16日。最早发表于<a href="https://zhuanlan.zhihu.com/p/344701514">知乎</a>。</p>
+<h2 id="简单回顾"><a class="header" href="#简单回顾">简单回顾</a></h2>
+<p>在上一章中的简单案例中，</p>
+<pre><code class="language-rust ignore">#[derive(Builder)]
+pub struct Command {
+    executable: String,
+    args: Vec&lt;String&gt;,
+    current_dir: String,
+}
+</code></pre>
+<p>我们已经为<code>Command</code>结构体生成了如下代码</p>
+<pre><code class="language-rust ignore">impl Command {
+    pub fn builder() -&gt; CommandBuilder {
+        CommandBuilder
+    }
+}
+
+pub struct CommandBuilder; 
+</code></pre>
+<p>接下来，自然是补齐<code>CommandBuilder</code>结构体的字段和成员函数，使其成为一个真正可用的类。</p>
+<p>首先是<code>CommandBuilder</code>类的字段，相对比较简单，只需要引用原结构体的字段名，并在其字段类型外面套上<code>Option&lt;&gt;</code>即可。</p>
+<h2 id="获取结构体中的字段信息"><a class="header" href="#获取结构体中的字段信息">获取结构体中的字段信息</a></h2>
+<p>如何获取原结构体的字段信息呢？这就需要用到上一章介绍的<code>DeriveInput</code>了：</p>
+<pre><code class="language-rust ignore">pub struct DeriveInput {
+    pub attrs: Vec&lt;Attribute&gt;,
+    pub vis: Visibility,
+    pub ident: Ident,
+    pub generics: Generics,
+    pub data: Data,
+} 
+</code></pre>
+<p>其中的<code>data: Data</code>就是具体的结构体（或<code>enum</code>、<code>union</code>）信息。我们看<a href="https://docs.rs/syn/1.0.58/syn/enum.Data.html"><code>Data</code>的定义</a>，它也是一个<code>enum</code>：</p>
+<pre><code class="language-rust ignore">pub enum Data {
+    Struct(DataStruct),
+    Enum(DataEnum),
+    Union(DataUnion),
+}
+</code></pre>
+<p>可见，这里的Data确实是支持<code>struct</code>、<code>enum</code>、<code>union</code>三种结构的，但我们的<code>Builder</code>宏只支持<code>struct</code>，所以先忽略另外两个。 我们看<a href="https://docs.rs/syn/1.0.58/syn/struct.DataStruct.html"><code>DataStruct</code>的定义</a>： </p>
+<pre><code class="language-rust ignore">pub struct DataStruct {
+    pub struct_token: Struct,
+    pub fields: Fields,
+    pub semi_token: Option&lt;Semi&gt;,
+}
+</code></pre>
+<p>它包含了一个<code>struct</code>的Token，一些字段<code>Fields</code>，以及一个可选的分号<code>;</code>Token。继续看<a href="https://docs.rs/syn/1.0.58/syn/enum.Fields.html"><code>Fields</code>的定义</a>：</p>
+<pre><code class="language-rust ignore">pub enum Fields {
+    Named(FieldsNamed),
+    Unnamed(FieldsUnnamed),
+    Unit,
+}
+</code></pre>
+<p>也是一个<code>enum</code>。这是由于结构体中的字段有具名和匿名（类似元组Tuple）两种写法，还有一种不含任何字段的空结构体<code>Fields::Unit</code>。<code>Fields</code>类有一个<code>iter</code>函数</p>
+<pre><code class="language-rust ignore">impl Fields {
+    pub fn iter(&amp;self) -&gt; Iter&lt;'_, Field&gt; { /*...*/ }
+}
+</code></pre>
+<p>可以生成其字段的迭代器，我们再看Field的定义：</p>
+<pre><code class="language-rust ignore">pub struct Field {
+    pub attrs: Vec&lt;Attribute&gt;,
+    pub vis: Visibility,
+    pub ident: Option&lt;Ident&gt;,
+    pub colon_token: Option&lt;Colon&gt;,
+    pub ty: Type,
+} 
+</code></pre>
+<p>终于找到了我们所需要的信息！其中的<code>ident: Option&lt;Ident&gt;</code>即是可选的字段名（但由于我们的<code>Builder</code>类只支持具名结构体，所以字段名是必须的），<code>ty: Type</code>即为类型信息。</p>
+<h2 id="遍历结构体字段"><a class="header" href="#遍历结构体字段">遍历结构体字段</a></h2>
+<p>要遍历结构体的字段，首先需要将字段提取出来。前面已经介绍了<code>DeriveInput</code>相关的结构，那么我们需要做的就是用<code>match</code>或<code>if let</code>的方式过滤出需要的信息。</p>
+<p>设计只考虑具名的<code>struct</code>类型，因此用<code>if let</code>匹配单个分支即可：</p>
+<pre><code class="language-rust ignore">if let Data::Struct(r#struct) = input.data {
+    let fields = r#struct.fields;
+    if matches!(&amp;fields, Fields::Named(_)) {
+        todo!()
+    }
+} 
+</code></pre>
+<p>在<code>todo!()</code>处则已经拿到了<code>fields: Fields</code>，且它是具名的。至于不用<code>if let</code>取出<code>Fields::Named(_)</code>实体的原因是：即使用<code>Named(FieldsNamed)</code>提取出的<code>Field</code>结构体中的<code>ident: Option&lt;Ident&gt;</code>也需要<code>.unwrap()</code>之后才能取出<code>Ident</code>，所以此处用原来的<code>fields: Fields</code>即可。</p>
+<p>现在用我们将<code>Fields</code>映射为<code>TokenStream2</code>，以便嵌入最终生成的代码中。 </p>
+<pre><code class="language-rust ignore">let builder_fields = TokenStream2::from_iter(
+    fields
+        .iter() // 1
+        .map(|field: &amp;Field| (field.ident.as_ref().unwrap(), &amp;field.ty)) // 2
+        .map(|(ident: &amp;Ident, ty: &amp;Type)| quote!(#ident: Option&lt;#ty&gt;, )), // 3
+);
+</code></pre>
+<ul>
+<li><code>// 1</code>处的<code>fields.iter()</code>产生了<code>&amp;Field</code>的迭代器，由于<code>fields</code>可能被多次使用，所以用只读迭代器，而非按值传递将其消耗；</li>
+<li><code>// 2</code>处的<code>.map(...)</code>提取出<code>Field</code>中的标识符<code>&amp;Ident</code>与类型<code>&amp;Type</code>（由于前面保证了结构体字段是具名的，此处直接调用<code>Option::unwrap</code>即可）；</li>
+<li><code>// 3</code>处的<code>.map(...)</code>根据提取出的<code>ident</code>和<code>ty</code>生成<code>#ident: Option&lt;#ty&gt;,</code>的<code>TokenStream</code>，注意不要漏掉末尾的Token。</li>
+</ul>
+<p>最后，<code>TokenStream2::from_iter</code>函数将以上的多个<code>TokenStream2</code>串联在一起。对<code>Command</code>类而言，将生成</p>
+<pre><code class="language-rust ignore">executable: Option&lt;String&gt;,
+args: Option&lt;Vec&lt;String&gt;,
+current_dir: Option&lt;String&gt;, 
+</code></pre>
+<p>只需要将上述生成的字段嵌入<code>CommandBuilder</code>结构体中，一个带字段的<code>CommandBuilder</code>结构体便生成好了：</p>
+<pre><code class="language-rust ignore">quote! {
+    pub struct CommandBuilder {
+<span class="boring">        builder_fields
+</span>    }
+}
+</code></pre>
+<p>在为<code>CommandBuilder</code>类添加字段后，<code>Command::builder</code>函数中生成<code>CommandBuilder</code>的默认实例还未添加字段初始值，这里简单起见，我们用<code>#[derive(Default)]</code>派生宏自动为<code>CommandBuilder</code>类实现<code>Default</code> Trait，从而可以调用该Trait的<code>default()</code>函数生成其默认实例。</p>
+<pre><code class="language-rust ignore">quote! {
+    impl Command {
+        pub fn builder() -&gt; CommandBuilder {
+            CommandBuilder::default()
+        }
+    }
+
+    #[derive(Default)]
+    pub struct CommandBuilder {
+<span class="boring">        builder_fields
+</span>    }
+}
+</code></pre>
+<h2 id="成员函数的生成"><a class="header" href="#成员函数的生成">成员函数的生成</a></h2>
+<p>接下来，将为<code>CommandBuilder</code>添加字段的设置函数。以<code>executable</code>参数为例，期望通过以下函数设置其值：</p>
+<pre><code class="language-rust ignore">impl CommandBuilder {
+    pub fn executable(mut self, value: String) -&gt; Self {
+        self.executable = Some(executable);
+        self
+    }
+}  
+</code></pre>
+<p>这里的<code>self</code>选择传值是因为希望<code>CommandBuilder</code>类用完即毁，将其中所存的值直接转移到最终创建的<code>Command</code>实例中，避免复制开销。返回一个<code>Self</code>对象是为了实现链式调用。
+显然，生成成员函数时也涉及原结构体字段的遍历，因此我们重用<code>builder_fields</code>的生成函数，将其写成一个通用函数：</p>
+<pre><code class="language-rust ignore">fn map_fields&lt;F&gt;(fields: &amp;Fields, mapper: F) -&gt; TokenStream2
+where
+    F: FnMut((&amp;Ident, &amp;Type)) -&gt; TokenStream2,
+{
+    TokenStream2::from_iter(
+        fields
+            .iter()
+            .map(|field| (field.ident.as_ref().unwrap(), &amp;field.ty))
+            .map(mapper),
+    )
+}
+</code></pre>
+<p>因此即可用不同的映射函数或闭包以生成不同的<code>TokenStream</code>了。</p>
+<p>首先是设置字段的成员函数，相对较简单：</p>
+<pre><code class="language-rust ignore">let builder_set_fields = map_fields(&amp;fields, |(ident: &amp;Field, ty: &amp;Type)| {
+    quote!(pub fn #ident(mut self, value: #ty) -&gt; Self {
+        self.#ident = Some(value);
+        self
+    })
+});
+</code></pre>
+<p>基本上就是将前面手写的<code>executable</code>函数中的字段名和类型替换成统一的<code>#ident</code>和<code>#ty</code>即可，非常方便。</p>
+<p>最后是<code>CommandBuilder::build</code>函数，它将消耗自身，并生成一个Result&lt;Command, String&gt;实例。当所有字段都已设置时，返回正常的<code>Command</code>对象，否则返回错误信息（这里简单起见，暂时用<code>String</code>）。</p>
+<p><code>build</code>函数可以分为两部分：第一部分是依次取出由<code>Option&lt;&gt;</code>包装过的<code>CommandBuilder</code>类中的各个字段的值，第二部分是生成目标<code>Command</code>实例。</p>
+<p>先看第一部分，直接遍历原结构体中的字段即可：</p>
+<pre><code class="language-rust ignore">let build_lets = map_fields(&amp;fields, |(ident, _)| { // 忽略用不到的ty
+    quote!(
+        let #ident = self.#ident.ok_or(format!(
+            &quot;field \&quot;{}\&quot; required, but not set yet.&quot;,
+            stringify!(#ident),
+        ))?;
+    )
+});
+</code></pre>
+<p>这里用到了<code>Option::ok_or</code>方法，当其为<code>None</code>时，返回一个错误值，然后用?运算符取出其中正确的值（若出现错误值，则直接将错误值返回上层）。</p>
+<p>取出了构造结构体所需要的各字段值后，第二部分就变得相对简单了，直接返回一个<code>Ok(Command{ executable, args, current_dir, })</code>即可。外层的字段名再用一次结构体字段遍历可得：</p>
+<pre><code class="language-rust ignore">let build_values = map_fields(&amp;fields, |(ident, _)| quote!(#ident,));      
+</code></pre>
+<p>注意不要漏掉逗号<code>,</code>。</p>
+<p>最后将代码全部合到一起：</p>
+<pre><code class="language-rust ignore">fn map_fields&lt;F&gt;(fields: &amp;Fields, mapper: F) -&gt; TokenStream2
+where
+    F: FnMut((&amp;Ident, &amp;Type)) -&gt; TokenStream2,
+{
+    TokenStream2::from_iter(
+        fields
+            .iter()
+            .map(|field| (field.ident.as_ref().unwrap(), &amp;field.ty))
+            .map(mapper),
+    )
+}
+
+#[proc_macro_derive(Builder)]
+pub fn derive(input: TokenStream) -&gt; TokenStream {
+    let input = parse_macro_input!(input as DeriveInput);
+    let ident = input.ident;
+    let ident_builder = Ident::new(&amp;format!(&quot;{}Builder&quot;, ident), ident.span());
+    if let Data::Struct(r#struct) = input.data {
+        let fields = r#struct.fields;
+        if matches!(&amp;fields, Fields::Named(_)) {
+            let builder_fields = map_fields(&amp;fields, |(ident, ty)| quote!(#ident: Option&lt;#ty&gt;, ));
+            let builder_set_fields = map_fields(&amp;fields, |(ident, ty)| {
+                quote!(pub fn #ident(mut self, value: #ty) -&gt; Self {
+                    self.#ident = Some(value);
+                    self
+                })
+            });
+            let build_lets = map_fields(&amp;fields, |(ident, _)| {
+                quote!(
+                    let #ident = self.#ident.ok_or(format!(
+                        &quot;field \&quot;{}\&quot; required, but not set yet.&quot;,
+                        stringify!(#ident),
+                    ))?;
+                )
+            });
+            let build_values = map_fields(&amp;fields, |(ident, _)| quote!(#ident,));
+            quote!(
+                impl #ident {
+                    pub fn builder() -&gt; #ident_builder {
+<span class="boring">                        ident_builder::default()
+</span>                    }
+                }
+
+                #[derive(Default)]
+                pub struct #ident_builder {
+<span class="boring">                    builder_fields
+</span>                }
+
+                impl #ident_builder {
+<span class="boring">                    builder_set_fields
+</span>
+                    pub fn build(self) -&gt; Result&lt;#ident, String&gt; {
+<span class="boring">                        build_lets
+</span>                        Ok(#ident { #build_values })
+                    }
+                }
+            )
+            .into()
+        }
+    }
+    quote!().into()
+}
+</code></pre>
+<h2 id="输出tokenstream2以检验生成结果"><a class="header" href="#输出tokenstream2以检验生成结果">输出<code>TokenStream2</code>以检验生成结果</a></h2>
+<p>上一章中讲到可以用<code>cargo expand</code>命令来检验代码生成结果。但由于本文中用到了<code>#[defive(Default)</code>派生宏以及<code>format!</code>规则宏等，若用<code>cargo expand</code>命令展开，会有一些不相干的信息，代码会很繁琐。但实际上除了<code>cargo expand</code>之后，还可以直接输出<code>TokenStream2</code>来检验生成结果。</p>
+<p>方法很简单，直接将<code>quote!</code>宏生成出的<code>TokenStream2</code>用<code>eprintln!</code>宏输出即可（<code>eprintln!</code>的用法与<code>println!</code>相似，只不过是输出到标准错误<code>stderr</code>中）：</p>
+<pre><code class="language-rust ignore">let tokens = quote!( /* ... */ );
+eprintln!(&quot;{}&quot;, tokens); 
+</code></pre>
+<p>输出后的代码未经格式化，我们可以手动复制到一个空白文件然后使用<code>rustfmt</code>程序格式化，得</p>
+<pre><code class="language-rust ignore">impl Command {
+    pub fn builder() -&gt; CommandBuilder {
+        CommandBuilder::default()
+    }
+}
+#[derive(Default)]
+pub struct CommandBuilder {
+    executable: Option&lt;String&gt;,
+    args: Option&lt;Vec&lt;String&gt;&gt;,
+    current_dir: Option&lt;String&gt;,
+}
+impl CommandBuilder {
+    pub fn executable(mut self, value: String) -&gt; Self {
+        self.executable = Some(value);
+        self
+    }
+    pub fn args(mut self, value: Vec&lt;String&gt;) -&gt; Self {
+        self.args = Some(value);
+        self
+    }
+    pub fn current_dir(mut self, value: String) -&gt; Self {
+        self.current_dir = Some(value);
+        self
+    }
+    pub fn build(self) -&gt; Result&lt;Command, String&gt; {
+        let executable = self.executable.ok_or(format!(
+            &quot;field \&quot;{}\&quot; required, but not set yet.&quot;,
+            stringify!(executable),
+        ))?;
+        let args = self.args.ok_or(format!(
+            &quot;field \&quot;{}\&quot; required, but not set yet.&quot;,
+            stringify!(args),
+        ))?;
+        let current_dir = self.current_dir.ok_or(format!(
+            &quot;field \&quot;{}\&quot; required, but not set yet.&quot;,
+            stringify!(current_dir),
+        ))?;
+        Ok(Command {
+            executable,
+            args,
+            current_dir,
+        })
+    }
+}
+</code></pre>
+<p>这种方法在调用派生宏中出现编译错误时尤其有用，不仅可以用来检验整体代码片段，也可以随时查看某一小片段，便于调试。</p>
+<h2 id="功能验证"><a class="header" href="#功能验证">功能验证</a></h2>
+<p>最后，为了验证派生宏的功能正确，将编译运行以下程序：</p>
+<pre><code class="language-rust ignore">use derive_builder::Builder;
+
+#[derive(Builder)]
+pub struct Command {
+    executable: String,
+    args: Vec&lt;String&gt;,
+    current_dir: String,
+}
+
+fn main() {
+    let command = Command::builder()
+        .executable(&quot;cargo&quot;.to_owned())
+        .args(vec![&quot;build&quot;.to_owned(), &quot;--release&quot;.to_owned()])
+        .current_dir(&quot;..&quot;.to_owned())
+        .build()
+        .unwrap();
+
+    assert_eq!(command.executable, &quot;cargo&quot;);
+    assert_eq!(command.args, &amp;[&quot;build&quot;, &quot;--release&quot;]);
+    assert_eq!(command.current_dir, &quot;..&quot;);
+}
+</code></pre>
+<p>程序将正常执行结束，无任何输出。</p>
+<hr />
+<p>本期的介绍到此为止，主要介绍了如何遍历<code>Command</code>结构体中的字段信息，并生成<code>CommandBuilder</code>类的字段与成员函数，实现了一个最简单可用的<code>Builder</code>类。接下来将继续如何处理原结构体中的可选、多选字段等功能。 </p>
+<p>本文中的代码实现详见 <a href="https://github.com/frank-king/proc-macro-workshop/tree/example/builder/05-method-chaining.rs/builder%E2%80%8B">https://github.com/frank-king/proc-macro-workshop/tree/example/builder/05-method-chaining.rs/builder​</a>。</p>
+<p>其中，测试用的<code>main.rs</code>代码见<a href="https://github.com/frank-king/proc-macro-workshop/blob/example/builder/05-method-chaining.rs/main.rs"><code>example/builder/05-method-chaining.rs</code>中的<code>main.rs</code>文件</a>。</p>
 
                     </main>
 
@@ -174,5 +1058,13 @@
             });
         });
         </script>
+        <script src="https://utteranc.es/client.js"
+                repo="frank-king/rustblog-zh"
+                issue-term="title"
+                theme="github-dark"
+                crossorigin="anonymous"
+                async>
+        </script>
+
     </body>
 </html>

@@ -1,0 +1,497 @@
+<!DOCTYPE HTML>
+<html lang="zh" class="sidebar-visible no-js ayu">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>（四）遍历结构体字段 - Rust中文博客</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "ayu";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('ayu')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../overview.html">序言</a></li><li class="chapter-item expanded affix "><li class="part-title">2021-09</li><li class="chapter-item expanded "><a href="../2021-09-ghost-cell/09-03-ghost-cell.html">Ghost Cell试用体验</a></li><li class="chapter-item expanded affix "><li class="part-title">2021-01</li><li class="chapter-item expanded "><a href="../2021-01-proc-macro/00.html">Rust过程宏入门系列</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../2021-01-proc-macro/01-06-过程宏（一）-过程宏简介.html">（一）过程宏简介</a></li><li class="chapter-item expanded "><a href="../2021-01-proc-macro/01-07-过程宏（二）-初探派生宏.html">（二）初探派生宏</a></li><li class="chapter-item expanded "><a href="../2021-01-proc-macro/01-10-过程宏（三）-实现简易派生宏.html">（三）实现简易派生宏</a></li><li class="chapter-item expanded "><a href="../2021-01-proc-macro/01-16-过程宏（四）-遍历结构体字段.html" class="active">（四）遍历结构体字段</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu (default)</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust中文博客</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/frank-king/rustblog-zh" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="rust过程宏入门四遍历结构体字段"><a class="header" href="#rust过程宏入门四遍历结构体字段">Rust过程宏入门（四）——遍历结构体字段</a></h1>
+<p>写于2021年1月16日。最早发表于<a href="https://zhuanlan.zhihu.com/p/344701514">知乎</a>。</p>
+<h2 id="简单回顾"><a class="header" href="#简单回顾">简单回顾</a></h2>
+<p>在上一章中的简单案例中，</p>
+<pre><code class="language-rust ignore">#[derive(Builder)]
+pub struct Command {
+    executable: String,
+    args: Vec&lt;String&gt;,
+    current_dir: String,
+}
+</code></pre>
+<p>我们已经为<code>Command</code>结构体生成了如下代码</p>
+<pre><code class="language-rust ignore">impl Command {
+    pub fn builder() -&gt; CommandBuilder {
+        CommandBuilder
+    }
+}
+
+pub struct CommandBuilder; 
+</code></pre>
+<p>接下来，自然是补齐<code>CommandBuilder</code>结构体的字段和成员函数，使其成为一个真正可用的类。</p>
+<p>首先是<code>CommandBuilder</code>类的字段，相对比较简单，只需要引用原结构体的字段名，并在其字段类型外面套上<code>Option&lt;&gt;</code>即可。</p>
+<h2 id="获取结构体中的字段信息"><a class="header" href="#获取结构体中的字段信息">获取结构体中的字段信息</a></h2>
+<p>如何获取原结构体的字段信息呢？这就需要用到上一章介绍的<code>DeriveInput</code>了：</p>
+<pre><code class="language-rust ignore">pub struct DeriveInput {
+    pub attrs: Vec&lt;Attribute&gt;,
+    pub vis: Visibility,
+    pub ident: Ident,
+    pub generics: Generics,
+    pub data: Data,
+} 
+</code></pre>
+<p>其中的<code>data: Data</code>就是具体的结构体（或<code>enum</code>、<code>union</code>）信息。我们看<a href="https://docs.rs/syn/1.0.58/syn/enum.Data.html"><code>Data</code>的定义</a>，它也是一个<code>enum</code>：</p>
+<pre><code class="language-rust ignore">pub enum Data {
+    Struct(DataStruct),
+    Enum(DataEnum),
+    Union(DataUnion),
+}
+</code></pre>
+<p>可见，这里的Data确实是支持<code>struct</code>、<code>enum</code>、<code>union</code>三种结构的，但我们的<code>Builder</code>宏只支持<code>struct</code>，所以先忽略另外两个。 我们看<a href="https://docs.rs/syn/1.0.58/syn/struct.DataStruct.html"><code>DataStruct</code>的定义</a>： </p>
+<pre><code class="language-rust ignore">pub struct DataStruct {
+    pub struct_token: Struct,
+    pub fields: Fields,
+    pub semi_token: Option&lt;Semi&gt;,
+}
+</code></pre>
+<p>它包含了一个<code>struct</code>的Token，一些字段<code>Fields</code>，以及一个可选的分号<code>;</code>Token。继续看<a href="https://docs.rs/syn/1.0.58/syn/enum.Fields.html"><code>Fields</code>的定义</a>：</p>
+<pre><code class="language-rust ignore">pub enum Fields {
+    Named(FieldsNamed),
+    Unnamed(FieldsUnnamed),
+    Unit,
+}
+</code></pre>
+<p>也是一个<code>enum</code>。这是由于结构体中的字段有具名和匿名（类似元组Tuple）两种写法，还有一种不含任何字段的空结构体<code>Fields::Unit</code>。<code>Fields</code>类有一个<code>iter</code>函数</p>
+<pre><code class="language-rust ignore">impl Fields {
+    pub fn iter(&amp;self) -&gt; Iter&lt;'_, Field&gt; { /*...*/ }
+}
+</code></pre>
+<p>可以生成其字段的迭代器，我们再看Field的定义：</p>
+<pre><code class="language-rust ignore">pub struct Field {
+    pub attrs: Vec&lt;Attribute&gt;,
+    pub vis: Visibility,
+    pub ident: Option&lt;Ident&gt;,
+    pub colon_token: Option&lt;Colon&gt;,
+    pub ty: Type,
+} 
+</code></pre>
+<p>终于找到了我们所需要的信息！其中的<code>ident: Option&lt;Ident&gt;</code>即是可选的字段名（但由于我们的<code>Builder</code>类只支持具名结构体，所以字段名是必须的），<code>ty: Type</code>即为类型信息。</p>
+<h2 id="遍历结构体字段"><a class="header" href="#遍历结构体字段">遍历结构体字段</a></h2>
+<p>要遍历结构体的字段，首先需要将字段提取出来。前面已经介绍了<code>DeriveInput</code>相关的结构，那么我们需要做的就是用<code>match</code>或<code>if let</code>的方式过滤出需要的信息。</p>
+<p>设计只考虑具名的<code>struct</code>类型，因此用<code>if let</code>匹配单个分支即可：</p>
+<pre><code class="language-rust ignore">if let Data::Struct(r#struct) = input.data {
+    let fields = r#struct.fields;
+    if matches!(&amp;fields, Fields::Named(_)) {
+        todo!()
+    }
+} 
+</code></pre>
+<p>在<code>todo!()</code>处则已经拿到了<code>fields: Fields</code>，且它是具名的。至于不用<code>if let</code>取出<code>Fields::Named(_)</code>实体的原因是：即使用<code>Named(FieldsNamed)</code>提取出的<code>Field</code>结构体中的<code>ident: Option&lt;Ident&gt;</code>也需要<code>.unwrap()</code>之后才能取出<code>Ident</code>，所以此处用原来的<code>fields: Fields</code>即可。</p>
+<p>现在用我们将<code>Fields</code>映射为<code>TokenStream2</code>，以便嵌入最终生成的代码中。 </p>
+<pre><code class="language-rust ignore">let builder_fields = TokenStream2::from_iter(
+    fields
+        .iter() // 1
+        .map(|field: &amp;Field| (field.ident.as_ref().unwrap(), &amp;field.ty)) // 2
+        .map(|(ident: &amp;Ident, ty: &amp;Type)| quote!(#ident: Option&lt;#ty&gt;, )), // 3
+);
+</code></pre>
+<ul>
+<li><code>// 1</code>处的<code>fields.iter()</code>产生了<code>&amp;Field</code>的迭代器，由于<code>fields</code>可能被多次使用，所以用只读迭代器，而非按值传递将其消耗；</li>
+<li><code>// 2</code>处的<code>.map(...)</code>提取出<code>Field</code>中的标识符<code>&amp;Ident</code>与类型<code>&amp;Type</code>（由于前面保证了结构体字段是具名的，此处直接调用<code>Option::unwrap</code>即可）；</li>
+<li><code>// 3</code>处的<code>.map(...)</code>根据提取出的<code>ident</code>和<code>ty</code>生成<code>#ident: Option&lt;#ty&gt;,</code>的<code>TokenStream</code>，注意不要漏掉末尾的Token。</li>
+</ul>
+<p>最后，<code>TokenStream2::from_iter</code>函数将以上的多个<code>TokenStream2</code>串联在一起。对<code>Command</code>类而言，将生成</p>
+<pre><code class="language-rust ignore">executable: Option&lt;String&gt;,
+args: Option&lt;Vec&lt;String&gt;,
+current_dir: Option&lt;String&gt;, 
+</code></pre>
+<p>只需要将上述生成的字段嵌入<code>CommandBuilder</code>结构体中，一个带字段的<code>CommandBuilder</code>结构体便生成好了：</p>
+<pre><code class="language-rust ignore">quote! {
+    pub struct CommandBuilder {
+<span class="boring">        builder_fields
+</span>    }
+}
+</code></pre>
+<p>在为<code>CommandBuilder</code>类添加字段后，<code>Command::builder</code>函数中生成<code>CommandBuilder</code>的默认实例还未添加字段初始值，这里简单起见，我们用<code>#[derive(Default)]</code>派生宏自动为<code>CommandBuilder</code>类实现<code>Default</code> Trait，从而可以调用该Trait的<code>default()</code>函数生成其默认实例。</p>
+<pre><code class="language-rust ignore">quote! {
+    impl Command {
+        pub fn builder() -&gt; CommandBuilder {
+            CommandBuilder::default()
+        }
+    }
+
+    #[derive(Default)]
+    pub struct CommandBuilder {
+<span class="boring">        builder_fields
+</span>    }
+}
+</code></pre>
+<h2 id="成员函数的生成"><a class="header" href="#成员函数的生成">成员函数的生成</a></h2>
+<p>接下来，将为<code>CommandBuilder</code>添加字段的设置函数。以<code>executable</code>参数为例，期望通过以下函数设置其值：</p>
+<pre><code class="language-rust ignore">impl CommandBuilder {
+    pub fn executable(mut self, value: String) -&gt; Self {
+        self.executable = Some(executable);
+        self
+    }
+}  
+</code></pre>
+<p>这里的<code>self</code>选择传值是因为希望<code>CommandBuilder</code>类用完即毁，将其中所存的值直接转移到最终创建的<code>Command</code>实例中，避免复制开销。返回一个<code>Self</code>对象是为了实现链式调用。
+显然，生成成员函数时也涉及原结构体字段的遍历，因此我们重用<code>builder_fields</code>的生成函数，将其写成一个通用函数：</p>
+<pre><code class="language-rust ignore">fn map_fields&lt;F&gt;(fields: &amp;Fields, mapper: F) -&gt; TokenStream2
+where
+    F: FnMut((&amp;Ident, &amp;Type)) -&gt; TokenStream2,
+{
+    TokenStream2::from_iter(
+        fields
+            .iter()
+            .map(|field| (field.ident.as_ref().unwrap(), &amp;field.ty))
+            .map(mapper),
+    )
+}
+</code></pre>
+<p>因此即可用不同的映射函数或闭包以生成不同的<code>TokenStream</code>了。</p>
+<p>首先是设置字段的成员函数，相对较简单：</p>
+<pre><code class="language-rust ignore">let builder_set_fields = map_fields(&amp;fields, |(ident: &amp;Field, ty: &amp;Type)| {
+    quote!(pub fn #ident(mut self, value: #ty) -&gt; Self {
+        self.#ident = Some(value);
+        self
+    })
+});
+</code></pre>
+<p>基本上就是将前面手写的<code>executable</code>函数中的字段名和类型替换成统一的<code>#ident</code>和<code>#ty</code>即可，非常方便。</p>
+<p>最后是<code>CommandBuilder::build</code>函数，它将消耗自身，并生成一个Result&lt;Command, String&gt;实例。当所有字段都已设置时，返回正常的<code>Command</code>对象，否则返回错误信息（这里简单起见，暂时用<code>String</code>）。</p>
+<p><code>build</code>函数可以分为两部分：第一部分是依次取出由<code>Option&lt;&gt;</code>包装过的<code>CommandBuilder</code>类中的各个字段的值，第二部分是生成目标<code>Command</code>实例。</p>
+<p>先看第一部分，直接遍历原结构体中的字段即可：</p>
+<pre><code class="language-rust ignore">let build_lets = map_fields(&amp;fields, |(ident, _)| { // 忽略用不到的ty
+    quote!(
+        let #ident = self.#ident.ok_or(format!(
+            &quot;field \&quot;{}\&quot; required, but not set yet.&quot;,
+            stringify!(#ident),
+        ))?;
+    )
+});
+</code></pre>
+<p>这里用到了<code>Option::ok_or</code>方法，当其为<code>None</code>时，返回一个错误值，然后用?运算符取出其中正确的值（若出现错误值，则直接将错误值返回上层）。</p>
+<p>取出了构造结构体所需要的各字段值后，第二部分就变得相对简单了，直接返回一个<code>Ok(Command{ executable, args, current_dir, })</code>即可。外层的字段名再用一次结构体字段遍历可得：</p>
+<pre><code class="language-rust ignore">let build_values = map_fields(&amp;fields, |(ident, _)| quote!(#ident,));      
+</code></pre>
+<p>注意不要漏掉逗号<code>,</code>。</p>
+<p>最后将代码全部合到一起：</p>
+<pre><code class="language-rust ignore">fn map_fields&lt;F&gt;(fields: &amp;Fields, mapper: F) -&gt; TokenStream2
+where
+    F: FnMut((&amp;Ident, &amp;Type)) -&gt; TokenStream2,
+{
+    TokenStream2::from_iter(
+        fields
+            .iter()
+            .map(|field| (field.ident.as_ref().unwrap(), &amp;field.ty))
+            .map(mapper),
+    )
+}
+
+#[proc_macro_derive(Builder)]
+pub fn derive(input: TokenStream) -&gt; TokenStream {
+    let input = parse_macro_input!(input as DeriveInput);
+    let ident = input.ident;
+    let ident_builder = Ident::new(&amp;format!(&quot;{}Builder&quot;, ident), ident.span());
+    if let Data::Struct(r#struct) = input.data {
+        let fields = r#struct.fields;
+        if matches!(&amp;fields, Fields::Named(_)) {
+            let builder_fields = map_fields(&amp;fields, |(ident, ty)| quote!(#ident: Option&lt;#ty&gt;, ));
+            let builder_set_fields = map_fields(&amp;fields, |(ident, ty)| {
+                quote!(pub fn #ident(mut self, value: #ty) -&gt; Self {
+                    self.#ident = Some(value);
+                    self
+                })
+            });
+            let build_lets = map_fields(&amp;fields, |(ident, _)| {
+                quote!(
+                    let #ident = self.#ident.ok_or(format!(
+                        &quot;field \&quot;{}\&quot; required, but not set yet.&quot;,
+                        stringify!(#ident),
+                    ))?;
+                )
+            });
+            let build_values = map_fields(&amp;fields, |(ident, _)| quote!(#ident,));
+            quote!(
+                impl #ident {
+                    pub fn builder() -&gt; #ident_builder {
+<span class="boring">                        ident_builder::default()
+</span>                    }
+                }
+
+                #[derive(Default)]
+                pub struct #ident_builder {
+<span class="boring">                    builder_fields
+</span>                }
+
+                impl #ident_builder {
+<span class="boring">                    builder_set_fields
+</span>
+                    pub fn build(self) -&gt; Result&lt;#ident, String&gt; {
+<span class="boring">                        build_lets
+</span>                        Ok(#ident { #build_values })
+                    }
+                }
+            )
+            .into()
+        }
+    }
+    quote!().into()
+}
+</code></pre>
+<h2 id="输出tokenstream2以检验生成结果"><a class="header" href="#输出tokenstream2以检验生成结果">输出<code>TokenStream2</code>以检验生成结果</a></h2>
+<p>上一章中讲到可以用<code>cargo expand</code>命令来检验代码生成结果。但由于本文中用到了<code>#[defive(Default)</code>派生宏以及<code>format!</code>规则宏等，若用<code>cargo expand</code>命令展开，会有一些不相干的信息，代码会很繁琐。但实际上除了<code>cargo expand</code>之后，还可以直接输出<code>TokenStream2</code>来检验生成结果。</p>
+<p>方法很简单，直接将<code>quote!</code>宏生成出的<code>TokenStream2</code>用<code>eprintln!</code>宏输出即可（<code>eprintln!</code>的用法与<code>println!</code>相似，只不过是输出到标准错误<code>stderr</code>中）：</p>
+<pre><code class="language-rust ignore">let tokens = quote!( /* ... */ );
+eprintln!(&quot;{}&quot;, tokens); 
+</code></pre>
+<p>输出后的代码未经格式化，我们可以手动复制到一个空白文件然后使用<code>rustfmt</code>程序格式化，得</p>
+<pre><code class="language-rust ignore">impl Command {
+    pub fn builder() -&gt; CommandBuilder {
+        CommandBuilder::default()
+    }
+}
+#[derive(Default)]
+pub struct CommandBuilder {
+    executable: Option&lt;String&gt;,
+    args: Option&lt;Vec&lt;String&gt;&gt;,
+    current_dir: Option&lt;String&gt;,
+}
+impl CommandBuilder {
+    pub fn executable(mut self, value: String) -&gt; Self {
+        self.executable = Some(value);
+        self
+    }
+    pub fn args(mut self, value: Vec&lt;String&gt;) -&gt; Self {
+        self.args = Some(value);
+        self
+    }
+    pub fn current_dir(mut self, value: String) -&gt; Self {
+        self.current_dir = Some(value);
+        self
+    }
+    pub fn build(self) -&gt; Result&lt;Command, String&gt; {
+        let executable = self.executable.ok_or(format!(
+            &quot;field \&quot;{}\&quot; required, but not set yet.&quot;,
+            stringify!(executable),
+        ))?;
+        let args = self.args.ok_or(format!(
+            &quot;field \&quot;{}\&quot; required, but not set yet.&quot;,
+            stringify!(args),
+        ))?;
+        let current_dir = self.current_dir.ok_or(format!(
+            &quot;field \&quot;{}\&quot; required, but not set yet.&quot;,
+            stringify!(current_dir),
+        ))?;
+        Ok(Command {
+            executable,
+            args,
+            current_dir,
+        })
+    }
+}
+</code></pre>
+<p>这种方法在调用派生宏中出现编译错误时尤其有用，不仅可以用来检验整体代码片段，也可以随时查看某一小片段，便于调试。</p>
+<h2 id="功能验证"><a class="header" href="#功能验证">功能验证</a></h2>
+<p>最后，为了验证派生宏的功能正确，将编译运行以下程序：</p>
+<pre><code class="language-rust ignore">use derive_builder::Builder;
+
+#[derive(Builder)]
+pub struct Command {
+    executable: String,
+    args: Vec&lt;String&gt;,
+    current_dir: String,
+}
+
+fn main() {
+    let command = Command::builder()
+        .executable(&quot;cargo&quot;.to_owned())
+        .args(vec![&quot;build&quot;.to_owned(), &quot;--release&quot;.to_owned()])
+        .current_dir(&quot;..&quot;.to_owned())
+        .build()
+        .unwrap();
+
+    assert_eq!(command.executable, &quot;cargo&quot;);
+    assert_eq!(command.args, &amp;[&quot;build&quot;, &quot;--release&quot;]);
+    assert_eq!(command.current_dir, &quot;..&quot;);
+}
+</code></pre>
+<p>程序将正常执行结束，无任何输出。</p>
+<hr />
+<p>本期的介绍到此为止，主要介绍了如何遍历<code>Command</code>结构体中的字段信息，并生成<code>CommandBuilder</code>类的字段与成员函数，实现了一个最简单可用的<code>Builder</code>类。接下来将继续如何处理原结构体中的可选、多选字段等功能。 </p>
+<p>本文中的代码实现详见 <a href="https://github.com/frank-king/proc-macro-workshop/tree/example/builder/05-method-chaining.rs/builder%E2%80%8B">https://github.com/frank-king/proc-macro-workshop/tree/example/builder/05-method-chaining.rs/builder​</a>。</p>
+<p>其中，测试用的<code>main.rs</code>代码见<a href="https://github.com/frank-king/proc-macro-workshop/blob/example/builder/05-method-chaining.rs/main.rs"><code>example/builder/05-method-chaining.rs</code>中的<code>main.rs</code>文件</a>。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../2021-01-proc-macro/01-10-过程宏（三）-实现简易派生宏.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../2021-01-proc-macro/01-10-过程宏（三）-实现简易派生宏.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="https://utteranc.es/client.js"
+                repo="frank-king/rustblog-zh"
+                issue-term="title"
+                theme="github-dark"
+                crossorigin="anonymous"
+                async>
+        </script>
+
+    </body>
+</html>
