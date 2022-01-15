@@ -7,4 +7,4 @@ title = "Rust博客"
 
 [output.html]
 mathjax-support = true
-site-url = "/rustblog-cn/"
+git-repository-url = "https://github.com/frank-king/rustblog-cn"
