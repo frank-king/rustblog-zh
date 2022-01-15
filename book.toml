@@ -5,6 +5,12 @@ multilingual = false
 src = "src"
 title = "Rust中文博客"
 
+[rust]
+edition = "2021"
+
 [output.html]
+theme = "theme"
+default-theme = "ayu"
 mathjax-support = true
 git-repository-url = "https://github.com/frank-king/rustblog-zh"
+no-section-label = true
