@@ -28,7 +28,7 @@ assert_eq!(33, value);
 首先通过`GhostToken::new`方法创建一个`token`，但这个`token`并非直接创建出来，而是绑定在一个局部作用域（即传入的闭包）内。
 
 所有装入`GhostCell`内的值，均可通过`GhostCell::borrow`与`GhostCell::borrow_mut`两个方法来读写。这两个方法的签名分别是：
-```rust
+```rust,ignore
 pub fn borrow<'a>(&'a self, _: &'a GhostToken<'brand>) -> &'a T;
 pub fn borrow_mut<'a>(&'a self, _: &'a mut GhostToken<'brand>) -> &'a mut T;
 ```
@@ -154,7 +154,7 @@ impl<'id, 'iter, T> Iterator for IterMut<'id, 'iter, T> {
     }
 ```
 不幸地是，虽然看起来这个函数中只有一次`borrow_mut`，且只在循环体内，应该会在单次循环后归还。但由于每次获得`next`指针时依赖于上一次的借用，该借用的生命周期硬生生地被从循环体内拉长到了循环体外。 因此出现了如下的编译错误
-```
+```plaintext
 error[E0499]: cannot borrow `*token` as mutable more than once at a time
    --> src/experiments.rs:182:48
     |
