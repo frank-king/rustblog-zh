@@ -1,0 +1,10 @@
+[book]
+authors = ["Frank King"]
+language = "zh"
+multilingual = false
+src = "src"
+title = "Rust博客"
+
+[output.html]
+mathjax-support = true
+site-url = "/rustblog-cn/"
