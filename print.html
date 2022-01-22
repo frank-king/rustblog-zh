@@ -78,7 +78,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="overview.html">序言</a></li><li class="chapter-item expanded affix "><li class="part-title">2021-09</li><li class="chapter-item expanded "><a href="2021-09-ghost-cell/09-03-ghost-cell.html">Ghost Cell试用体验</a></li><li class="chapter-item expanded affix "><li class="part-title">2021-01</li><li class="chapter-item expanded "><a href="2021-01-proc-macro/00.html">Rust过程宏入门系列</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="2021-01-proc-macro/01-06-过程宏（一）-过程宏简介.html">（一）过程宏简介</a></li><li class="chapter-item expanded "><a href="2021-01-proc-macro/01-07-过程宏（二）-初探派生宏.html">（二）初探派生宏</a></li><li class="chapter-item expanded "><a href="2021-01-proc-macro/01-10-过程宏（三）-实现简易派生宏.html">（三）实现简易派生宏</a></li><li class="chapter-item expanded "><a href="2021-01-proc-macro/01-16-过程宏（四）-遍历结构体字段.html">（四）遍历结构体字段</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="overview.html">序言</a></li><li class="chapter-item expanded affix "><li class="part-title">2022-01</li><li class="chapter-item expanded "><a href="2022-01-polonius/00.html">Polonius学习笔记</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="2022-01-polonius/01-21-借用检查（零）-原子式与输入.html">（零）原子式与输入</a></li><li class="chapter-item expanded "><a href="2022-01-polonius/01-21-借用检查（一）-初始化分析.html">（一）初始化分析</a></li><li class="chapter-item expanded "><div>（二）存活性分析</div></li><li class="chapter-item expanded "><div>（三）借用检查分析</div></li></ol></li><li class="chapter-item expanded "><li class="part-title">2021-09</li><li class="chapter-item expanded "><a href="2021-09-ghost-cell/09-03-ghost-cell.html">Ghost Cell试用体验</a></li><li class="chapter-item expanded affix "><li class="part-title">2021-01</li><li class="chapter-item expanded "><a href="2021-01-proc-macro/00.html">Rust过程宏入门系列</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="2021-01-proc-macro/01-06-过程宏（一）-过程宏简介.html">（一）过程宏简介</a></li><li class="chapter-item expanded "><a href="2021-01-proc-macro/01-07-过程宏（二）-初探派生宏.html">（二）初探派生宏</a></li><li class="chapter-item expanded "><a href="2021-01-proc-macro/01-10-过程宏（三）-实现简易派生宏.html">（三）实现简易派生宏</a></li><li class="chapter-item expanded "><a href="2021-01-proc-macro/01-16-过程宏（四）-遍历结构体字段.html">（四）遍历结构体字段</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -142,6 +142,17 @@
                     <main>
                         <h1 id="序言"><a class="header" href="#序言">序言</a></h1>
 <p>本博客将不定期更新一些Rust相关的学习心得与开发体验，更新频率可能不会很高。文章按月组织，例序排列。</p>
+<h1 id="2022-01"><a class="header" href="#2022-01">2022-01</a></h1>
+<ul>
+<li><a href="2022-01-polonius/00.html">Polonius学习笔记</a>
+<ul>
+<li><a href="2022-01-polonius/01-21-%E5%80%9F%E7%94%A8%E6%A3%80%E6%9F%A5%EF%BC%88%E9%9B%B6%EF%BC%89-%E5%8E%9F%E5%AD%90%E5%BC%8F%E4%B8%8E%E8%BE%93%E5%85%A5.html">（零）原子式与输入</a></li>
+<li><a href="2022-01-polonius/01-21-%E5%80%9F%E7%94%A8%E6%A3%80%E6%9F%A5%EF%BC%88%E4%B8%80%EF%BC%89-%E5%88%9D%E5%A7%8B%E5%8C%96%E5%88%86%E6%9E%90.html">（一）初始化分析</a></li>
+<li><a href="">（二）存活性分析</a></li>
+<li><a href="">（三）借用检查分析</a></li>
+</ul>
+</li>
+</ul>
 <h1 id="2021-09"><a class="header" href="#2021-09">2021-09</a></h1>
 <ul>
 <li><a href="2021-09-ghost-cell/09-03-ghost-cell.html">Ghost Cell试用体验</a></li>
@@ -157,6 +168,203 @@
 </ul>
 </li>
 </ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="polonius学习笔记"><a class="header" href="#polonius学习笔记">Polonius学习笔记</a></h1>
+<p>写于2022年1月21日。</p>
+<p>Polonius是一个推理引擎，基于MIR层输入的控制流图、变量信息、借用信息、生存期约束信息，推导出程序中是否有语句违反Rust对于借用的约定规则，以便编译器报告语法错误，并尽可能向用户提供有帮助的改进建议。</p>
+<h2 id="基本概念"><a class="header" href="#基本概念">基本概念</a></h2>
+<p>Polonius的输入信息，通过<a href="2022-01-polonius/01-21-%E5%80%9F%E7%94%A8%E6%A3%80%E6%9F%A5%EF%BC%88%E9%9B%B6%EF%BC%89-%E5%8E%9F%E5%AD%90%E5%BC%8F%E4%B8%8E%E8%BE%93%E5%85%A5.html">「原子式（Atom）」与「输入事实（AllFacts）」</a>两个概念来表达。原子式是输入信息的概念分类，而输入事实是一系列给定的真命题。</p>
+<p>Polonius引擎则基于这些真命题，按照一系列的分析规则，推导出矛盾（即错误）信息，再返回给编译器以报告编译错误。（无矛盾信息生成时，视为借用检查通过，将不会产生编译错误。）</p>
+<h2 id="分析流程"><a class="header" href="#分析流程">分析流程</a></h2>
+<ol>
+<li><a href="2022-01-polonius/01-21-%E5%80%9F%E7%94%A8%E6%A3%80%E6%9F%A5%EF%BC%88%E4%B8%80%EF%BC%89-%E5%88%9D%E5%A7%8B%E5%8C%96%E5%88%86%E6%9E%90.html">初始化分析</a>：计算MIR各个位置（Point）处变量（Variable）的初始化、逆初始化（被移动）的状态，与该处发生「移动后访问」错误的路径（Path）（若有）。</li>
+<li>存活性分析：计算MIR各个位置（Point）处，分别有哪些借用源（Origin）存活。</li>
+<li>借用检查分析：计算MIR各个位置（Point）处，存在矛盾（存活且失效）的借用（Loan）；并计算在哪些位置（Point）处，产生了与外部定义的生存期约束（SubOrigin, Origin）相矛盾的约束。前者用于报告违反借用规则的错误，后者用于报告可能存在悬垂引用的错误。</li>
+</ol>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="原子式与输入"><a class="header" href="#原子式与输入">原子式与输入</a></h1>
+<p>写于2022年1月21日。</p>
+<h2 id="原子式atom"><a class="header" href="#原子式atom">原子式（Atom）</a></h2>
+<p>原子式即分析过程中用到的输入信息的分类。</p>
+<h3 id="variable"><a class="header" href="#variable"><code>Variable</code></a></h3>
+<p>由用户定义的变量。如<code>let x, y;</code>中的<code>x</code>、<code>y</code>。</p>
+<h3 id="path"><a class="header" href="#path"><code>Path</code></a></h3>
+<p>结构体、元组、数组等变量的字段访问路径。如<code>a.b</code>、<code>x.y.z.0</code>、<code>s[0]</code>等（数组不区分不同下标）。</p>
+<h3 id="point"><a class="header" href="#point"><code>Point</code></a></h3>
+<p>控制流图（Control-flow Graph，CFG）中的某个语句。每条语句被拆成Start和Mid两个节点，</p>
+<ul>
+<li><code>Start</code>：执行该语句前；</li>
+<li><code>Mid</code>：执行该语句时。</li>
+</ul>
+<h3 id="loan"><a class="header" href="#loan"><code>Loan</code></a></h3>
+<p>借用发生处，对应Rust中的借用（borrow）概念。如<code>let y = &amp;x;</code>中的<code>&amp;x</code>。</p>
+<h3 id="origin"><a class="header" href="#origin"><code>Origin</code></a></h3>
+<p>借用源，对应Rust中的生存期（lifetime）概念。如<code>let x: &amp;'a i32;</code>中的<code>'a</code>。</p>
+<p><code>Origin</code>应理解为「所有引用到该<code>Origin</code>的<code>Loan</code>集合」。</p>
+<h2 id="输入事实allfacts"><a class="header" href="#输入事实allfacts">输入事实（<code>AllFacts</code>）</a></h2>
+<p>输入来源于MIR。主要包含CFG的执行到达关系图；变量的赋值、移动、访问情况；借用的定义、清除、失效信息；因借用产生、或外部定义的笁存期及其约束条件等信息。</p>
+<h3 id="cfg_edge"><a class="header" href="#cfg_edge"><code>cfg_edge</code></a></h3>
+<p><code>cfg_edge(Point1, Point2)</code>，一条控制流图的边，表示<code>Point1</code>的下一条执行点为<code>Point2</code>。</p>
+<h3 id="loan_issued_at"><a class="header" href="#loan_issued_at"><code>loan_issued_at</code></a></h3>
+<p><code>loan_issued_at(Origin, Loan, Point)</code>表示在位置<code>Point</code>处发生了借用<code>Loan</code>，其生存期为<code>Origin</code>。</p>
+<h3 id="placeholder与universal_region"><a class="header" href="#placeholder与universal_region"><code>placeholder</code>（与<code>universal_region</code>）</a></h3>
+<p><code>placeholder(Origin, Loan)</code>表示外部定义的生存期（如<code>fn max&lt;'a&gt;(a: &amp;'a str, b: &amp;'a str) -&gt; &amp;'a str</code>中的<code>'a</code>，及期关联的<code>Loan</code>。这些生存期也是函数签名的一部份。另外，由于它的<code>Loan</code>对借用检查而言是未知的，不能作任何假设，因此称之为「占位符」（placeholder）。</p>
+<p><code>universal_region(Origin)</code>与<code>placeholder</code>类似，单指由函数签名定义的生存期，不带具体的<code>Loan</code>。</p>
+<h3 id="loan_killed_at"><a class="header" href="#loan_killed_at"><code>loan_killed_at</code></a></h3>
+<p><code>loan_killed_at(Loan, Point)</code>指某个借用<code>Loan</code>在位置<code>Point</code>处被清除。表明该借用<code>Loan</code>对应的路径<code>Path</code>在<code>Point</code>处被赋值或覆写。</p>
+<p>例如</p>
+<pre><pre class="playground"><code class="language-rust edition2021">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let mut a = 1;
+let mut b = 2;
+let mut q = &amp;mut a;
+let r = &amp;mut *q; // `Loan` L0，此处借用了`*q`
+// `q` 不能再使用，只能通过`r`访问
+q = &amp;mut b; // L0被清除
+// 此后，`q`与`r`可以继续使用
+<span class="boring">}
+</span></code></pre></pre>
+<p><code>q</code>再次赋值后，Loan <code>L0</code> 被清除。Rustc在进入借用检查之前会将这样的关系计算好，保存在<code>loan_killed_at</code>中。之后，在借用检查分析时，<code>loan_killed_at</code>中的<code>Point</code>将阻止相应的<code>Loan</code>在CFG中传播。</p>
+<h3 id="subset_base"><a class="header" href="#subset_base"><code>subset_base</code></a></h3>
+<p><code>subset_base(Origin1, Origin2, Point)</code>表示，在位置<code>Point</code>处，有一条<code>Origin1: Origin2</code>的约束（即<code>Origin1</code>应当长存于（outlives）<code>Origin2</code>。</p>
+<h3 id="loan_invalidated_at"><a class="header" href="#loan_invalidated_at"><code>loan_invalidated_at</code></a></h3>
+<p><code>loan_invalidated_at(Point, Loan)</code>表明在<code>Point</code>处失效。</p>
+<p>借用有共享（shared）与可变（mutable）两种。共享借用只能用于读取，不能写入或修改；可变借用必须独占，保证不能有对同一Path的借用。否则，视为借用失效，将保存在<code>loan_invalidated_at</code>关系中。</p>
+<h3 id="known_placeholder_subset"><a class="header" href="#known_placeholder_subset"><code>known_placeholder_subset</code></a></h3>
+<p><code>known_placeholder_subset(Origin1, Origin2)</code>用于表示函数签名处定义的生存期约束。</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="初始化分析"><a class="header" href="#初始化分析">初始化分析</a></h1>
+<p>写于2022年1月21日。</p>
+<p>初始化分析主要计算出经传递后的<code>Path</code>读写、移动之处，变量的初始化、移动情况，并找出因移动而导致的错误（即试图访问被移动或部分移动的变量）。</p>
+<h2 id="1-将路径的读写移动情况传递至其子路径"><a class="header" href="#1-将路径的读写移动情况传递至其子路径">1. 将路径的读写、移动情况传递至其子路径</a></h2>
+<h3 id="输入"><a class="header" href="#输入">输入</a></h3>
+<pre><code class="language-prolog">path_moved_at   (Path, Point) :- path_moved_at_base   (Path, Point).
+path_assigned_at(Path, Point) :- path_assigned_at_base(Path, Point).
+path_accessed_at(Path, Point) :- path_accessed_at_base(Path, Point).
+
+ancestor_path(ParentPath, ChildPath) :- child_path(ChildPath, ParentPath).
+
+path_begin_with_var(Path, Variable) :- path_is_var(Path, Variable).
+</code></pre>
+<p>其中，<code>path_begin_with_var</code>代表某个<code>Path</code>是否属于某个变量（含递归），如<code>a.b</code>、<code>a.b.c</code>都属于变量<code>a</code>。</p>
+<h3 id="推导"><a class="header" href="#推导">推导</a></h3>
+<ol>
+<li>传递<code>ancestor_path</code>。</li>
+</ol>
+<pre><code class="language-prolog">ancestor_path(GrandparentPath, ChildPath) :-
+    ancestor_path(ParentPath, ChildPath),
+    child_path(ParentPath, GrandparentPath).
+</code></pre>
+<ol start="2">
+<li>移动、赋值、访问某一路径<code>ParentPath</code>时，也将移动、赋值、访问其子路径<code>ChildPath</code>。</li>
+</ol>
+<pre><code class="language-prolog">path_moved_at(ChildPath, Point) :-
+    path_moved_at(ParentPath, Point),
+    ancestor_path(ParentPath, ChildPath).
+
+path_assigned_at(ChildPath, point) :-
+    path_assigned_at(ParentPath, point),
+    ancestor_path(ParentPath, ChildPath).
+
+path_accessed_at(ChildPath, point) :-
+    path_accessed_at(ParentPath, point),
+    ancestor_path(ParentPath, ChildPath).
+</code></pre>
+<ol start="3">
+<li>若某个路径<code>Path</code>属于某个变量<code>Variable</code>时，其子路径也属于该变量。</li>
+</ol>
+<pre><code class="language-prolog">path_begins_with_var(Child, Variable) :-
+    path_begins_with_var(Parent, Variable)
+    ancestor_path(Parent, Child).
+</code></pre>
+<h2 id="2-计算变量初始化情况并求解移动造成的错误"><a class="header" href="#2-计算变量初始化情况并求解移动造成的错误">2. 计算变量初始化情况，并求解移动造成的错误</a></h2>
+<h3 id="输入-1"><a class="header" href="#输入-1">输入</a></h3>
+<p>路径被赋值即初始化、被移动即逆初始化。</p>
+<pre><code class="language-prolog">path_maybe_initialized_on_exit  (Path, Point) :- path_assigned_at(Path, Point).
+path_maybe_uninitialized_on_exit(Path, Point) :- path_moved_at	 (Path, Point).
+</code></pre>
+<h3 id="推导-1"><a class="header" href="#推导-1">推导</a></h3>
+<ol>
+<li>路径<code>Path</code>在当前位置已初始化时，只要下一位置处未被移动，则仍保持已初始化状态。</li>
+</ol>
+<pre><code class="language-prolog">path_maybe_initialized_on_exit(Path, TargetPoint) :-
+    path_maybe_initialized_on_exit(Path, SourcePoint),
+    cfg_edge(SourcePoint, TargetPoint),
+    !path_moved_at(Path, TargetPoint).
+</code></pre>
+<ol start="2">
+<li>路径<code>Path</code>在当前位置未初始化时，只要下一位置处未被赋值，则仍保持未初始化状态。</li>
+</ol>
+<pre><code class="language-prolog">path_maybe_uninitialized_on_exit(Path, TargetPoint) :-
+    path_maybe_uninitialized_on_exit(Path, SourcePoint),
+    cfg_edge(SourcePoint, TargetPoint)
+    !path_assigned_at(Path, TargetPoint).
+</code></pre>
+<ol start="3">
+<li>路径<code>Path</code>若已初始化，则其对应的变量可能被部份初始化。</li>
+</ol>
+<pre><code class="language-prolog">var_maybe_partly_initialized_on_exit(Variable, Point) :-
+    path_maybe_initialized_on_exit(Path, Point),
+    path_begins_with_var(Path, Variable).
+</code></pre>
+<ol start="4">
+<li>计算 <strong>「移动后访问」错误</strong> ：路径<code>Path</code>在某处若未被始化，且在下一位置访问时，视位「移动后访问」的错误。</li>
+</ol>
+<pre><code class="language-prolog">move_error(Path, TargetPoint) :-
+    path_maybe_uninitialized_on_exit(Path, SourcePoint),
+    cfg_edge(SourcePoint, TargetPoint),
+    path_accessed_at(Path, TargetPoint).
+</code></pre>
+<h2 id="输出"><a class="header" href="#输出">输出</a></h2>
+<p>初始化分析之后，将输出两个信息用于后续分析</p>
+<ul>
+<li><code>var_maybe_partly_initialized_on_exit(Variable, Point)</code>：在<code>Point</code>处，变量<code>Variable</code>（或其部分子路径）已初始化。将用于后续「存活性分析」阶段。</li>
+<li><code>move_error(Path, Point)</code>：在<code>Point</code>处，路径<code>Path</code>发生了移动后访问错误。</li>
+</ul>
+<h2 id="思考"><a class="header" href="#思考">思考</a></h2>
+<h4 id="1--为什么需要path_maybe_uninitialized_on_exit与path_maybe_initialized_on_exit两个式子看似结论截然相反而非用一个式子统一表示呢"><a class="header" href="#1--为什么需要path_maybe_uninitialized_on_exit与path_maybe_initialized_on_exit两个式子看似结论截然相反而非用一个式子统一表示呢">1.  为什么需要<code>path_maybe_uninitialized_on_exit</code>与<code>path_maybe_initialized_on_exit</code>两个式子，看似结论截然相反，而非用一个式子统一表示呢？</a></h4>
+<p>理论上是可行的，因为同一路径在同一位置不可能既被赋值又被移动。类似这样的例子</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+</span>let mut a = String::new();
+a = a;
+<span class="boring">} 
+</span></code></pre></pre>
+<p>其中第2行的<code>a = a</code>看似对<code>a</code>既赋值又移动，但到MIR层会被转化为</p>
+<pre><code class="language-rust ignore">// ...
+let mut _1: std::string::String;
+let mut _2: std::string::String;
+scope 1 {
+    debug a =&gt; _1;
+}
+
+bb0: { /* ... */ }
+
+bb1: {
+    // ...
+    // ...
+    _2 = move _1;
+    replace(_1 &lt;- move _2) -&gt; [return: bb2, unwind: bb5];
+}
+
+bb2: { /* ... */ }
+// ...
+</code></pre>
+<p>可见，被赋值的<code>a</code>与被移动的<code>a</code>分别对应了<code>_1</code>与<code>_2</code>，实际上是先移动、再赋值。</p>
+<p>如果我们引入<code>path_mustbe_initialized_on_exit(Path, Point)</code>代表在位置<code>Point</code>处，路径<code>Path</code>被完全初始化。</p>
+<p>那么有</p>
+<pre><code class="language-prolog">path_mustbe_initialized_on_exit(Path, Point) :-
+    path_assigned_at(Path, Point).
+
+!path_mustbe_initialized_on_exit(Path, Point) :-
+    path_moved_at(Path, Point).
+
+path_mustbe_initialized_on_exit(Path, TargetPoint) :-
+    path_mustbe_initialized_on_exit(Path, SourcePoint),
+    cfg_edge(SourcePoint, TargetPoint),
+    !path_moved_at(Path, TargetPoint),
+    !path_assigned_at(Path, TargetPoint).
+</code></pre>
+<p>但datalog的语法并不支持第二条推论的写法。因此，只能将<code>path_mustbe_initialized_on_exit</code>分裂为两个式子<code>path_maybe_initialized_on_exit</code>与<code>path_maybe_uninitialized_on_exit</code>，来实现相应的计算。</p>
+<h4 id="2-如何理解var_maybe_partly_initialized_on_exit既然不允许在变量移动后对其部份字段赋值为何会存在部份初始化的变量"><a class="header" href="#2-如何理解var_maybe_partly_initialized_on_exit既然不允许在变量移动后对其部份字段赋值为何会存在部份初始化的变量">2. 如何理解<code>var_maybe_partly_initialized_on_exit</code>？既然不允许在变量移动后，对其部份字段赋值，为何会存在部份初始化的变量？</a></h4>
+<p>这是因为允许只移动变量的部份字段。当部份字段被移动后，剩余字段仍处于已初始化状态，因此整个变量此时处于「部份已初始化」的状态。</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="ghost-cell与staticrc的试用体验"><a class="header" href="#ghost-cell与staticrc的试用体验">Ghost Cell与StaticRC的试用体验</a></h1>
 <p>写于2021年9月3日。最早发表于<a href="https://www.zhihu.com/question/482473609/answer/2101373347">知乎</a>。</p>
 <hr />
