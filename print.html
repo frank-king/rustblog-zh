@@ -78,7 +78,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="overview.html">序言</a></li><li class="chapter-item expanded affix "><li class="part-title">2022-01</li><li class="chapter-item expanded "><a href="2022-01-polonius/00.html">Polonius学习笔记</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="2022-01-polonius/01-21-借用检查（零）-原子式与输入.html">（零）原子式与输入</a></li><li class="chapter-item expanded "><a href="2022-01-polonius/01-21-借用检查（一）-初始化分析.html">（一）初始化分析</a></li><li class="chapter-item expanded "><div>（二）存活性分析</div></li><li class="chapter-item expanded "><div>（三）借用检查分析</div></li></ol></li><li class="chapter-item expanded "><li class="part-title">2021-09</li><li class="chapter-item expanded "><a href="2021-09-ghost-cell/09-03-ghost-cell.html">Ghost Cell试用体验</a></li><li class="chapter-item expanded affix "><li class="part-title">2021-01</li><li class="chapter-item expanded "><a href="2021-01-proc-macro/00.html">Rust过程宏入门系列</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="2021-01-proc-macro/01-06-过程宏（一）-过程宏简介.html">（一）过程宏简介</a></li><li class="chapter-item expanded "><a href="2021-01-proc-macro/01-07-过程宏（二）-初探派生宏.html">（二）初探派生宏</a></li><li class="chapter-item expanded "><a href="2021-01-proc-macro/01-10-过程宏（三）-实现简易派生宏.html">（三）实现简易派生宏</a></li><li class="chapter-item expanded "><a href="2021-01-proc-macro/01-16-过程宏（四）-遍历结构体字段.html">（四）遍历结构体字段</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="overview.html">序言</a></li><li class="chapter-item expanded affix "><li class="part-title">2022-01</li><li class="chapter-item expanded "><a href="2022-01-polonius/00.html">Polonius学习笔记</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="2022-01-polonius/01-21-借用检查（零）-原子式与输入.html">（零）原子式与输入</a></li><li class="chapter-item expanded "><a href="2022-01-polonius/01-21-借用检查（一）-初始化分析.html">（一）初始化分析</a></li><li class="chapter-item expanded "><a href="2022-01-polonius/01-23-借用检查（二）-存活性分析.html">（二）存活性分析</a></li><li class="chapter-item expanded "><div>（三）借用检查分析</div></li></ol></li><li class="chapter-item expanded "><li class="part-title">2021-09</li><li class="chapter-item expanded "><a href="2021-09-ghost-cell/09-03-ghost-cell.html">Ghost Cell试用体验</a></li><li class="chapter-item expanded affix "><li class="part-title">2021-01</li><li class="chapter-item expanded "><a href="2021-01-proc-macro/00.html">Rust过程宏入门系列</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="2021-01-proc-macro/01-06-过程宏（一）-过程宏简介.html">（一）过程宏简介</a></li><li class="chapter-item expanded "><a href="2021-01-proc-macro/01-07-过程宏（二）-初探派生宏.html">（二）初探派生宏</a></li><li class="chapter-item expanded "><a href="2021-01-proc-macro/01-10-过程宏（三）-实现简易派生宏.html">（三）实现简易派生宏</a></li><li class="chapter-item expanded "><a href="2021-01-proc-macro/01-16-过程宏（四）-遍历结构体字段.html">（四）遍历结构体字段</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -148,7 +148,7 @@
 <ul>
 <li><a href="2022-01-polonius/01-21-%E5%80%9F%E7%94%A8%E6%A3%80%E6%9F%A5%EF%BC%88%E9%9B%B6%EF%BC%89-%E5%8E%9F%E5%AD%90%E5%BC%8F%E4%B8%8E%E8%BE%93%E5%85%A5.html">（零）原子式与输入</a></li>
 <li><a href="2022-01-polonius/01-21-%E5%80%9F%E7%94%A8%E6%A3%80%E6%9F%A5%EF%BC%88%E4%B8%80%EF%BC%89-%E5%88%9D%E5%A7%8B%E5%8C%96%E5%88%86%E6%9E%90.html">（一）初始化分析</a></li>
-<li><a href="">（二）存活性分析</a></li>
+<li><a href="2022-01-polonius/01-23-%E5%80%9F%E7%94%A8%E6%A3%80%E6%9F%A5%EF%BC%88%E4%BA%8C%EF%BC%89-%E5%AD%98%E6%B4%BB%E6%80%A7%E5%88%86%E6%9E%90.html">（二）存活性分析</a></li>
 <li><a href="">（三）借用检查分析</a></li>
 </ul>
 </li>
@@ -177,7 +177,7 @@
 <h2 id="分析流程"><a class="header" href="#分析流程">分析流程</a></h2>
 <ol>
 <li><a href="2022-01-polonius/01-21-%E5%80%9F%E7%94%A8%E6%A3%80%E6%9F%A5%EF%BC%88%E4%B8%80%EF%BC%89-%E5%88%9D%E5%A7%8B%E5%8C%96%E5%88%86%E6%9E%90.html">初始化分析</a>：计算MIR各个位置（Point）处变量（Variable）的初始化、逆初始化（被移动）的状态，与该处发生「移动后访问」错误的路径（Path）（若有）。</li>
-<li>存活性分析：计算MIR各个位置（Point）处，分别有哪些借用源（Origin）存活。</li>
+<li><a href="2022-01-polonius/01-23-%E5%80%9F%E7%94%A8%E6%A3%80%E6%9F%A5%EF%BC%88%E4%BA%8C%EF%BC%89-%E5%AD%98%E6%B4%BB%E6%80%A7%E5%88%86%E6%9E%90.html">存活性分析</a>：计算MIR各个位置（Point）处，分别有哪些借用源（Origin）存活。</li>
 <li>借用检查分析：计算MIR各个位置（Point）处，存在矛盾（存活且失效）的借用（Loan）；并计算在哪些位置（Point）处，产生了与外部定义的生存期约束（SubOrigin, Origin）相矛盾的约束。前者用于报告违反借用规则的错误，后者用于报告可能存在悬垂引用的错误。</li>
 </ol>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="原子式与输入"><a class="header" href="#原子式与输入">原子式与输入</a></h1>
@@ -235,6 +235,7 @@ q = &amp;mut b; // L0被清除
 <p>写于2022年1月21日。</p>
 <p>初始化分析主要计算出经传递后的<code>Path</code>读写、移动之处，变量的初始化、移动情况，并找出因移动而导致的错误（即试图访问被移动或部分移动的变量）。</p>
 <h2 id="1-将路径的读写移动情况传递至其子路径"><a class="header" href="#1-将路径的读写移动情况传递至其子路径">1. 将路径的读写、移动情况传递至其子路径</a></h2>
+<p>所有路径（除入参外）在刚进入函数体内时，均视为已移动。</p>
 <h3 id="输入"><a class="header" href="#输入">输入</a></h3>
 <pre><code class="language-prolog">path_moved_at   (Path, Point) :- path_moved_at_base   (Path, Point).
 path_assigned_at(Path, Point) :- path_assigned_at_base(Path, Point).
@@ -276,30 +277,31 @@ path_accessed_at(ChildPath, point) :-
     ancestor_path(Parent, Child).
 </code></pre>
 <h2 id="2-计算变量初始化情况并求解移动造成的错误"><a class="header" href="#2-计算变量初始化情况并求解移动造成的错误">2. 计算变量初始化情况，并求解移动造成的错误</a></h2>
-<h3 id="输入-1"><a class="header" href="#输入-1">输入</a></h3>
-<p>路径被赋值即初始化、被移动即逆初始化。</p>
-<pre><code class="language-prolog">path_maybe_initialized_on_exit  (Path, Point) :- path_assigned_at(Path, Point).
-path_maybe_uninitialized_on_exit(Path, Point) :- path_moved_at	 (Path, Point).
-</code></pre>
 <h3 id="推导-1"><a class="header" href="#推导-1">推导</a></h3>
 <ol>
-<li>路径<code>Path</code>在当前位置已初始化时，只要下一位置处未被移动，则仍保持已初始化状态。</li>
+<li>对于每一个路径，从每个 <strong>赋值</strong> 处开始，沿CFG边向后追溯直到该路径被 <strong>移动</strong> 时，该路径都视为 <strong>已初始化</strong> 状态。</li>
 </ol>
-<pre><code class="language-prolog">path_maybe_initialized_on_exit(Path, TargetPoint) :-
+<pre><code class="language-prolog">path_maybe_initialized_on_exit(Path, Point) :-s
+    path_assigned_at(Path, Point).
+
+path_maybe_initialized_on_exit(Path, TargetPoint) :-
     path_maybe_initialized_on_exit(Path, SourcePoint),
     cfg_edge(SourcePoint, TargetPoint),
     !path_moved_at(Path, TargetPoint).
 </code></pre>
 <ol start="2">
-<li>路径<code>Path</code>在当前位置未初始化时，只要下一位置处未被赋值，则仍保持未初始化状态。</li>
+<li>对于每一个路径，从每个 <strong>移动</strong> 处开始，沿CFG边向后追溯直到该路径被 <strong>赋值</strong> 时，该路径都视为 <strong>未初始化</strong> 状态。</li>
 </ol>
-<pre><code class="language-prolog">path_maybe_uninitialized_on_exit(Path, TargetPoint) :-
+<pre><code class="language-prolog">path_maybe_uninitialized_on_exit(Path, Point) :-
+    path_moved_at(Path, Point).
+
+path_maybe_uninitialized_on_exit(Path, TargetPoint) :-
     path_maybe_uninitialized_on_exit(Path, SourcePoint),
     cfg_edge(SourcePoint, TargetPoint)
     !path_assigned_at(Path, TargetPoint).
 </code></pre>
 <ol start="3">
-<li>路径<code>Path</code>若已初始化，则其对应的变量可能被部份初始化。</li>
+<li>已初始化的路径，其对应的变量视为（半）初始化状态。</li>
 </ol>
 <pre><code class="language-prolog">var_maybe_partly_initialized_on_exit(Variable, Point) :-
     path_maybe_initialized_on_exit(Path, Point),
@@ -363,8 +365,101 @@ path_mustbe_initialized_on_exit(Path, TargetPoint) :-
     !path_assigned_at(Path, TargetPoint).
 </code></pre>
 <p>但datalog的语法并不支持第二条推论的写法。因此，只能将<code>path_mustbe_initialized_on_exit</code>分裂为两个式子<code>path_maybe_initialized_on_exit</code>与<code>path_maybe_uninitialized_on_exit</code>，来实现相应的计算。</p>
-<h4 id="2-如何理解var_maybe_partly_initialized_on_exit既然不允许在变量移动后对其部份字段赋值为何会存在部份初始化的变量"><a class="header" href="#2-如何理解var_maybe_partly_initialized_on_exit既然不允许在变量移动后对其部份字段赋值为何会存在部份初始化的变量">2. 如何理解<code>var_maybe_partly_initialized_on_exit</code>？既然不允许在变量移动后，对其部份字段赋值，为何会存在部份初始化的变量？</a></h4>
-<p>这是因为允许只移动变量的部份字段。当部份字段被移动后，剩余字段仍处于已初始化状态，因此整个变量此时处于「部份已初始化」的状态。</p>
+<h4 id="2-如何理解var_maybe_partly_initialized_on_exit既然不允许在变量移动后对其部份字段赋值为何会存在半初始化的变量"><a class="header" href="#2-如何理解var_maybe_partly_initialized_on_exit既然不允许在变量移动后对其部份字段赋值为何会存在半初始化的变量">2. 如何理解<code>var_maybe_partly_initialized_on_exit</code>？既然不允许在变量移动后，对其部份字段赋值，为何会存在半初始化的变量？</a></h4>
+<p>这是因为允许只移动变量的部份字段。当部份字段被移动后，剩余字段仍处于已初始化状态，因此整个变量此时处于「半初始化」的状态。</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="存活性分析"><a class="header" href="#存活性分析">存活性分析</a></h1>
+<p>写于2022年1月23日。</p>
+<p>存活性分析主要计算出在MIR的各个位置处有哪些借用源（Origin）存活，用于下一阶段的借用分析。</p>
+<h2 id="输入-1"><a class="header" href="#输入-1">输入</a></h2>
+<h4 id="1-普通变量的定义使用丢弃情况"><a class="header" href="#1-普通变量的定义使用丢弃情况">1. 普通变量的定义、使用、丢弃情况。</a></h4>
+<pre><code class="language-prolog">.decl var_defined_at(Variable, Point)
+.decl var_used_at   (Variable, Point)
+.decl var_dropped_at(Variable, Point)
+
+.input var_defined_at
+.input var_used_at
+.input var_dropped_at
+</code></pre>
+<h4 id="2-对于引用变量而言需要输入变量所关联的借用源"><a class="header" href="#2-对于引用变量而言需要输入变量所关联的借用源">2. 对于引用变量而言，需要输入变量所关联的借用源。</a></h4>
+<p>如下</p>
+<pre><code class="language-rust ignore">let a: i32 = 0;
+let b: &amp;'b i32 = &amp;a;
+</code></pre>
+<p>其中<code>b</code>变量将关联到借用源<code>'b</code>。</p>
+<p>另外还有丢弃时借用源（TODO）。</p>
+<pre><code class="language-prolog">.decl drop_of_var_derefs_origin(Variable, Origin)
+.decl use_of_var_derefs_origin (Variable, Origin)
+
+.input drop_of_var_derefs_origin
+.input use_of_var_derefs_origin 
+</code></pre>
+<h2 id="推导-2"><a class="header" href="#推导-2">推导</a></h2>
+<h4 id="1-变量存活情况"><a class="header" href="#1-变量存活情况">1. 变量存活情况</a></h4>
+<p>对于每一个变量，从每个 <strong>使用</strong> 的位置处，沿CFG <strong>逆边</strong> 向前追溯到变量 <strong>定义</strong> 处，都视为存活。</p>
+<pre><code class="language-prolog">var_live_on_entry(Variable, Point) :-
+    var_used_at(Variable, Point).
+
+var_live_on_entry(Variable, SourcePoint) :-
+    var_live_on_entry(Variable, Targetpoint),
+    cfg_edge(SourcePoint, TargetPoint),
+    !var_defined(Variable, SourcePoint).
+</code></pre>
+<h4 id="2-将变量的半初始化状态沿cfg传递"><a class="header" href="#2-将变量的半初始化状态沿cfg传递">2. 将变量的半初始化状态沿CFG传递。</a></h4>
+<pre><code class="language-prolog">var_maybe_partly_initialized_on_entry(Variable, TargetPoint) :-
+    var_maybe_partly_initialized_on_exit(Variable, SourcePoint),
+    cfg_edge(SourcePoint, TargetPoint).
+</code></pre>
+<h4 id="3-变量含丢弃的存活情况"><a class="header" href="#3-变量含丢弃的存活情况">3. 变量含丢弃的存活情况</a></h4>
+<p>对于每一个变量，从每个 <strong>丢弃</strong> 或 <strong>半初始化</strong> 的位置处开始，沿CFG <strong>逆边</strong> 向前追溯到变量 <strong>定义</strong> 处，都视为 <strong>含丢弃存活</strong>（drop-live）。</p>
+<pre><code class="language-prolog">var_drop_live_on_entry(Variable, Point) :-
+    var_dropped_at(Variable, Point),
+    var_maybe_partly_initialized_on_entry(Variable, Point).
+</code></pre>
+<pre><code class="language-prolog">var_drop_live_on_entry(Variable, SourcePoint) :-
+    var_drop_live_on_entry(Variable, TargetPoint),
+    cfg_edge(SourcePoint, TargetPoint),
+    !var_defined_at(Variable SourcePoint),
+    var_maybe_partly_initialized_on_exit(Variable, SourcePoint).
+</code></pre>
+<h4 id="4-借用源存活状态"><a class="header" href="#4-借用源存活状态">4. 借用源存活状态</a></h4>
+<p>对每处的存活引用变量，都标记其关联的借用源为存活。</p>
+<pre><code class="language-prolog">origin_live_on_entry(Origin, Point) :-
+    var_live_on_entry(Variable, Point),
+    use_of_var_derefs_origin(Variable, Origin).
+</code></pre>
+<p>同样地，对含丢弃存活的引用变量，也标记其相关联的丢弃时借用源为存活。</p>
+<pre><code class="language-prolog">origin_live_on_entry(Origin, Point) :-
+    var_drop_live_on_entry(Variable, Point),
+    drop_of_var_derefs_origin(Variable, Origin).
+</code></pre>
+<h2 id="思考-1"><a class="header" href="#思考-1">思考</a></h2>
+<h4 id="1-既然已经有基于路径的一些输入事实如path_assigned_atpath_accessed_atpath_moved_at等并且也有path_is_var能与变量对应起来为什么还需要基于变量的输入事实呢如var_used_atvar_dropped_atvar_defined_at等"><a class="header" href="#1-既然已经有基于路径的一些输入事实如path_assigned_atpath_accessed_atpath_moved_at等并且也有path_is_var能与变量对应起来为什么还需要基于变量的输入事实呢如var_used_atvar_dropped_atvar_defined_at等">1. 既然已经有基于路径的一些输入事实（如<code>path_assigned_at</code>、<code>path_accessed_at</code>、<code>path_moved_at</code>等），并且也有<code>path_is_var</code>能与变量对应起来，为什么还需要基于变量的输入事实呢（如<code>var_used_at</code>、<code>var_dropped_at</code>、<code>var_defined_at</code>等）？</a></h4>
+<p>(1) <code>path_assigned_at</code>与<code>var_defined_at</code></p>
+<ul>
+<li><code>path_assigned_at</code>与<code>var_defined_at</code>的最大区别是：
+<ul>
+<li>在MIR的每一条赋值语句中，<code>var_defined_at</code>一定发生在当前语句中间（<code>Mid</code>）；</li>
+<li>而<code>path_assigned_at</code>可能发生在当前赋值语句中间（<code>Mid</code>），或下一条语句之前（<code>Start</code>），
+<ul>
+<li>若当前语句不需要<code>unwind</code>，则<code>path_assigned_at</code>在当前赋值语句中间；</li>
+<li>若当前语句需要<code>unwind</code>，则<code>path_assigned_at</code>在执行成功的分支中下一条语句之前。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>var_defined_at</code>还包含<code>StorageLive</code>与<code>StorageDead</code>信息，及变量被赋值的信息。</li>
+<li><code>path_assigned_at</code>还包含进入函数时，对入参的初始化赋值。</li>
+</ul>
+<p>(2) <code>path_accessed_at</code>与<code>var_used_at</code></p>
+<p><code>var_userd_at</code>等于<code>path_accessed_at</code>加上返回值的访问信息。</p>
+<p>(3) <code>path_moved_at</code>与<code>var_dropped_at</code></p>
+<p><code>path_moved_at</code>只能追踪到其赋值与移动。而变量在超出其作用域后，还会被丢弃，无法通过路径的移动信息推导出变量的丢弃信息。</p>
+<h4 id="2-为什么var_defined_at中包含storagelive和storagedead"><a class="header" href="#2-为什么var_defined_at中包含storagelive和storagedead">2. 为什么<code>var_defined_at</code>中包含<code>StorageLive</code>和<code>StorageDead</code>？</a></h4>
+<p>TODO</p>
+<h4 id="3-为什么要区分drop_of_var_derefs_origin与use_of_var_derefs_origin"><a class="header" href="#3-为什么要区分drop_of_var_derefs_origin与use_of_var_derefs_origin">3. 为什么要区分<code>drop_of_var_derefs_origin</code>与<code>use_of_var_derefs_origin</code>？</a></h4>
+<p>TODO</p>
+<h4 id="4-为什么var_drop_live_on_entry要包含var_maybe_partly_initialized_on_entry的信息"><a class="header" href="#4-为什么var_drop_live_on_entry要包含var_maybe_partly_initialized_on_entry的信息">4. 为什么<code>var_drop_live_on_entry</code>要包含<code>var_maybe_partly_initialized_on_entry</code>的信息？</a></h4>
+<p>TODO</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="ghost-cell与staticrc的试用体验"><a class="header" href="#ghost-cell与staticrc的试用体验">Ghost Cell与StaticRC的试用体验</a></h1>
 <p>写于2021年9月3日。最早发表于<a href="https://www.zhihu.com/question/482473609/answer/2101373347">知乎</a>。</p>
 <hr />

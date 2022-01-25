@@ -1,0 +1,282 @@
+<!DOCTYPE HTML>
+<html lang="zh" class="sidebar-visible no-js ayu">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>（二）存活性分析 - Rust中文博客</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "ayu";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('ayu')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../overview.html">序言</a></li><li class="chapter-item expanded affix "><li class="part-title">2022-01</li><li class="chapter-item expanded "><a href="../2022-01-polonius/00.html">Polonius学习笔记</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../2022-01-polonius/01-21-借用检查（零）-原子式与输入.html">（零）原子式与输入</a></li><li class="chapter-item expanded "><a href="../2022-01-polonius/01-21-借用检查（一）-初始化分析.html">（一）初始化分析</a></li><li class="chapter-item expanded "><a href="../2022-01-polonius/01-23-借用检查（二）-存活性分析.html" class="active">（二）存活性分析</a></li><li class="chapter-item expanded "><div>（三）借用检查分析</div></li></ol></li><li class="chapter-item expanded "><li class="part-title">2021-09</li><li class="chapter-item expanded "><a href="../2021-09-ghost-cell/09-03-ghost-cell.html">Ghost Cell试用体验</a></li><li class="chapter-item expanded affix "><li class="part-title">2021-01</li><li class="chapter-item expanded "><a href="../2021-01-proc-macro/00.html">Rust过程宏入门系列</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../2021-01-proc-macro/01-06-过程宏（一）-过程宏简介.html">（一）过程宏简介</a></li><li class="chapter-item expanded "><a href="../2021-01-proc-macro/01-07-过程宏（二）-初探派生宏.html">（二）初探派生宏</a></li><li class="chapter-item expanded "><a href="../2021-01-proc-macro/01-10-过程宏（三）-实现简易派生宏.html">（三）实现简易派生宏</a></li><li class="chapter-item expanded "><a href="../2021-01-proc-macro/01-16-过程宏（四）-遍历结构体字段.html">（四）遍历结构体字段</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu (default)</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust中文博客</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/frank-king/rustblog-zh" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="存活性分析"><a class="header" href="#存活性分析">存活性分析</a></h1>
+<p>写于2022年1月23日。</p>
+<p>存活性分析主要计算出在MIR的各个位置处有哪些借用源（Origin）存活，用于下一阶段的借用分析。</p>
+<h2 id="输入"><a class="header" href="#输入">输入</a></h2>
+<h4 id="1-普通变量的定义使用丢弃情况"><a class="header" href="#1-普通变量的定义使用丢弃情况">1. 普通变量的定义、使用、丢弃情况。</a></h4>
+<pre><code class="language-prolog">.decl var_defined_at(Variable, Point)
+.decl var_used_at   (Variable, Point)
+.decl var_dropped_at(Variable, Point)
+
+.input var_defined_at
+.input var_used_at
+.input var_dropped_at
+</code></pre>
+<h4 id="2-对于引用变量而言需要输入变量所关联的借用源"><a class="header" href="#2-对于引用变量而言需要输入变量所关联的借用源">2. 对于引用变量而言，需要输入变量所关联的借用源。</a></h4>
+<p>如下</p>
+<pre><code class="language-rust ignore">let a: i32 = 0;
+let b: &amp;'b i32 = &amp;a;
+</code></pre>
+<p>其中<code>b</code>变量将关联到借用源<code>'b</code>。</p>
+<p>另外还有丢弃时借用源（TODO）。</p>
+<pre><code class="language-prolog">.decl drop_of_var_derefs_origin(Variable, Origin)
+.decl use_of_var_derefs_origin (Variable, Origin)
+
+.input drop_of_var_derefs_origin
+.input use_of_var_derefs_origin 
+</code></pre>
+<h2 id="推导"><a class="header" href="#推导">推导</a></h2>
+<h4 id="1-变量存活情况"><a class="header" href="#1-变量存活情况">1. 变量存活情况</a></h4>
+<p>对于每一个变量，从每个 <strong>使用</strong> 的位置处，沿CFG <strong>逆边</strong> 向前追溯到变量 <strong>定义</strong> 处，都视为存活。</p>
+<pre><code class="language-prolog">var_live_on_entry(Variable, Point) :-
+    var_used_at(Variable, Point).
+
+var_live_on_entry(Variable, SourcePoint) :-
+    var_live_on_entry(Variable, Targetpoint),
+    cfg_edge(SourcePoint, TargetPoint),
+    !var_defined(Variable, SourcePoint).
+</code></pre>
+<h4 id="2-将变量的半初始化状态沿cfg传递"><a class="header" href="#2-将变量的半初始化状态沿cfg传递">2. 将变量的半初始化状态沿CFG传递。</a></h4>
+<pre><code class="language-prolog">var_maybe_partly_initialized_on_entry(Variable, TargetPoint) :-
+    var_maybe_partly_initialized_on_exit(Variable, SourcePoint),
+    cfg_edge(SourcePoint, TargetPoint).
+</code></pre>
+<h4 id="3-变量含丢弃的存活情况"><a class="header" href="#3-变量含丢弃的存活情况">3. 变量含丢弃的存活情况</a></h4>
+<p>对于每一个变量，从每个 <strong>丢弃</strong> 或 <strong>半初始化</strong> 的位置处开始，沿CFG <strong>逆边</strong> 向前追溯到变量 <strong>定义</strong> 处，都视为 <strong>含丢弃存活</strong>（drop-live）。</p>
+<pre><code class="language-prolog">var_drop_live_on_entry(Variable, Point) :-
+    var_dropped_at(Variable, Point),
+    var_maybe_partly_initialized_on_entry(Variable, Point).
+</code></pre>
+<pre><code class="language-prolog">var_drop_live_on_entry(Variable, SourcePoint) :-
+    var_drop_live_on_entry(Variable, TargetPoint),
+    cfg_edge(SourcePoint, TargetPoint),
+    !var_defined_at(Variable SourcePoint),
+    var_maybe_partly_initialized_on_exit(Variable, SourcePoint).
+</code></pre>
+<h4 id="4-借用源存活状态"><a class="header" href="#4-借用源存活状态">4. 借用源存活状态</a></h4>
+<p>对每处的存活引用变量，都标记其关联的借用源为存活。</p>
+<pre><code class="language-prolog">origin_live_on_entry(Origin, Point) :-
+    var_live_on_entry(Variable, Point),
+    use_of_var_derefs_origin(Variable, Origin).
+</code></pre>
+<p>同样地，对含丢弃存活的引用变量，也标记其相关联的丢弃时借用源为存活。</p>
+<pre><code class="language-prolog">origin_live_on_entry(Origin, Point) :-
+    var_drop_live_on_entry(Variable, Point),
+    drop_of_var_derefs_origin(Variable, Origin).
+</code></pre>
+<h2 id="思考"><a class="header" href="#思考">思考</a></h2>
+<h4 id="1-既然已经有基于路径的一些输入事实如path_assigned_atpath_accessed_atpath_moved_at等并且也有path_is_var能与变量对应起来为什么还需要基于变量的输入事实呢如var_used_atvar_dropped_atvar_defined_at等"><a class="header" href="#1-既然已经有基于路径的一些输入事实如path_assigned_atpath_accessed_atpath_moved_at等并且也有path_is_var能与变量对应起来为什么还需要基于变量的输入事实呢如var_used_atvar_dropped_atvar_defined_at等">1. 既然已经有基于路径的一些输入事实（如<code>path_assigned_at</code>、<code>path_accessed_at</code>、<code>path_moved_at</code>等），并且也有<code>path_is_var</code>能与变量对应起来，为什么还需要基于变量的输入事实呢（如<code>var_used_at</code>、<code>var_dropped_at</code>、<code>var_defined_at</code>等）？</a></h4>
+<p>(1) <code>path_assigned_at</code>与<code>var_defined_at</code></p>
+<ul>
+<li><code>path_assigned_at</code>与<code>var_defined_at</code>的最大区别是：
+<ul>
+<li>在MIR的每一条赋值语句中，<code>var_defined_at</code>一定发生在当前语句中间（<code>Mid</code>）；</li>
+<li>而<code>path_assigned_at</code>可能发生在当前赋值语句中间（<code>Mid</code>），或下一条语句之前（<code>Start</code>），
+<ul>
+<li>若当前语句不需要<code>unwind</code>，则<code>path_assigned_at</code>在当前赋值语句中间；</li>
+<li>若当前语句需要<code>unwind</code>，则<code>path_assigned_at</code>在执行成功的分支中下一条语句之前。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>var_defined_at</code>还包含<code>StorageLive</code>与<code>StorageDead</code>信息，及变量被赋值的信息。</li>
+<li><code>path_assigned_at</code>还包含进入函数时，对入参的初始化赋值。</li>
+</ul>
+<p>(2) <code>path_accessed_at</code>与<code>var_used_at</code></p>
+<p><code>var_userd_at</code>等于<code>path_accessed_at</code>加上返回值的访问信息。</p>
+<p>(3) <code>path_moved_at</code>与<code>var_dropped_at</code></p>
+<p><code>path_moved_at</code>只能追踪到其赋值与移动。而变量在超出其作用域后，还会被丢弃，无法通过路径的移动信息推导出变量的丢弃信息。</p>
+<h4 id="2-为什么var_defined_at中包含storagelive和storagedead"><a class="header" href="#2-为什么var_defined_at中包含storagelive和storagedead">2. 为什么<code>var_defined_at</code>中包含<code>StorageLive</code>和<code>StorageDead</code>？</a></h4>
+<p>TODO</p>
+<h4 id="3-为什么要区分drop_of_var_derefs_origin与use_of_var_derefs_origin"><a class="header" href="#3-为什么要区分drop_of_var_derefs_origin与use_of_var_derefs_origin">3. 为什么要区分<code>drop_of_var_derefs_origin</code>与<code>use_of_var_derefs_origin</code>？</a></h4>
+<p>TODO</p>
+<h4 id="4-为什么var_drop_live_on_entry要包含var_maybe_partly_initialized_on_entry的信息"><a class="header" href="#4-为什么var_drop_live_on_entry要包含var_maybe_partly_initialized_on_entry的信息">4. 为什么<code>var_drop_live_on_entry</code>要包含<code>var_maybe_partly_initialized_on_entry</code>的信息？</a></h4>
+<p>TODO</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../2022-01-polonius/01-21-借用检查（一）-初始化分析.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../2021-09-ghost-cell/09-03-ghost-cell.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../2022-01-polonius/01-21-借用检查（一）-初始化分析.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../2021-09-ghost-cell/09-03-ghost-cell.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="https://utteranc.es/client.js"
+                repo="frank-king/rustblog-zh"
+                issue-term="title"
+                theme="github-dark"
+                crossorigin="anonymous"
+                async>
+        </script>
+
+    </body>
+</html>
