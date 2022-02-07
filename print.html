@@ -368,7 +368,7 @@ path_mustbe_initialized_on_exit(Path, TargetPoint) :-
 <h4 id="2-如何理解var_maybe_partly_initialized_on_exit既然不允许在变量移动后对其部份字段赋值为何会存在半初始化的变量"><a class="header" href="#2-如何理解var_maybe_partly_initialized_on_exit既然不允许在变量移动后对其部份字段赋值为何会存在半初始化的变量">2. 如何理解<code>var_maybe_partly_initialized_on_exit</code>？既然不允许在变量移动后，对其部份字段赋值，为何会存在半初始化的变量？</a></h4>
 <p>这是因为允许只移动变量的部份字段。当部份字段被移动后，剩余字段仍处于已初始化状态，因此整个变量此时处于「半初始化」的状态。</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="存活性分析"><a class="header" href="#存活性分析">存活性分析</a></h1>
-<p>写于2022年1月23日。</p>
+<p>写于2022年1月23日。最后更新于2022年2月7日。</p>
 <p>存活性分析主要计算出在MIR的各个位置处有哪些借用源（Origin）存活，用于下一阶段的借用分析。</p>
 <h2 id="输入-1"><a class="header" href="#输入-1">输入</a></h2>
 <h4 id="1-普通变量的定义使用丢弃情况"><a class="header" href="#1-普通变量的定义使用丢弃情况">1. 普通变量的定义、使用、丢弃情况。</a></h4>
@@ -409,8 +409,8 @@ var_live_on_entry(Variable, SourcePoint) :-
     var_maybe_partly_initialized_on_exit(Variable, SourcePoint),
     cfg_edge(SourcePoint, TargetPoint).
 </code></pre>
-<h4 id="3-变量含丢弃的存活情况"><a class="header" href="#3-变量含丢弃的存活情况">3. 变量含丢弃的存活情况</a></h4>
-<p>对于每一个变量，从每个 <strong>丢弃</strong> 或 <strong>半初始化</strong> 的位置处开始，沿CFG <strong>逆边</strong> 向前追溯到变量 <strong>定义</strong> 处，都视为 <strong>含丢弃存活</strong>（drop-live）。</p>
+<h4 id="3-变量的丢弃前存活情况"><a class="header" href="#3-变量的丢弃前存活情况">3. 变量的丢弃前存活情况</a></h4>
+<p>对于每一个变量，在其 <strong>半初始化</strong> 的范围内，从每个 <strong>丢弃</strong> 处开始，沿CFG <strong>逆边</strong> 向前追溯到变量 <strong>定义</strong> 处，都视为 <strong>丢弃前存活</strong>（drop-live）。</p>
 <pre><code class="language-prolog">var_drop_live_on_entry(Variable, Point) :-
     var_dropped_at(Variable, Point),
     var_maybe_partly_initialized_on_entry(Variable, Point).
@@ -427,13 +427,15 @@ var_live_on_entry(Variable, SourcePoint) :-
     var_live_on_entry(Variable, Point),
     use_of_var_derefs_origin(Variable, Origin).
 </code></pre>
-<p>同样地，对含丢弃存活的引用变量，也标记其相关联的丢弃时借用源为存活。</p>
+<p>同样地，对于丢弃前存活的引用变量，也标记其相关联的丢弃时借用源为存活。</p>
 <pre><code class="language-prolog">origin_live_on_entry(Origin, Point) :-
     var_drop_live_on_entry(Variable, Point),
     drop_of_var_derefs_origin(Variable, Origin).
 </code></pre>
-<h2 id="思考-1"><a class="header" href="#思考-1">思考</a></h2>
+<h2 id="思考部份内容来自zulip的讨论"><a class="header" href="#思考部份内容来自zulip的讨论">思考（部份内容来自<a href="https://zulip-archive.rust-lang.org/stream/186049-t-compiler/wg-polonius/topic/Newcomer.2C.20trying.20to.20help.3F.html">Zulip的讨论</a>）</a></h2>
 <h4 id="1-既然已经有基于路径的一些输入事实如path_assigned_atpath_accessed_atpath_moved_at等并且也有path_is_var能与变量对应起来为什么还需要基于变量的输入事实呢如var_used_atvar_dropped_atvar_defined_at等"><a class="header" href="#1-既然已经有基于路径的一些输入事实如path_assigned_atpath_accessed_atpath_moved_at等并且也有path_is_var能与变量对应起来为什么还需要基于变量的输入事实呢如var_used_atvar_dropped_atvar_defined_at等">1. 既然已经有基于路径的一些输入事实（如<code>path_assigned_at</code>、<code>path_accessed_at</code>、<code>path_moved_at</code>等），并且也有<code>path_is_var</code>能与变量对应起来，为什么还需要基于变量的输入事实呢（如<code>var_used_at</code>、<code>var_dropped_at</code>、<code>var_defined_at</code>等）？</a></h4>
+<p>第一阶段的初始化分析，与具体的字段相关；而第二阶段的存活性分析与第三阶段的借用分析都只与变量相关。对存活性分析而言，变量相关的输入事实是必须的、而字段相关的输入信息是可选的，后续可能移除字段相关的输入，但变量相关的输入不会变。</p>
+<p>具体的区别有：</p>
 <p>(1) <code>path_assigned_at</code>与<code>var_defined_at</code></p>
 <ul>
 <li><code>path_assigned_at</code>与<code>var_defined_at</code>的最大区别是：
@@ -450,16 +452,56 @@ var_live_on_entry(Variable, SourcePoint) :-
 <li><code>var_defined_at</code>还包含<code>StorageLive</code>与<code>StorageDead</code>信息，及变量被赋值的信息。</li>
 <li><code>path_assigned_at</code>还包含进入函数时，对入参的初始化赋值。</li>
 </ul>
+<p>在<a href="2022-01-polonius/./01-21-%E5%80%9F%E7%94%A8%E6%A3%80%E6%9F%A5%EF%BC%88%E4%B8%80%EF%BC%89-%E5%88%9D%E5%A7%8B%E5%8C%96%E5%88%86%E6%9E%90.html">初始化分析</a>中，当某些函数调用发生了<code>panic</code>时，其返回值不会被初始化，因此<code>path_assigned_at</code>发生在执行成功后下一条语句之前。</p>
+<p>但存活性分析及后续的借用分析，并不在意在发生<code>panic</code>后变量是否处于未初始化状态。</p>
+<ul>
+<li>对于<code>var_live_on_entry</code>而言，在某条赋值语句（如<code>_3 = may_panic() [return -&gt; bb1; unwind -&gt; bb2]</code>）发生<code>panic</code>后，其「清理」路径（从<code>bb2</code>开始，依次丢弃已初始化的变量）并不会使用到该变量（<code>_3</code>），也不会产生相应的<code>var_defined_at</code>事实，因此即使发生了<code>panic</code>，产生的<code>var_defined_at</code>在<code>unwind</code>过程中并不会产生<code>var_live_on_entry</code>事实，所以此处的<code>var_defined_at</code>不需要像<code>path_assigned_at</code>那样，必须发生在非<code>unwind</code>分支的入口处。</li>
+<li>对于<code>var_drop_live_on_entry</code>而言，具体由于<code>unwind</code>过程中可能产生<code>var_dropped_at</code>事实，因此有可能影响到<code>var_drop_live_on_entry</code>，所以具体情况有待进一步实验验证。</li>
+</ul>
 <p>(2) <code>path_accessed_at</code>与<code>var_used_at</code></p>
 <p><code>var_userd_at</code>等于<code>path_accessed_at</code>加上返回值的访问信息。</p>
 <p>(3) <code>path_moved_at</code>与<code>var_dropped_at</code></p>
 <p><code>path_moved_at</code>只能追踪到其赋值与移动。而变量在超出其作用域后，还会被丢弃，无法通过路径的移动信息推导出变量的丢弃信息。</p>
 <h4 id="2-为什么var_defined_at中包含storagelive和storagedead"><a class="header" href="#2-为什么var_defined_at中包含storagelive和storagedead">2. 为什么<code>var_defined_at</code>中包含<code>StorageLive</code>和<code>StorageDead</code>？</a></h4>
-<p>TODO</p>
+<p><code>StorageLive</code>与<code>StorageDead</code>主要用于LLVM栈空间分配。见<a href="https://rustc-dev-guide.rust-lang.org/mir/index.html">MIR相关文档</a>。</p>
+<blockquote>
+<p><code>StorageLive(_1)</code>表明变量<code>_1</code>存活，也即其可能在稍后使用——直到<code>StorageDead(_1)</code>语句出现，即<code>_1</code>将不再使用。<code>StorageLive</code>与<code>StoraageDead</code>语句用于LLVM中的栈空间分配。</p>
+</blockquote>
+<p>在<code>StorageLive</code>之后，变量才开始使用，此处的<code>var_defined_at</code>可以阻止存活性分析中的<code>var_live_on_entry</code>追溯到早于<code>StorageLive</code>的地方（因为这些地方变量未被使用到）。</p>
+<p><code>StorageDead</code>不太必要，因为在<code>StorageDead</code>后，将不再可能出现变量被访问的情形。</p>
 <h4 id="3-为什么要区分drop_of_var_derefs_origin与use_of_var_derefs_origin"><a class="header" href="#3-为什么要区分drop_of_var_derefs_origin与use_of_var_derefs_origin">3. 为什么要区分<code>drop_of_var_derefs_origin</code>与<code>use_of_var_derefs_origin</code>？</a></h4>
-<p>TODO</p>
+<p>由于<a href="https://rust-lang.github.io/rfcs/1327-dropck-param-eyepatch.html">rfc#1327</a>的缘故，变量在丢弃时的使用情况状态与正常使用时的使用情况有所不同。</p>
+<p><code>drop_of_var_derefs_origin</code>的含义是，变量在丢弃时，由于其<code>drop</code>函数中可能访问其包含的引用，因此需要将其视作存活，除非显式指明<code>#[may_dangle]</code>。</p>
+<p>例如：</p>
+<pre><code class="language-rust ignore">fn main() {
+    let mut v = [1, 2, 3];
+    let p: Wrapped&lt;&amp; /* R4 */ usize&gt; = Wrapped { value: &amp;v[0] };
+    if true {
+        drop(*p.value);
+    } else {
+        v[0] += 1; //~ ERROR cannot assign to `v[_]` because it is borrowed
+    }
+
+    v[0] += 1; //~ ERROR cannot assign to `v[_]` because it is borrowed
+}
+
+struct Wrapped&lt;T&gt; {
+    value: T
+}
+
+impl&lt;T&gt; Drop for Wrapped&lt;T&gt; {
+    fn drop(&amp;mut self) { }
+}
+</code></pre>
+<p>由于在<code>Wrapped::drop</code>中可能访问到<code>value</code>字段（无显式访问，但在丢弃其字段时会隐式访问到），因此需要<code>drop_of_var_derefs_origin</code>输入事实，表明<code>p.value</code>借用的变量<code>&amp;v[0]</code>直到<code>p</code>被丢弃时（<code>main</code>函数结束前），一直处于存活状态。</p>
+<p>若将<code>impl&lt;T&gt; Drop for Wrapped&lt;T&gt;</code>改为</p>
+<pre><code class="language-rust ignore">unsafe impl&lt;#[may_dangle] T&gt; Drop for Wrapped&lt;T&gt; {
+    fn drop(&amp;mut self) { }
+}
+</code></pre>
+<p>则不产生<code>drop_of_var_derefs_origin</code>事实，因而后面<code>v[0] += 1</code>也视为合法。</p>
 <h4 id="4-为什么var_drop_live_on_entry要包含var_maybe_partly_initialized_on_entry的信息"><a class="header" href="#4-为什么var_drop_live_on_entry要包含var_maybe_partly_initialized_on_entry的信息">4. 为什么<code>var_drop_live_on_entry</code>要包含<code>var_maybe_partly_initialized_on_entry</code>的信息？</a></h4>
-<p>TODO</p>
+<p>即使变量出作用域时已被移动，而原始的MIR中仍然包含相应的<code>drop</code>语句。Polonius引擎（包括此前的借用分析引擎）手动过滤了所有的「移动后丢弃」语句。但变量变量在部份移动后，开始处于「丢弃前存活」的状态，且部份丢弃的变量不会产生<code>var_dropped_at</code>事实，因此需要<code>var_maybe_partly_initialized_on_exit</code>来补上变量的部份移动信息。</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="ghost-cell与staticrc的试用体验"><a class="header" href="#ghost-cell与staticrc的试用体验">Ghost Cell与StaticRC的试用体验</a></h1>
 <p>写于2021年9月3日。最早发表于<a href="https://www.zhihu.com/question/482473609/answer/2101373347">知乎</a>。</p>
 <hr />
