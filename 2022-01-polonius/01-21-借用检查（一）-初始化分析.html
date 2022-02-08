@@ -139,7 +139,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="初始化分析"><a class="header" href="#初始化分析">初始化分析</a></h1>
+                        <h1 id="初始化分析initialization-analysis"><a class="header" href="#初始化分析initialization-analysis">初始化分析（Initialization Analysis）</a></h1>
 <p>写于2022年1月21日。</p>
 <p>初始化分析主要计算出经传递后的<code>Path</code>读写、移动之处，变量的初始化、移动情况，并找出因移动而导致的错误（即试图访问被移动或部分移动的变量）。</p>
 <h2 id="1-将路径的读写移动情况传递至其子路径"><a class="header" href="#1-将路径的读写移动情况传递至其子路径">1. 将路径的读写、移动情况传递至其子路径</a></h2>

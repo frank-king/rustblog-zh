@@ -184,7 +184,7 @@
 <ol>
 <li><a href="2022-01-polonius/01-21-%E5%80%9F%E7%94%A8%E6%A3%80%E6%9F%A5%EF%BC%88%E4%B8%80%EF%BC%89-%E5%88%9D%E5%A7%8B%E5%8C%96%E5%88%86%E6%9E%90.html">初始化分析</a>：计算MIR各个位置（Point）处变量（Variable）的初始化、逆初始化（被移动）的状态，与该处发生「移动后访问」错误的路径（Path）（若有）。</li>
 <li><a href="2022-01-polonius/01-23-%E5%80%9F%E7%94%A8%E6%A3%80%E6%9F%A5%EF%BC%88%E4%BA%8C%EF%BC%89-%E5%AD%98%E6%B4%BB%E6%80%A7%E5%88%86%E6%9E%90.html">存活性分析</a>：计算MIR各个位置（Point）处，分别有哪些借用源（Origin）存活。</li>
-<li>借用检查分析：计算MIR各个位置（Point）处，存在矛盾（存活且失效）的借用（Loan）；并计算在哪些位置（Point）处，产生了与外部定义的生存期约束（SubOrigin, Origin）相矛盾的约束。前者用于报告违反借用规则的错误，后者用于报告可能存在悬垂引用的错误。</li>
+<li><a href="2022-01-polonius/02-08-%E5%80%9F%E7%94%A8%E6%A3%80%E6%9F%A5%EF%BC%88%E4%B8%89%EF%BC%89-%E5%80%9F%E5%80%BA%E5%88%86%E6%9E%90.html">借债分析</a>：计算MIR各个位置（Point）处，存在矛盾（存活且失效）的借债（Loan）；并计算在哪些位置（Point）处，产生了与外部定义的生存期约束（SubOrigin, Origin）相矛盾的约束。前者用于报告违反借用规则的错误，后者用于报告可能存在悬垂引用的错误。</li>
 </ol>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="原子式与输入"><a class="header" href="#原子式与输入">原子式与输入</a></h1>
 <p>写于2022年1月21日。</p>
@@ -237,7 +237,7 @@ q = &amp;mut b; // L0被清除
 <p>借用有共享（shared）与可变（mutable）两种。共享借用只能用于读取，不能写入或修改；可变借用必须独占，保证不能有对同一Path的借用。否则，视为借用失效，失效的借债将保存在<code>loan_invalidated_at</code>关系中。</p>
 <h3 id="known_placeholder_subset"><a class="header" href="#known_placeholder_subset"><code>known_placeholder_subset</code></a></h3>
 <p><code>known_placeholder_subset(SubOrigin, Origin)</code>用于表示函数签名处定义的生存期约束。</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="初始化分析"><a class="header" href="#初始化分析">初始化分析</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="初始化分析initialization-analysis"><a class="header" href="#初始化分析initialization-analysis">初始化分析（Initialization Analysis）</a></h1>
 <p>写于2022年1月21日。</p>
 <p>初始化分析主要计算出经传递后的<code>Path</code>读写、移动之处，变量的初始化、移动情况，并找出因移动而导致的错误（即试图访问被移动或部分移动的变量）。</p>
 <h2 id="1-将路径的读写移动情况传递至其子路径"><a class="header" href="#1-将路径的读写移动情况传递至其子路径">1. 将路径的读写、移动情况传递至其子路径</a></h2>
@@ -373,7 +373,7 @@ path_mustbe_initialized_on_exit(Path, TargetPoint) :-
 <p>但datalog的语法并不支持第二条推论的写法。因此，只能将<code>path_mustbe_initialized_on_exit</code>分裂为两个式子<code>path_maybe_initialized_on_exit</code>与<code>path_maybe_uninitialized_on_exit</code>，来实现相应的计算。</p>
 <h4 id="2-如何理解var_maybe_partly_initialized_on_exit既然不允许在变量移动后对其部份字段赋值为何会存在半初始化的变量"><a class="header" href="#2-如何理解var_maybe_partly_initialized_on_exit既然不允许在变量移动后对其部份字段赋值为何会存在半初始化的变量">2. 如何理解<code>var_maybe_partly_initialized_on_exit</code>？既然不允许在变量移动后，对其部份字段赋值，为何会存在半初始化的变量？</a></h4>
 <p>这是因为允许只移动变量的部份字段。当部份字段被移动后，剩余字段仍处于已初始化状态，因此整个变量此时处于「半初始化」的状态。</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="存活性分析"><a class="header" href="#存活性分析">存活性分析</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="存活性分析liveness-analysis"><a class="header" href="#存活性分析liveness-analysis">存活性分析（Liveness Analysis）</a></h1>
 <p>写于2022年1月23日。最后更新于2022年2月7日。</p>
 <p>存活性分析主要计算出在MIR的各个位置处有哪些借用源（Origin）存活，用于下一阶段的借债分析。</p>
 <h2 id="输入-1"><a class="header" href="#输入-1">输入</a></h2>
@@ -508,12 +508,12 @@ impl&lt;T&gt; Drop for Wrapped&lt;T&gt; {
 <p>则不产生<code>drop_of_var_derefs_origin</code>事实，因而后面<code>v[0] += 1</code>也视为合法。</p>
 <h4 id="4-为什么var_drop_live_on_entry要包含var_maybe_partly_initialized_on_entry的信息"><a class="header" href="#4-为什么var_drop_live_on_entry要包含var_maybe_partly_initialized_on_entry的信息">4. 为什么<code>var_drop_live_on_entry</code>要包含<code>var_maybe_partly_initialized_on_entry</code>的信息？</a></h4>
 <p>即使变量出作用域时已被移动，而原始的MIR中仍然包含相应的<code>drop</code>语句。Polonius引擎（包括此前的借用检查引擎）手动过滤了所有的「移动后丢弃」语句。但变量变量在部份移动后，开始处于「丢弃前存活」的状态，且部份丢弃的变量不会产生<code>var_dropped_at</code>事实，因此需要<code>var_maybe_partly_initialized_on_exit</code>来补上变量的部份移动信息。</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="借债分析"><a class="header" href="#借债分析">借债分析</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="借债分析loan-analysis"><a class="header" href="#借债分析loan-analysis">借债分析（Loan Analysis）</a></h1>
 <p>写于2022年2月8日。</p>
 <p>借用分析是根据前面计算出的借用源存活情况，推断出存在错误的借用、及存在矛盾的生命周期包含关系。</p>
 <p>首先有未经优化的<a href="2022-01-polonius/./02-08-%E5%80%9F%E7%94%A8%E6%A3%80%E6%9F%A5%EF%BC%88%E4%B8%89%EF%BC%89-%E5%80%9F%E5%80%BA%E5%88%86%E6%9E%90-%E5%8E%9F%E5%A7%8B%E8%A7%84%E5%88%99.html">原始规则</a>，其思路较清晰，但计算量也较大。</p>
 <p>然后，在<a href="2022-01-polonius/">位置无关规则</a>中，忽略了出错的位置信息，可以快速判断出是否有语法错误，在无误时可以提升编译速度。</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="借债分析原始规则"><a class="header" href="#借债分析原始规则">借债分析——原始规则</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="借债分析原始规则naive"><a class="header" href="#借债分析原始规则naive">借债分析——原始规则（Naive）</a></h1>
 <p>写于2022年2月8日。</p>
 <h2 id="推导-3"><a class="header" href="#推导-3">推导</a></h2>
 <h3 id="输入传递传播借用源origin的包含关系"><a class="header" href="#输入传递传播借用源origin的包含关系">输入、传递、传播借用源（Origin）的包含关系</a></h3>
