@@ -1,0 +1,259 @@
+<!DOCTYPE HTML>
+<html lang="zh" class="sidebar-visible no-js ayu">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>(1) 原始规则 - Rust中文博客</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "ayu";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('ayu')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../overview.html">序言</a></li><li class="chapter-item expanded affix "><li class="part-title">2022-01</li><li class="chapter-item expanded "><a href="../2022-01-polonius/00.html">Polonius学习笔记</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../2022-01-polonius/01-21-借用检查（零）-原子式与输入.html">（零）原子式与输入</a></li><li class="chapter-item expanded "><a href="../2022-01-polonius/01-21-借用检查（一）-初始化分析.html">（一）初始化分析</a></li><li class="chapter-item expanded "><a href="../2022-01-polonius/01-23-借用检查（二）-存活性分析.html">（二）存活性分析</a></li><li class="chapter-item expanded "><a href="../2022-01-polonius/02-08-借用检查（三）-借债分析.html">（三）借债分析</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../2022-01-polonius/02-08-借用检查（三）-借债分析-原始规则.html" class="active">(1) 原始规则</a></li><li class="chapter-item expanded "><div>(2) 位置无关规则</div></li><li class="chapter-item expanded "><div>(3) 优化规则</div></li></ol></li></ol></li><li class="chapter-item expanded "><li class="part-title">2021-09</li><li class="chapter-item expanded "><a href="../2021-09-ghost-cell/09-03-ghost-cell.html">Ghost Cell试用体验</a></li><li class="chapter-item expanded affix "><li class="part-title">2021-01</li><li class="chapter-item expanded "><a href="../2021-01-proc-macro/00.html">Rust过程宏入门系列</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../2021-01-proc-macro/01-06-过程宏（一）-过程宏简介.html">（一）过程宏简介</a></li><li class="chapter-item expanded "><a href="../2021-01-proc-macro/01-07-过程宏（二）-初探派生宏.html">（二）初探派生宏</a></li><li class="chapter-item expanded "><a href="../2021-01-proc-macro/01-10-过程宏（三）-实现简易派生宏.html">（三）实现简易派生宏</a></li><li class="chapter-item expanded "><a href="../2021-01-proc-macro/01-16-过程宏（四）-遍历结构体字段.html">（四）遍历结构体字段</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu (default)</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust中文博客</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/frank-king/rustblog-zh" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="借债分析原始规则"><a class="header" href="#借债分析原始规则">借债分析——原始规则</a></h1>
+<p>写于2022年2月8日。</p>
+<h2 id="推导"><a class="header" href="#推导">推导</a></h2>
+<h3 id="输入传递传播借用源origin的包含关系"><a class="header" href="#输入传递传播借用源origin的包含关系">输入、传递、传播借用源（Origin）的包含关系</a></h3>
+<h4 id="1-从mir输入借用源的包含关系"><a class="header" href="#1-从mir输入借用源的包含关系">1. 从MIR输入借用源的包含关系</a></h4>
+<pre><code class="language-prolog">subset(SubOrigin, Origin, Point) :-
+    subset_base(SubOrigin, Origin, Point).
+</code></pre>
+<h4 id="2-按其传递性传递包含关系"><a class="header" href="#2-按其传递性传递包含关系">2. 按其传递性传递包含关系</a></h4>
+<pre><code class="language-prolog">subset(SubOrigin, SuperOrigin, Point) :-
+    subset(SubOrigin, Origin, Point),
+    subset(Origin, SuperOrigin, Point).
+</code></pre>
+<h4 id="3-在借用源存活的情况下沿cfg传播其包含关系"><a class="header" href="#3-在借用源存活的情况下沿cfg传播其包含关系">3. 在借用源存活的情况下，沿CFG传播其包含关系。</a></h4>
+<pre><code class="language-prolog">subset(SubOrigin, Origin, TargetPoint) :-
+    subset(SubOrigin, Origin, SourcePoint),
+    cfg_edge(SourcePoint, TargetPoint),
+    origin_live_on_entry(SubOrigin, TargetPoint),
+    origin_live_on_entry(Origin, TargetPoint).
+</code></pre>
+<h3 id="计算借债loan的存活情况"><a class="header" href="#计算借债loan的存活情况">计算借债（Loan）的存活情况</a></h3>
+<p>对每一个借债，先找出其关联的借用源。</p>
+<ul>
+<li>从借债发生处开始，先关联借债发生处的借用源，对应规则4；</li>
+<li>然后凡借债关联了某借用源，也必将关联其父借用源（即更「短命」的借用源），对应规则5；</li>
+<li>再沿CFG边，传播该借债关联的所有借用源，直到借债清除时，不应关联清除的借用源，对应规则6；</li>
+</ul>
+<p>最后，只要借债在某处关联了任意一个存活的借用源，则视为借债在该处存活。</p>
+<h4 id="4-从mir中输入借债发生的信息作为借债关联借用源存活信息的输入"><a class="header" href="#4-从mir中输入借债发生的信息作为借债关联借用源存活信息的输入">4. 从MIR中输入借债发生的信息，作为借债关联借用源存活信息的输入</a></h4>
+<pre><code class="language-prolog">origin_contains_loan_on_entry(Origin, Loan, Point) :-
+    loan_issued_at(Origin, Loan, Point).
+</code></pre>
+<h4 id="5-将借债关联借用源的信息按借用源的包含关系传播"><a class="header" href="#5-将借债关联借用源的信息按借用源的包含关系传播">5. 将借债关联借用源的信息，按借用源的包含关系传播</a></h4>
+<p><strong>注意</strong>：当借债关联了子借用源（<code>SubOrigin</code>，即更「长命」的借用源）时，子借用源的所有父借用源（<code>Origin</code>，即更「短命」的借用源）也都被关联；反之不成立。</p>
+<pre><code class="language-prolog">origin_contains_loan_on_entry(Origin, Loan, Point) :-
+    origin_contains_loan_on_entry(SubOrigin, Loan, Point),
+    subset(SubOrigin, Origin, Point).
+</code></pre>
+<h4 id="6-将借债关联借用源的信息按cfg传播"><a class="header" href="#6-将借债关联借用源的信息按cfg传播">6. 将借债关联借用源的信息按CFG传播</a></h4>
+<p>传播条件为：借债关联的借用源不能在当前点被清除，且须在下一位置处存活（外部声明的生命周期始终视为存活）。</p>
+<pre><code class="language-prolog">placeholder_origin(Origin) :-
+    placeholder(Origin, _Loan).
+</code></pre>
+<pre><code class="language-prolog">origin_contains_loan_on_entry(Origin, Loan, TargetPoint) :-
+    origin_contains_loan_on_entry(Origin, Loan, SourcePoint),
+    !loan_killed_at(Loan, SourcePoint),
+    cfg_edge(SourcePoint, TargetPoint),
+    (origin_live_on_entry(Origin, TargetPoint); placeholder_origin(Origin)).
+</code></pre>
+<h4 id="7-借债关联的任一借用源存活时都视为借债存活"><a class="header" href="#7-借债关联的任一借用源存活时都视为借债存活">7. 借债关联的任一借用源存活时，都视为借债存活</a></h4>
+<pre><code class="language-prolog">loan_live_at(Loan, Point) :-
+    origin_contains_loan_on_entry(Origin, Loan, Point),
+    (origin_live_on_entry(Origin, Point); placeholder_origin(Origin)).
+</code></pre>
+<h3 id="找出借债借用源包含关系中存在的矛盾用以报告语法错误"><a class="header" href="#找出借债借用源包含关系中存在的矛盾用以报告语法错误">找出借债、借用源包含关系中存在的矛盾，用以报告语法错误</a></h3>
+<h4 id="8-当借债在某处既存活又失效时视为错误"><a class="header" href="#8-当借债在某处既存活又失效时视为错误">8. 当借债在某处既存活又失效时，视为错误</a></h4>
+<pre><code class="language-prolog">errors(Loan, Point) :-
+    loan_invalidated_at(Loan, Point),
+    loan_live_at(Loan, Point).
+</code></pre>
+<h4 id="9-当借用源在任意位置处存在与外部生命周期约束不一致的包含关系时视为错误"><a class="header" href="#9-当借用源在任意位置处存在与外部生命周期约束不一致的包含关系时视为错误">9. 当借用源在任意位置处存在与外部生命周期约束不一致的包含关系时，视为错误</a></h4>
+<pre><code class="language-prolog">subset_error(SubOrigin, Origin, Point) :-
+    subset(SubOrigin, Origin, Point),
+    placeholder_origin(SubOrigin),
+    placeholder_origin(Origin),
+    !known_placeholder_subset(SubOrigin, Origin).
+</code></pre>
+<h2 id="思考"><a class="header" href="#思考">思考</a></h2>
+<h4 id="1-为什么借债关联了某借用源也必将关联其父借用源更短命而不是子借用源更长命"><a class="header" href="#1-为什么借债关联了某借用源也必将关联其父借用源更短命而不是子借用源更长命">1. 为什么借债关联了某借用源，也必将关联其父借用源（更「短命」），而不是子借用源（更「长命」）？</a></h4>
+<p>TODO</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../2022-01-polonius/02-08-借用检查（三）-借债分析.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../2021-09-ghost-cell/09-03-ghost-cell.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../2022-01-polonius/02-08-借用检查（三）-借债分析.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../2021-09-ghost-cell/09-03-ghost-cell.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="https://utteranc.es/client.js"
+                repo="frank-king/rustblog-zh"
+                issue-term="title"
+                theme="github-dark"
+                crossorigin="anonymous"
+                async>
+        </script>
+
+    </body>
+</html>

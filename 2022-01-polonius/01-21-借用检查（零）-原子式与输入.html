@@ -77,7 +77,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="../overview.html">序言</a></li><li class="chapter-item expanded affix "><li class="part-title">2022-01</li><li class="chapter-item expanded "><a href="../2022-01-polonius/00.html">Polonius学习笔记</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../2022-01-polonius/01-21-借用检查（零）-原子式与输入.html" class="active">（零）原子式与输入</a></li><li class="chapter-item expanded "><a href="../2022-01-polonius/01-21-借用检查（一）-初始化分析.html">（一）初始化分析</a></li><li class="chapter-item expanded "><a href="../2022-01-polonius/01-23-借用检查（二）-存活性分析.html">（二）存活性分析</a></li><li class="chapter-item expanded "><div>（三）借用检查分析</div></li></ol></li><li class="chapter-item expanded "><li class="part-title">2021-09</li><li class="chapter-item expanded "><a href="../2021-09-ghost-cell/09-03-ghost-cell.html">Ghost Cell试用体验</a></li><li class="chapter-item expanded affix "><li class="part-title">2021-01</li><li class="chapter-item expanded "><a href="../2021-01-proc-macro/00.html">Rust过程宏入门系列</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../2021-01-proc-macro/01-06-过程宏（一）-过程宏简介.html">（一）过程宏简介</a></li><li class="chapter-item expanded "><a href="../2021-01-proc-macro/01-07-过程宏（二）-初探派生宏.html">（二）初探派生宏</a></li><li class="chapter-item expanded "><a href="../2021-01-proc-macro/01-10-过程宏（三）-实现简易派生宏.html">（三）实现简易派生宏</a></li><li class="chapter-item expanded "><a href="../2021-01-proc-macro/01-16-过程宏（四）-遍历结构体字段.html">（四）遍历结构体字段</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../overview.html">序言</a></li><li class="chapter-item expanded affix "><li class="part-title">2022-01</li><li class="chapter-item expanded "><a href="../2022-01-polonius/00.html">Polonius学习笔记</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../2022-01-polonius/01-21-借用检查（零）-原子式与输入.html" class="active">（零）原子式与输入</a></li><li class="chapter-item expanded "><a href="../2022-01-polonius/01-21-借用检查（一）-初始化分析.html">（一）初始化分析</a></li><li class="chapter-item expanded "><a href="../2022-01-polonius/01-23-借用检查（二）-存活性分析.html">（二）存活性分析</a></li><li class="chapter-item expanded "><a href="../2022-01-polonius/02-08-借用检查（三）-借债分析.html">（三）借债分析</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../2022-01-polonius/02-08-借用检查（三）-借债分析-原始规则.html">(1) 原始规则</a></li><li class="chapter-item expanded "><div>(2) 位置无关规则</div></li><li class="chapter-item expanded "><div>(3) 优化规则</div></li></ol></li></ol></li><li class="chapter-item expanded "><li class="part-title">2021-09</li><li class="chapter-item expanded "><a href="../2021-09-ghost-cell/09-03-ghost-cell.html">Ghost Cell试用体验</a></li><li class="chapter-item expanded affix "><li class="part-title">2021-01</li><li class="chapter-item expanded "><a href="../2021-01-proc-macro/00.html">Rust过程宏入门系列</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../2021-01-proc-macro/01-06-过程宏（一）-过程宏简介.html">（一）过程宏简介</a></li><li class="chapter-item expanded "><a href="../2021-01-proc-macro/01-07-过程宏（二）-初探派生宏.html">（二）初探派生宏</a></li><li class="chapter-item expanded "><a href="../2021-01-proc-macro/01-10-过程宏（三）-实现简易派生宏.html">（三）实现简易派生宏</a></li><li class="chapter-item expanded "><a href="../2021-01-proc-macro/01-16-过程宏（四）-遍历结构体字段.html">（四）遍历结构体字段</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -154,21 +154,21 @@
 <li><code>Mid</code>：执行该语句时。</li>
 </ul>
 <h3 id="loan"><a class="header" href="#loan"><code>Loan</code></a></h3>
-<p>借用发生处，对应Rust中的借用（borrow）概念。如<code>let y = &amp;x;</code>中的<code>&amp;x</code>。</p>
+<p>借债，对应Rust中的借用（borrow）概念。如<code>let y = &amp;x;</code>中的<code>&amp;x</code>。</p>
 <h3 id="origin"><a class="header" href="#origin"><code>Origin</code></a></h3>
 <p>借用源，对应Rust中的生存期（lifetime）概念。如<code>let x: &amp;'a i32;</code>中的<code>'a</code>。</p>
 <p><code>Origin</code>应理解为「所有引用到该<code>Origin</code>的<code>Loan</code>集合」。</p>
 <h2 id="输入事实allfacts"><a class="header" href="#输入事实allfacts">输入事实（<code>AllFacts</code>）</a></h2>
-<p>输入来源于MIR。主要包含CFG的执行到达关系图；变量的赋值、移动、访问情况；借用的定义、清除、失效信息；因借用产生、或外部定义的笁存期及其约束条件等信息。</p>
+<p>输入来源于MIR。主要包含CFG的执行到达关系图；变量的赋值、移动、访问情况；借债的发生、清除、失效信息；因借用产生、或外部定义的笁存期及其约束条件等信息。</p>
 <h3 id="cfg_edge"><a class="header" href="#cfg_edge"><code>cfg_edge</code></a></h3>
-<p><code>cfg_edge(Point1, Point2)</code>，一条控制流图的边，表示<code>Point1</code>的下一条执行点为<code>Point2</code>。</p>
+<p><code>cfg_edge(SourcePoint, TargetPoint)</code>，一条控制流图的边，表示<code>SourcePoint</code>的下一条执行点为<code>TargetPoint</code>。</p>
 <h3 id="loan_issued_at"><a class="header" href="#loan_issued_at"><code>loan_issued_at</code></a></h3>
-<p><code>loan_issued_at(Origin, Loan, Point)</code>表示在位置<code>Point</code>处发生了借用<code>Loan</code>，其生存期为<code>Origin</code>。</p>
+<p><code>loan_issued_at(Origin, Loan, Point)</code>表示在位置<code>Point</code>处发生了借债<code>Loan</code>，其生存期为<code>Origin</code>。</p>
 <h3 id="placeholder与universal_region"><a class="header" href="#placeholder与universal_region"><code>placeholder</code>（与<code>universal_region</code>）</a></h3>
-<p><code>placeholder(Origin, Loan)</code>表示外部定义的生存期（如<code>fn max&lt;'a&gt;(a: &amp;'a str, b: &amp;'a str) -&gt; &amp;'a str</code>中的<code>'a</code>，及期关联的<code>Loan</code>。这些生存期也是函数签名的一部份。另外，由于它的<code>Loan</code>对借用检查而言是未知的，不能作任何假设，因此称之为「占位符」（placeholder）。</p>
+<p><code>placeholder(Origin, Loan)</code>表示外部定义的生存期（如<code>fn max&lt;'a&gt;(a: &amp;'a str, b: &amp;'a str) -&gt; &amp;'a str</code>中的<code>'a</code>，及期关联的<code>Loan</code>。这些生存期也是函数签名的一部份。另外，由于它的<code>Loan</code>对借债检查而言是未知的，不能作任何假设，因此称之为「占位符」（placeholder）。</p>
 <p><code>universal_region(Origin)</code>与<code>placeholder</code>类似，单指由函数签名定义的生存期，不带具体的<code>Loan</code>。</p>
 <h3 id="loan_killed_at"><a class="header" href="#loan_killed_at"><code>loan_killed_at</code></a></h3>
-<p><code>loan_killed_at(Loan, Point)</code>指某个借用<code>Loan</code>在位置<code>Point</code>处被清除。表明该借用<code>Loan</code>对应的路径<code>Path</code>在<code>Point</code>处被赋值或覆写。</p>
+<p><code>loan_killed_at(Loan, Point)</code>指某个借债<code>Loan</code>在位置<code>Point</code>处被清除。表明该借债<code>Loan</code>对应的路径<code>Path</code>在<code>Point</code>处被赋值或覆写。</p>
 <p>例如</p>
 <pre><pre class="playground"><code class="language-rust edition2021">
 <span class="boring">#![allow(unused)]
@@ -182,14 +182,14 @@ q = &amp;mut b; // L0被清除
 // 此后，`q`与`r`可以继续使用
 <span class="boring">}
 </span></code></pre></pre>
-<p><code>q</code>再次赋值后，Loan <code>L0</code> 被清除。Rustc在进入借用检查之前会将这样的关系计算好，保存在<code>loan_killed_at</code>中。之后，在借用检查分析时，<code>loan_killed_at</code>中的<code>Point</code>将阻止相应的<code>Loan</code>在CFG中传播。</p>
+<p><code>q</code>再次赋值后，Loan <code>L0</code> 被清除。Rustc在进入借用检查之前会将这样的关系计算好，保存在<code>loan_killed_at</code>中。之后，在<a href="./02-08-%E5%80%9F%E7%94%A8%E6%A3%80%E6%9F%A5%EF%BC%88%E4%B8%89%EF%BC%89-%E5%80%9F%E5%80%BA%E5%88%86%E6%9E%90.html">借债分析</a>时，<code>loan_killed_at</code>中的<code>Point</code>将阻止相应的<code>Loan</code>在CFG中传播。</p>
 <h3 id="subset_base"><a class="header" href="#subset_base"><code>subset_base</code></a></h3>
-<p><code>subset_base(Origin1, Origin2, Point)</code>表示，在位置<code>Point</code>处，有一条<code>Origin1: Origin2</code>的约束（即<code>Origin1</code>应当长存于（outlives）<code>Origin2</code>。</p>
+<p><code>subset_base(SubOrigin, Origin, Point)</code>表示，在位置<code>Point</code>处，有一条<code>SubOrigin: Origin</code>的约束（即<code>SubOrigin</code>应当长存于（outlives）<code>Origin</code>。</p>
 <h3 id="loan_invalidated_at"><a class="header" href="#loan_invalidated_at"><code>loan_invalidated_at</code></a></h3>
 <p><code>loan_invalidated_at(Point, Loan)</code>表明在<code>Point</code>处失效。</p>
-<p>借用有共享（shared）与可变（mutable）两种。共享借用只能用于读取，不能写入或修改；可变借用必须独占，保证不能有对同一Path的借用。否则，视为借用失效，将保存在<code>loan_invalidated_at</code>关系中。</p>
+<p>借用有共享（shared）与可变（mutable）两种。共享借用只能用于读取，不能写入或修改；可变借用必须独占，保证不能有对同一Path的借用。否则，视为借用失效，失效的借债将保存在<code>loan_invalidated_at</code>关系中。</p>
 <h3 id="known_placeholder_subset"><a class="header" href="#known_placeholder_subset"><code>known_placeholder_subset</code></a></h3>
-<p><code>known_placeholder_subset(Origin1, Origin2)</code>用于表示函数签名处定义的生存期约束。</p>
+<p><code>known_placeholder_subset(SubOrigin, Origin)</code>用于表示函数签名处定义的生存期约束。</p>
 
                     </main>
 

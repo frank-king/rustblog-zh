@@ -77,7 +77,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="../overview.html">序言</a></li><li class="chapter-item expanded affix "><li class="part-title">2022-01</li><li class="chapter-item expanded "><a href="../2022-01-polonius/00.html">Polonius学习笔记</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../2022-01-polonius/01-21-借用检查（零）-原子式与输入.html">（零）原子式与输入</a></li><li class="chapter-item expanded "><a href="../2022-01-polonius/01-21-借用检查（一）-初始化分析.html">（一）初始化分析</a></li><li class="chapter-item expanded "><a href="../2022-01-polonius/01-23-借用检查（二）-存活性分析.html" class="active">（二）存活性分析</a></li><li class="chapter-item expanded "><div>（三）借用检查分析</div></li></ol></li><li class="chapter-item expanded "><li class="part-title">2021-09</li><li class="chapter-item expanded "><a href="../2021-09-ghost-cell/09-03-ghost-cell.html">Ghost Cell试用体验</a></li><li class="chapter-item expanded affix "><li class="part-title">2021-01</li><li class="chapter-item expanded "><a href="../2021-01-proc-macro/00.html">Rust过程宏入门系列</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../2021-01-proc-macro/01-06-过程宏（一）-过程宏简介.html">（一）过程宏简介</a></li><li class="chapter-item expanded "><a href="../2021-01-proc-macro/01-07-过程宏（二）-初探派生宏.html">（二）初探派生宏</a></li><li class="chapter-item expanded "><a href="../2021-01-proc-macro/01-10-过程宏（三）-实现简易派生宏.html">（三）实现简易派生宏</a></li><li class="chapter-item expanded "><a href="../2021-01-proc-macro/01-16-过程宏（四）-遍历结构体字段.html">（四）遍历结构体字段</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../overview.html">序言</a></li><li class="chapter-item expanded affix "><li class="part-title">2022-01</li><li class="chapter-item expanded "><a href="../2022-01-polonius/00.html">Polonius学习笔记</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../2022-01-polonius/01-21-借用检查（零）-原子式与输入.html">（零）原子式与输入</a></li><li class="chapter-item expanded "><a href="../2022-01-polonius/01-21-借用检查（一）-初始化分析.html">（一）初始化分析</a></li><li class="chapter-item expanded "><a href="../2022-01-polonius/01-23-借用检查（二）-存活性分析.html" class="active">（二）存活性分析</a></li><li class="chapter-item expanded "><a href="../2022-01-polonius/02-08-借用检查（三）-借债分析.html">（三）借债分析</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../2022-01-polonius/02-08-借用检查（三）-借债分析-原始规则.html">(1) 原始规则</a></li><li class="chapter-item expanded "><div>(2) 位置无关规则</div></li><li class="chapter-item expanded "><div>(3) 优化规则</div></li></ol></li></ol></li><li class="chapter-item expanded "><li class="part-title">2021-09</li><li class="chapter-item expanded "><a href="../2021-09-ghost-cell/09-03-ghost-cell.html">Ghost Cell试用体验</a></li><li class="chapter-item expanded affix "><li class="part-title">2021-01</li><li class="chapter-item expanded "><a href="../2021-01-proc-macro/00.html">Rust过程宏入门系列</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../2021-01-proc-macro/01-06-过程宏（一）-过程宏简介.html">（一）过程宏简介</a></li><li class="chapter-item expanded "><a href="../2021-01-proc-macro/01-07-过程宏（二）-初探派生宏.html">（二）初探派生宏</a></li><li class="chapter-item expanded "><a href="../2021-01-proc-macro/01-10-过程宏（三）-实现简易派生宏.html">（三）实现简易派生宏</a></li><li class="chapter-item expanded "><a href="../2021-01-proc-macro/01-16-过程宏（四）-遍历结构体字段.html">（四）遍历结构体字段</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -141,7 +141,7 @@
                     <main>
                         <h1 id="存活性分析"><a class="header" href="#存活性分析">存活性分析</a></h1>
 <p>写于2022年1月23日。最后更新于2022年2月7日。</p>
-<p>存活性分析主要计算出在MIR的各个位置处有哪些借用源（Origin）存活，用于下一阶段的借用分析。</p>
+<p>存活性分析主要计算出在MIR的各个位置处有哪些借用源（Origin）存活，用于下一阶段的借债分析。</p>
 <h2 id="输入"><a class="header" href="#输入">输入</a></h2>
 <h4 id="1-普通变量的定义使用丢弃情况"><a class="header" href="#1-普通变量的定义使用丢弃情况">1. 普通变量的定义、使用、丢弃情况。</a></h4>
 <pre><code class="language-prolog">.decl var_defined_at(Variable, Point)
@@ -158,7 +158,7 @@
 let b: &amp;'b i32 = &amp;a;
 </code></pre>
 <p>其中<code>b</code>变量将关联到借用源<code>'b</code>。</p>
-<p>另外还有丢弃时借用源（TODO）。</p>
+<p>另外还有丢弃时关联借用源（详见<a href="#3-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%8C%BA%E5%88%86drop_of_var_derefs_origin%E4%B8%8Euse_of_var_derefs_origin">思考3</a>）。</p>
 <pre><code class="language-prolog">.decl drop_of_var_derefs_origin(Variable, Origin)
 .decl use_of_var_derefs_origin (Variable, Origin)
 
@@ -176,7 +176,7 @@ var_live_on_entry(Variable, SourcePoint) :-
     cfg_edge(SourcePoint, TargetPoint),
     !var_defined(Variable, SourcePoint).
 </code></pre>
-<h4 id="2-将变量的半初始化状态沿cfg传递"><a class="header" href="#2-将变量的半初始化状态沿cfg传递">2. 将变量的半初始化状态沿CFG传递。</a></h4>
+<h4 id="2-将变量的半初始化状态沿cfg传播"><a class="header" href="#2-将变量的半初始化状态沿cfg传播">2. 将变量的半初始化状态沿CFG传播。</a></h4>
 <pre><code class="language-prolog">var_maybe_partly_initialized_on_entry(Variable, TargetPoint) :-
     var_maybe_partly_initialized_on_exit(Variable, SourcePoint),
     cfg_edge(SourcePoint, TargetPoint).
@@ -206,7 +206,7 @@ var_live_on_entry(Variable, SourcePoint) :-
 </code></pre>
 <h2 id="思考部份内容来自zulip的讨论"><a class="header" href="#思考部份内容来自zulip的讨论">思考（部份内容来自<a href="https://zulip-archive.rust-lang.org/stream/186049-t-compiler/wg-polonius/topic/Newcomer.2C.20trying.20to.20help.3F.html">Zulip的讨论</a>）</a></h2>
 <h4 id="1-既然已经有基于路径的一些输入事实如path_assigned_atpath_accessed_atpath_moved_at等并且也有path_is_var能与变量对应起来为什么还需要基于变量的输入事实呢如var_used_atvar_dropped_atvar_defined_at等"><a class="header" href="#1-既然已经有基于路径的一些输入事实如path_assigned_atpath_accessed_atpath_moved_at等并且也有path_is_var能与变量对应起来为什么还需要基于变量的输入事实呢如var_used_atvar_dropped_atvar_defined_at等">1. 既然已经有基于路径的一些输入事实（如<code>path_assigned_at</code>、<code>path_accessed_at</code>、<code>path_moved_at</code>等），并且也有<code>path_is_var</code>能与变量对应起来，为什么还需要基于变量的输入事实呢（如<code>var_used_at</code>、<code>var_dropped_at</code>、<code>var_defined_at</code>等）？</a></h4>
-<p>第一阶段的初始化分析，与具体的字段相关；而第二阶段的存活性分析与第三阶段的借用分析都只与变量相关。对存活性分析而言，变量相关的输入事实是必须的、而字段相关的输入信息是可选的，后续可能移除字段相关的输入，但变量相关的输入不会变。</p>
+<p>第一阶段的初始化分析，与具体的字段相关；而第二阶段的存活性分析与第三阶段的借债分析都只与变量相关。对存活性分析而言，变量相关的输入事实是必须的、而字段相关的输入信息是可选的，后续可能移除字段相关的输入，但变量相关的输入不会变。</p>
 <p>具体的区别有：</p>
 <p>(1) <code>path_assigned_at</code>与<code>var_defined_at</code></p>
 <ul>
@@ -225,7 +225,7 @@ var_live_on_entry(Variable, SourcePoint) :-
 <li><code>path_assigned_at</code>还包含进入函数时，对入参的初始化赋值。</li>
 </ul>
 <p>在<a href="./01-21-%E5%80%9F%E7%94%A8%E6%A3%80%E6%9F%A5%EF%BC%88%E4%B8%80%EF%BC%89-%E5%88%9D%E5%A7%8B%E5%8C%96%E5%88%86%E6%9E%90.html">初始化分析</a>中，当某些函数调用发生了<code>panic</code>时，其返回值不会被初始化，因此<code>path_assigned_at</code>发生在执行成功后下一条语句之前。</p>
-<p>但存活性分析及后续的借用分析，并不在意在发生<code>panic</code>后变量是否处于未初始化状态。</p>
+<p>但存活性分析及后续的借债分析，并不在意在发生<code>panic</code>后变量是否处于未初始化状态。</p>
 <ul>
 <li>对于<code>var_live_on_entry</code>而言，在某条赋值语句（如<code>_3 = may_panic() [return -&gt; bb1; unwind -&gt; bb2]</code>）发生<code>panic</code>后，其「清理」路径（从<code>bb2</code>开始，依次丢弃已初始化的变量）并不会使用到该变量（<code>_3</code>），也不会产生相应的<code>var_defined_at</code>事实，因此即使发生了<code>panic</code>，产生的<code>var_defined_at</code>在<code>unwind</code>过程中并不会产生<code>var_live_on_entry</code>事实，所以此处的<code>var_defined_at</code>不需要像<code>path_assigned_at</code>那样，必须发生在非<code>unwind</code>分支的入口处。</li>
 <li>对于<code>var_drop_live_on_entry</code>而言，具体由于<code>unwind</code>过程中可能产生<code>var_dropped_at</code>事实，因此有可能影响到<code>var_drop_live_on_entry</code>，所以具体情况有待进一步实验验证。</li>
@@ -273,7 +273,7 @@ impl&lt;T&gt; Drop for Wrapped&lt;T&gt; {
 </code></pre>
 <p>则不产生<code>drop_of_var_derefs_origin</code>事实，因而后面<code>v[0] += 1</code>也视为合法。</p>
 <h4 id="4-为什么var_drop_live_on_entry要包含var_maybe_partly_initialized_on_entry的信息"><a class="header" href="#4-为什么var_drop_live_on_entry要包含var_maybe_partly_initialized_on_entry的信息">4. 为什么<code>var_drop_live_on_entry</code>要包含<code>var_maybe_partly_initialized_on_entry</code>的信息？</a></h4>
-<p>即使变量出作用域时已被移动，而原始的MIR中仍然包含相应的<code>drop</code>语句。Polonius引擎（包括此前的借用分析引擎）手动过滤了所有的「移动后丢弃」语句。但变量变量在部份移动后，开始处于「丢弃前存活」的状态，且部份丢弃的变量不会产生<code>var_dropped_at</code>事实，因此需要<code>var_maybe_partly_initialized_on_exit</code>来补上变量的部份移动信息。</p>
+<p>即使变量出作用域时已被移动，而原始的MIR中仍然包含相应的<code>drop</code>语句。Polonius引擎（包括此前的借用检查引擎）手动过滤了所有的「移动后丢弃」语句。但变量变量在部份移动后，开始处于「丢弃前存活」的状态，且部份丢弃的变量不会产生<code>var_dropped_at</code>事实，因此需要<code>var_maybe_partly_initialized_on_exit</code>来补上变量的部份移动信息。</p>
 
                     </main>
 
@@ -282,7 +282,7 @@ impl&lt;T&gt; Drop for Wrapped&lt;T&gt; {
                             <a rel="prev" href="../2022-01-polonius/01-21-借用检查（一）-初始化分析.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
-                            <a rel="next" href="../2021-09-ghost-cell/09-03-ghost-cell.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="../2022-01-polonius/02-08-借用检查（三）-借债分析.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         <div style="clear: both"></div>
@@ -294,7 +294,7 @@ impl&lt;T&gt; Drop for Wrapped&lt;T&gt; {
                     <a rel="prev" href="../2022-01-polonius/01-21-借用检查（一）-初始化分析.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
-                    <a rel="next" href="../2021-09-ghost-cell/09-03-ghost-cell.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="../2022-01-polonius/02-08-借用检查（三）-借债分析.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
