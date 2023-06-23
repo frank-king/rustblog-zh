@@ -1,0 +1,331 @@
+<!DOCTYPE HTML>
+<html lang="zh" class="sidebar-visible no-js ayu">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>RustBelt——Rust语言的形式化语义模型 - Rust中文博客</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "ayu";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('ayu')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../overview.html">序言</a></li><li class="chapter-item expanded affix "><li class="part-title">2023-06</li><li class="chapter-item expanded "><a href="../2023-06-rustbelt/00.html" class="active">RustBelt——Rust语言的形式化语义模型</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../2023-06-rustbelt/01-background.html">（零）背景</a></li><li class="chapter-item expanded "><a href="../2023-06-rustbelt/02-logics.html">（一）形式化逻辑基础</a></li><li class="chapter-item expanded "><a href="../2023-06-rustbelt/03-rust-semantics.html">（二）Rust语义模型</a></li><li class="chapter-item expanded "><a href="../2023-06-rustbelt/04-rc.html">（三）示例Rc</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">2022-01</li><li class="chapter-item expanded "><a href="../2022-01-polonius/00.html">Polonius学习笔记</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../2022-01-polonius/01-21-借用检查（零）-原子式与输入.html">（零）原子式与输入</a></li><li class="chapter-item expanded "><a href="../2022-01-polonius/01-21-借用检查（一）-初始化分析.html">（一）初始化分析</a></li><li class="chapter-item expanded "><a href="../2022-01-polonius/01-23-借用检查（二）-存活性分析.html">（二）存活性分析</a></li><li class="chapter-item expanded "><a href="../2022-01-polonius/02-08-借用检查（三）-借债分析.html">（三）借债分析</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../2022-01-polonius/02-08-借用检查（三）-借债分析-原始规则.html">(1) 原始规则</a></li><li class="chapter-item expanded "><a href="../2022-01-polonius/02-19-借用检查（三）-借债分析-位置无关规则.html">(2) 位置无关规则</a></li><li class="chapter-item expanded "><div>(3) 优化规则</div></li></ol></li></ol></li><li class="chapter-item expanded "><li class="part-title">2021-09</li><li class="chapter-item expanded "><a href="../2021-09-ghost-cell/09-03-ghost-cell.html">Ghost Cell试用体验</a></li><li class="chapter-item expanded affix "><li class="part-title">2021-01</li><li class="chapter-item expanded "><a href="../2021-01-proc-macro/00.html">Rust过程宏入门系列</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../2021-01-proc-macro/01-06-过程宏（一）-过程宏简介.html">（一）过程宏简介</a></li><li class="chapter-item expanded "><a href="../2021-01-proc-macro/01-07-过程宏（二）-初探派生宏.html">（二）初探派生宏</a></li><li class="chapter-item expanded "><a href="../2021-01-proc-macro/01-10-过程宏（三）-实现简易派生宏.html">（三）实现简易派生宏</a></li><li class="chapter-item expanded "><a href="../2021-01-proc-macro/01-16-过程宏（四）-遍历结构体字段.html">（四）遍历结构体字段</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu (default)</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust中文博客</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/frank-king/rustblog-zh" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="rustbeltrust语言的形式化语义模型"><a class="header" href="#rustbeltrust语言的形式化语义模型">RustBelt——Rust语言的形式化语义模型</a></h1>
+<p>本文根据Rust China Conf 2023大会上的议题《RustBelt - Rust的形式化语义模型》转录而成，转录于2023年6月23日．</p>
+<p>其中，带*号的部分在会中因时间关系，未提及．</p>
+<p><img src="images/outline.png" alt="Outline" /></p>
+<h2 id="目录"><a class="header" href="#目录">目录</a></h2>
+<ul>
+<li><a href="01-background.html">背景</a>
+<ul>
+<li><a href="01-background.html#rustbelt%E9%A1%B9%E7%9B%AE%E7%AE%80%E4%BB%8B">RustBelt项目简介</a></li>
+<li><a href="01-background.html#rust%E7%B1%BB%E5%9E%8B%E4%B8%80%E8%A7%88">Rust类型一览</a></li>
+</ul>
+</li>
+<li><a href="02-logics.html">形式化逻辑基础</a>
+<ul>
+<li><a href="02-logics.html#%E9%9C%8D%E5%B0%94%E9%80%BB%E8%BE%91hoare-logic">霍尔逻辑（Hoare Logic）</a></li>
+<li><a href="02-logics.html#%E5%88%86%E7%A6%BB%E9%80%BB%E8%BE%91separation-logic-iris">分离逻辑（Separation Logic (Iris)）</a></li>
+</ul>
+</li>
+<li><a href="03-rust-semantics.html">Rust语义模型</a>
+<ul>
+<li><a href="03-rust-semantics.html#-lambda_textrmrust-%E7%9A%84%E7%B1%BB%E5%9E%8B%E7%B3%BB%E7%BB%9F%E9%83%A8%E5%88%86">\( \lambda_\textrm{Rust} \)的类型系统（部分）</a></li>
+<li><a href="03-rust-semantics.html#%E7%B1%BB%E5%9E%8B%E7%9A%84-textown--predict">类型的\( \text{own} \) Predict</a></li>
+<li><a href="03-rust-semantics.html#%E7%B1%BB%E5%9E%8B%E7%9A%84-textsize-%E5%B1%9E%E6%80%A7">类型的\( \text{size} \)属性*</a></li>
+<li><a href="03-rust-semantics.html#%E7%8B%AC%E5%8D%A0%E6%89%80%E6%9C%89%E6%9D%83exclusive-ownership%E4%B8%8E%E5%8F%AF%E5%8F%98%E5%80%9F%E7%94%A8">独占所有权（Exclusive Ownership）与可变借用</a></li>
+<li><a href="03-rust-semantics.html#%E7%94%9F%E5%AD%98%E6%9C%9Flifetime">生存期（Lifetime）*</a></li>
+</ul>
+</li>
+<li><a href="04-rc.html">示例<code>Rc</code></a>
+<ul>
+<li><a href="04-rc.html#rc%E7%9A%84%E8%AF%AD%E4%B9%89%E6%A8%A1%E5%9E%8B"><code>Rc</code>的语义模型</a></li>
+<li><a href="04-rc.html#rc%E7%9A%84%E5%AE%9E%E7%8E%B0"><code>Rc</code>的实现</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="现场问答环节"><a class="header" href="#现场问答环节">现场问答环节</a></h2>
+<h3 id="问题rustbelt可否在实际工程项目中用于证明代码的正确性"><a class="header" href="#问题rustbelt可否在实际工程项目中用于证明代码的正确性">问题：RustBelt可否在实际工程项目中用于证明代码的正确性？</a></h3>
+<p><strong>回答</strong>：可以但不建议．</p>
+<p>RustBelt的主要目标是标准库，因为标准库中存在大量的<code>unsafe</code>代码，只有通过Iris定义的系列语法及语义规则，才能证明其健全性．</p>
+<p>由于在RustBelt已经证明所有的\( \lambda_\text{Rust} \)的程序只要通过类型检查，也能满足语义上的约束，因此如果要证明某个库的实现是健全的，
+需将其Rust MIR代码翻译为\( \lambda_\text{Rust} \)然后证明能通过类型检查，则该库的实现可以认为是健全的．<sup class="footnote-reference"><a href="#sound">1</a></sup></p>
+<p>Rust社区中还有两个可用于工程中的形式化验证工具，<a href="https://model-checking.github.io/kani/getting-started.html">Kani</a>与
+<a href="https://github.com/xldenis/creusot">Creusot</a>．与RustBelt不同的是（笔者本人的理解）：</p>
+<ul>
+<li>Kani与Creusot主要用于验证程序的逻辑正确性；而RustBelt主要关注内存安全性与线程安全性，三者应用场景不同．</li>
+<li>Kani依赖Rust编译器及其标准库本身的正确性；而RustBelt无此假设，可用于验证包含标准库在内的所有\( \lambda_\text{Rust} \)程序的正确性；
+Creusot的实现经过了<a href="https://dl.acm.org/doi/10.1145/3519939.3523704">RustHornBelt</a>的形式化验证，因此可认为不依赖Rust本身的正确性．</li>
+<li>Kani支持部分<code>unsafe</code>代码的验证（仅限于能通过逻辑正确性检查出来的错误，如数组下标越界等；
+Creusot目前<a href="https://github.com/xldenis/creusot/issues/36">不支持<code>unsafe</code>代码验证</a>；
+RustBelt由于代码都基于MIR转写，因此支持<code>unsafe</code>代码．</li>
+<li>Kani目前<a href="https://github.com/model-checking/kani/issues/313">不支持并发代码验证</a>；Creusot未知；
+RustBelt由于支持线程安全检查，因而也支持并发代码验证．</li>
+</ul>
+<p>可根据不同的场景选用不同的形式化验证工具．</p>
+<div class="footnote-definition" id="sound"><sup class="footnote-definition-label">1</sup>
+<p>实际上离程序真正的正确性还有一定距离，因为从Rust MIR到\( \lambda_\text{Rust} \)会丢失一些实现细节．</p>
+</div>
+<h4 id="kani简介"><a class="header" href="#kani简介">Kani简介*</a></h4>
+<p>Kani使用<a href="https://en.wikipedia.org/wiki/Model_checking"><strong>模型检查</strong></a>（Model Checking）方法，需要手动编写类似单元测试的验证用例，Kani求解器
+会遍历状态空间树以检查验证用例是否正确．若不正确，将报告反例分支．</p>
+<p>如文档中的示例代码所示</p>
+<pre><code class="language-rust ignore">fn estimate_size(x: u32) -&gt; u32 {
+    if x &lt; 256 {
+        if x &lt; 128 {
+            return 1;
+        } else {
+            return 3;
+        }
+    } else if x &lt; 1024 {
+        if x &gt; 1022 {
+            panic!(&quot;Oh no, a failing corner case!&quot;);
+        } else {
+            return 5;
+        }
+    } else {
+        if x &lt; 2048 {
+            return 7;
+        } else {
+            return 9;
+        }
+    }
+}
+</code></pre>
+<p>验证用例的写法如下</p>
+<pre><code class="language-rust ignore">#[cfg(kani)]
+#[kani::proof]
+fn check_estimate_size() {
+    let x: u32 = kani::any();
+    estimate_size(x);
+}
+</code></pre>
+<p>Kani求解器将从<code>kani::any::&lt;u32&gt;()</code>的任意状态开始，遍历求解<code>estimate_size</code>函数并最终找到反例分支</p>
+<pre><code class="language-bash">$ cargo kani
+[...]
+Runtime decision procedure: 0.00116886s
+
+RESULTS:
+Check 3: estimate_size.assertion.1
+         - Status: FAILURE
+         - Description: &quot;Oh no, a failing corner case!&quot;
+[...]
+VERIFICATION:- FAILED
+</code></pre>
+<h4 id="creusot简介"><a class="header" href="#creusot简介">Creusot简介*</a></h4>
+<p>Creusot同样基于模型检查方法，但与Kani有所不同的是，可直接在程序中，为函数或特质接口，以过程宏的方式标注类似于霍尔逻辑的前置条件及后置条件．
+Creusot会将带有前置条件与后置条件的代码翻译为WhyML，然后调用why3求解器验证函数实现的正确性．</p>
+<p>如以下代码为求解<code>1 + 2 + ... + n</code>的值．</p>
+<pre><code class="language-rust ignore">use creusot_contracts::*;
+
+#[requires(n@ &lt; 1000)]
+#[ensures(result@ == n@ * (n@ + 1) / 2)]
+pub fn sum_first_n(n: u32) -&gt; u32 {
+    let mut sum = 0;
+    #[invariant(sum@ == produced.len() * (produced.len() + 1) / 2)]
+    for i in 1..=n {
+        sum += i;
+    }
+    sum
+}
+</code></pre>
+<p>其中<code>#[requres(n@ &lt; 1000)</code>为函数的前置条件（<code>n@</code>表示<code>n</code>在函数运行前的值），<code>#[ensures(result@ == n@ * (n@ + 1) / 2)]</code>为函数的后置条件．</p>
+<p>特别地，程序中的<code>for</code>循环需要专门指定循环不变量（Invariant），即每一轮循环结束时都需要满足的条件．</p>
+<p>代码中的<code>#[invariant(sum@ == produced.len() * (produced.len() + 1) / 2)]</code>表示每一轮循环结束后，<code>sum</code>的值都为前<code>i</code>项的和．</p>
+<h3 id="问题-lambda_textrust-中的-mathbfint-类型为任意长度的整型是否可以使用固定字长的类型例如i8"><a class="header" href="#问题-lambda_textrust-中的-mathbfint-类型为任意长度的整型是否可以使用固定字长的类型例如i8">问题：\( \lambda_\text{Rust} \)中的\( \mathbf{int} \)类型为任意长度的整型，是否可以使用固定字长的类型（例如<code>i8</code>）？</a></h3>
+<p><strong>回答</strong>：可以．</p>
+<p>仿照\( \mathbf{int} \)的定义，可以类似地定义\( \mathbf{int}8 \)如下
+\[
+\begin{array}{ll}
+[\![ \mathbf{int}8 ]\!].\!\text{size} &amp; \mathrel{\mathop:}= 1 \\
+[\![ \mathbf{int}8 ]\!].\!\text{own}(\bar{v}) &amp;
+\mathrel{\mathop:}= \; \exists z \in \mathbb{Z} \cap \left[ -2^7, 2^7 \right). \bar{v} = [z]
+\end{array}
+\]
+即为\( \mathbf{int} \)类型增加\( \left[ -2^7, 2^7 \right) \)的约束，再为\( \mathbf{int}8 \)类型实现相应的算术计算如
+\[
+\begin{array}{l}
+\text{add_i8} : \mathbf{int}8 \times \mathbf{int}8 \to \mathbf{int}8 \mathrel{\mathop:}= 
+\lambda (a, b). \; (a + b + 2^8) \!\! \mod \! 2^7 - 2^7 \\ 
+\text{sub_i8} : \mathbf{int}8 \times \mathbf{int}8 \to \mathbf{int}8 \mathrel{\mathop:}=
+\lambda (a, b). \; (a - b + 2^8) \!\! \mod \! 2^7 - 2^7
+\end{array}
+\]
+即可．</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../overview.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../2023-06-rustbelt/01-background.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../overview.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../2023-06-rustbelt/01-background.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="https://utteranc.es/client.js"
+                repo="frank-king/rustblog-zh"
+                issue-term="title"
+                theme="github-dark"
+                crossorigin="anonymous"
+                async>
+        </script>
+
+    </body>
+</html>

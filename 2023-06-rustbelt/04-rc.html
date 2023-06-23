@@ -1,0 +1,430 @@
+<!DOCTYPE HTML>
+<html lang="zh" class="sidebar-visible no-js ayu">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>（三）示例Rc - Rust中文博客</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "ayu";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('ayu')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../overview.html">序言</a></li><li class="chapter-item expanded affix "><li class="part-title">2023-06</li><li class="chapter-item expanded "><a href="../2023-06-rustbelt/00.html">RustBelt——Rust语言的形式化语义模型</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../2023-06-rustbelt/01-background.html">（零）背景</a></li><li class="chapter-item expanded "><a href="../2023-06-rustbelt/02-logics.html">（一）形式化逻辑基础</a></li><li class="chapter-item expanded "><a href="../2023-06-rustbelt/03-rust-semantics.html">（二）Rust语义模型</a></li><li class="chapter-item expanded "><a href="../2023-06-rustbelt/04-rc.html" class="active">（三）示例Rc</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">2022-01</li><li class="chapter-item expanded "><a href="../2022-01-polonius/00.html">Polonius学习笔记</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../2022-01-polonius/01-21-借用检查（零）-原子式与输入.html">（零）原子式与输入</a></li><li class="chapter-item expanded "><a href="../2022-01-polonius/01-21-借用检查（一）-初始化分析.html">（一）初始化分析</a></li><li class="chapter-item expanded "><a href="../2022-01-polonius/01-23-借用检查（二）-存活性分析.html">（二）存活性分析</a></li><li class="chapter-item expanded "><a href="../2022-01-polonius/02-08-借用检查（三）-借债分析.html">（三）借债分析</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../2022-01-polonius/02-08-借用检查（三）-借债分析-原始规则.html">(1) 原始规则</a></li><li class="chapter-item expanded "><a href="../2022-01-polonius/02-19-借用检查（三）-借债分析-位置无关规则.html">(2) 位置无关规则</a></li><li class="chapter-item expanded "><div>(3) 优化规则</div></li></ol></li></ol></li><li class="chapter-item expanded "><li class="part-title">2021-09</li><li class="chapter-item expanded "><a href="../2021-09-ghost-cell/09-03-ghost-cell.html">Ghost Cell试用体验</a></li><li class="chapter-item expanded affix "><li class="part-title">2021-01</li><li class="chapter-item expanded "><a href="../2021-01-proc-macro/00.html">Rust过程宏入门系列</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../2021-01-proc-macro/01-06-过程宏（一）-过程宏简介.html">（一）过程宏简介</a></li><li class="chapter-item expanded "><a href="../2021-01-proc-macro/01-07-过程宏（二）-初探派生宏.html">（二）初探派生宏</a></li><li class="chapter-item expanded "><a href="../2021-01-proc-macro/01-10-过程宏（三）-实现简易派生宏.html">（三）实现简易派生宏</a></li><li class="chapter-item expanded "><a href="../2021-01-proc-macro/01-16-过程宏（四）-遍历结构体字段.html">（四）遍历结构体字段</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu (default)</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust中文博客</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/frank-king/rustblog-zh" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="示例rc"><a class="header" href="#示例rc">示例<code>Rc</code></a></h1>
+<p>下面以<a href="https://doc.rust-lang.org/std/rc/struct.Rc.html"><code>Rc</code>类型</a>为例，介绍其语义模型与实现．</p>
+<h2 id="rc的语义模型"><a class="header" href="#rc的语义模型"><code>Rc</code>的语义模型</a></h2>
+<p><img src="images/rc-def.png" alt="Rc" /></p>
+<p>若不考虑弱引用，<code>Rc</code>的内存布局可以看作一个指针，指向一个含引用计数与承载数据的内存地址．</p>
+<p>在\( \lambda_\text{Rust} \)中，引入\( \mathbf{rc} \, \tau \)类型以代表<code>Rc&lt;T&gt;</code>类型，若按以下方式定义
+\[
+\begin{array}{lll}
+[\![ \mathbf{rc} \, \tau ]\!].\!\text{size}
+&amp; \mathrel{\mathop:}= 1 \\
+[\![ \mathbf{rc} \, \tau ]\!].\!\text{own}(\bar{v}) 
+&amp; \mathrel{\mathop:}= \, \exists \ell. \bar{v} = [\ell] 
+&amp; \bar{v} \text{是单个地址值} \ell \\
+&amp; \ast \, \exists c \in \mathbb{Z}_{+}, \bar{w}. \ell \mapsto c :: \bar{w}
+&amp; \ell \text{指向引用计数} c \text{与类型} \tau \text{的值} \bar{w} \\
+&amp; \ast \, ? &amp; \text{应当如何表示共享所有权的值的约束？}
+\end{array}
+\]
+（其中\(v :: l\)表示将值\(v\)插入列表\(l\)的首部而得的新列表），但这样的问题在于：</p>
+<ol>
+<li>\( \ell \mapsto c :: \bar{w} \)是独占所有权的，不能满足多个\( \mathbf{rc} \, \tau \)类型共享所有权的要求；</li>
+<li>考虑到引用计数的存在，并不能简单地用\( [\![ \tau ]\!].\!\text{own}(\bar{w}) \)来\( \bar{w} \)：
+<ul>
+<li>当\(c = 1\)时，\( \mathbf{rc} \, \tau \)表现为独占所有权，其语义与\( \mathbf{own} \, \tau \)类型一致；</li>
+<li>当\(c &gt; 1\)时，\( \mathbf{rc} \, \tau \)表现为共享所有权．</li>
+</ul>
+</li>
+</ol>
+<p>对于1，可以参考<a href="03-rust-semantics.html#%E7%94%9F%E5%AD%98%E6%9C%9Ftoken%E7%9A%84%E6%8B%86%E5%88%86">生存期token拆分</a>，为\( \ell \mapsto P \)赋予有理数份额\(q\)，
+即\( \ell \overset{q}{\mapsto} P \)以表达部分所有权的语义．所有权拆分的方式如下
+\[
+\forall q, q' \in \mathbb{Q}_1, \ell, P. q + q' \le 1 \implies
+\ell \overset{q + q'}{\longmapsto} P \; \ast\!-\!\ast \; (\ell \overset{q}{\mapsto} P) \ast (\ell \overset{q'}{\mapsto} P)
+\]</p>
+<h3 id="textshared_own-predict1"><a class="header" href="#textshared_own-predict1">\(\text{shared_own}\) Predict<sup class="footnote-reference"><a href="#shared-own">1</a></sup></a></h3>
+<p><img src="images/shared_own.png" alt="shared_own" /></p>
+<p>将\( \ell \mapsto c :: \bar{w} \)拆分为部分份额后，还须建立部分所有权份额\(q\)与引用计数\(c\)之间的约束．简单起见，引入
+\[ \text{shared_own} \mathrel{\mathop:}= SemType \times Loc \times List(Val) \times \mathbb{N}_{+} \times \mathbb{Q}_1 \to iProp \]
+再重新定义\( [\![ \mathbf{rc} \, \tau ]\!]\!.\!\text{own} \)如下
+\[
+\begin{array}{ll}
+[\![ \mathbf{rc} \, \tau ]\!]\!.\!\text{own}(\bar{v}) 
+&amp; \mathrel{\mathop:}= \, \exists \ell. \bar{v} = [\ell] \\
+&amp; \ast \, \exists c \in \mathbb{Z}_{+}, q \in \mathbb{Q}_1, \bar{w}. \ell \overset{q}{\mapsto} c :: \bar{w} \\
+&amp; \ast \, \text{shared_own}(\tau, \ell, \bar{w}, c, q)
+\end{array}
+\]</p>
+<p>考察引用计数\(c\)与部分所有权份额\(q\)的关系：</p>
+<ul>
+<li>当\(c = 1\)时，\(q = 1\)，且\( \mathbf{rc} \, \tau \)的语义与\( \mathbf{own} \, \tau \)一致，有
+\[
+\forall \tau, \ell, \bar{w}. \text{shared_own}(\tau, \ell, \bar{w}, 1, 1) \; \ast\!-\!\ast \;
+[\![ \tau ]\!].\!\text{own}(\bar{w}) \ast \, \mathsf{Dealloc}(\ell, 1 + [\![ \tau ]\!].\!\text{size})
+\]</li>
+<li>当引用计数\(c\)加一时，同时可将份额为\(q + q'\)的部分所有权拆分为两个更小份额\(q\)与\(q'\)的部分所有权
+\[
+\begin{array}{l}
+\forall q, q' \in \mathbb{Q}_1, c, c' \in \mathbb{Z}_{+}, \tau, \ell, \bar{w}. q + q' \le 1 \implies \\
+\quad \text{shared_own}(\tau, \ell, \bar{w}, c, q + q') \ast\!-\!\ast \\
+\quad \text{shared_own}(\tau, \ell, \bar{w}, c + 1, q) \\
+\quad \ast\, \text{shared_own}(\tau, \ell, \bar{w}, c + 1, q')
+\end{array}
+\]</li>
+<li>当\(c &gt; 1\)时，\( \mathbf{rc} \, \tau \)表现为共享所有权语义，该语义过于复杂，涉及Iris里面的高阶Ghost State的概念，此处暂不展开．</li>
+</ul>
+<div class="footnote-definition" id="shared-own"><sup class="footnote-definition-label">1</sup>
+<p>因模型简化需要，该实现相比RustBelt论文，省略了大量细节．</p>
+</div>
+<h2 id="rc的实现"><a class="header" href="#rc的实现"><code>Rc</code>的实现</a></h2>
+<p><img src="images/rc-impl.png" alt="Rc Implementations" /></p>
+<p>下面以<code>Rc</code>类型中最常用的两个函数<code>Rc::new</code>与<code>Rc::clone</code>为例，介绍如何使用\( \lambda_\text{Rust} \)验证其正确性．</p>
+<h3 id="rcnew的实现"><a class="header" href="#rcnew的实现"><code>Rc::new</code>的实现*</a></h3>
+<p><img src="images/rc-new.png" alt="Rc::new" /></p>
+<p><code>Rc::new</code>简化后的逻辑如下</p>
+<pre><code class="language-rust ignore">fn Rc::&lt;T&gt;::new(w: T) -&gt; Rc&lt;T&gt; {
+    let x = Box::new(Cons(1, w));
+    x.into()
+}
+</code></pre>
+<p>即先创建一个引用计数为<code>1</code>，值为<code>w</code>的<code>Box</code>，然后再将其转换为<code>Rc</code>（略去指针的实现细节，此处的类型转换可视为No-op）．</p>
+<p>求证：
+\[
+\big\lbrace [\![ \tau ]\!].\!\text{own}(\bar{w}) \big\rbrace 
+\; \mathbf{let} \, x = \text{Rc::new}(\bar{w}) \;
+\big\lbrace [\![ \mathbf{rc} \, \tau ]\!].\!\text{own}([x]) \big\rbrace
+\]</p>
+<p><strong>证明</strong>（概要）：</p>
+<p>展开\( \text{Rc::new} \)及\( [\![ \mathbf{rc} \, \tau ]\!].\!\text{own}([x]) \)得
+\[
+\begin{array}{lr}
+\big\lbrace [\![ \tau ]\!].\!\text{own}(\bar{w}) \big\rbrace \\
+\quad \mathbf{let} \, x = \text{Box::new}(1 :: \bar{w}) \, ; &amp; (1) \\
+\quad \mathbf{let} \, x = x.\!\text{into}() &amp; (2) \\
+\left\lbrace \begin{array}{l} 
+\exists c \in \mathbb{Z}_{+}, q \in \mathbb{Q}_1. \left( x \overset{q}{\mapsto} c :: \bar{w} \right) \ast \\
+\text{shared_own}(\tau, x, \bar{w}, c, q)
+\end{array} \right\rbrace &amp; (3)
+\end{array}
+\]
+对(1)应用\( [\![ \mathbf{own} \, \tau ]\!].\!\text{own} \)的定义，有
+\[
+\begin{array}{lr}
+\big\lbrace [\![ \tau ]\!].\!\text{own}(\bar{w}) \big\rbrace \\
+\quad \mathbf{let} \, x = \text{Box::new}(1 :: \bar{w}) \, ; \\
+\left\lbrace \begin{array}{l}
+(x \mapsto 1 :: \bar{w}) \ast [\![ \tau ]\!].\!\text{own}(\bar{w}) \, \ast \\
+\mathsf{Dealloc}(x, 1 + [\![ \tau ]\!].\!\text{size})
+\end{array} \right\rbrace &amp; (4)
+\end{array}
+\]
+对(2), (4)式应用\( \text{shared_own} \)的第一个性质，得
+\[
+\begin{array}{lr}
+\left\lbrace \begin{array}{l}
+(x \mapsto 1 :: \bar{w}) \ast [\![ \tau ]\!].\!\text{own}(\bar{w}) \, \ast \\
+\mathsf{Dealloc}(x, 1 + [\![ \tau ]\!].\!\text{size})
+\end{array} \right\rbrace &amp; (4) \\
+\quad \mathbf{let} \, x = x.\!\text{into}() &amp; (2) \\
+\left\lbrace \begin{array}{l}
+\left( x \overset{1}{\mapsto} 1 :: \bar{w} \right) \ast \text{shared_own}(\tau, x, \bar{w}, 1, 1)
+\end{array} \right\rbrace &amp; (5)
+\end{array}
+\]
+(5)式中令\(c = 1, q = 1\)得
+\[
+\begin{array}{lr}
+\left\lbrace \begin{array}{l}
+\exists q = 1, c = 1.
+\left( x \overset{q}{\mapsto} c :: \bar{w} \right) \ast \text{shared_own}(\tau, x, \bar{w}, c, q)
+\end{array} \right\rbrace &amp; (5')
+\end{array}
+\]
+(3)得证．\(\square\)</p>
+<h3 id="rcclone的实现"><a class="header" href="#rcclone的实现"><code>Rc::clone</code>的实现</a></h3>
+<p><img src="images/rc-clone-1.png" alt="Rc::clone" /></p>
+<p><code>Rc::clone</code>简化后的逻辑如下</p>
+<pre><code class="language-rust ignore">fn Rc::&lt;T&gt;::clone(x: &amp;Rc&lt;T&gt;) -&gt; Rc&lt;T&gt; { unsafe {
+    (*x).0 += 1;
+    let y = ptr::read(x);
+    y
+} }
+</code></pre>
+<p>即首先将其引用计数自增<code>1</code>，然后再将<code>x</code>的指针浅复制一份得到<code>y</code>．</p>
+<p>求证：
+\[
+\big\lbrace [\![ \mathbf{rc} \, \tau ]\!].\!\text{own}([x]) \big\rbrace 
+\; \mathbf{let} \, y = x.\!\text{clone}() \;
+\big\lbrace [\![ \mathbf{rc} \, \tau ]\!].\!\text{own}([x]) \ast [\![ \mathbf{rc} \, \tau ]\!].\!\text{own}([y]) \big\rbrace
+\]</p>
+<p><strong>证明</strong>（概要）：</p>
+<p>展开\( \text{Rc::clone} \)，\( [\![ \mathbf{rc} \, \tau ]\!].\!\text{own}([x]) \)
+及 \( [\![ \mathbf{rc} \, \tau ]\!].\!\text{own}([y]) \)得
+\[
+\begin{array}{lr}
+\left\lbrace \begin{array}{l}
+\exists c \in \mathbb{Z}_{+}, q \in \mathbb{Q}_1. \left( x \overset{q}{\mapsto} c :: \bar{w} \right) \ast \\
+\text{shared_own}(\tau, x, \bar{w}, c, q)
+\end{array} \right\rbrace &amp; (1) \\
+\quad ({\mbox*}x).0 \, +\!= 1 \, ; &amp; (2) \\
+\quad \mathbf{let} \, y = \text{ptr::read}(x) &amp; (3) \\
+\left\lbrace \begin{array}{l}
+\exists c', c'' \in \mathbb{Z}_{+}, q', q'' \in \mathbb{Q}_1. \\
+\left( x \overset{q'}{\mapsto} c' :: \bar{w} \right) \ast \text{shared_own}(\tau, x, \bar{w}, c', q') \; \ast \\
+\left( y \overset{q''}{\mapsto} c'' :: \bar{w} \right) \ast \text{shared_own}(\tau, y, \bar{w}, c'', q'')
+\end{array} \right\rbrace &amp; (4) \\
+\end{array}
+\]
+由(1), (2)式得
+\[
+\begin{array}{lr}
+\left\lbrace \begin{array}{l}
+\exists c \in \mathbb{Z}_{+}, q \in \mathbb{Q}_1. \left( x \overset{q}{\mapsto} c :: \bar{w} \right) \ast \\
+\text{shared_own}(\tau, x, \bar{w}, c, q)
+\end{array} \right\rbrace &amp; (1) \\
+\quad ({\mbox*}x).0 \, +\!= 1 \, ; &amp; (2) \\
+\left\lbrace \begin{array}{l}
+\exists c \in \mathbb{Z}_{+}, q \in \mathbb{Q}_1. \left( x \overset{q}{\mapsto} (c + 1) :: \bar{w} \right) \ast \\
+\text{shared_own}(\tau, x, \bar{w}, c, q)
+\end{array} \right\rbrace &amp; (5) \\
+\end{array}
+\]
+现须证
+\[
+\begin{array}{lr}
+\left\lbrace \begin{array}{l}
+\exists c \in \mathbb{Z}_{+}, q \in \mathbb{Q}_1. \left( x \overset{q}{\mapsto} (c + 1) :: \bar{w} \right) \ast \\
+\text{shared_own}(\tau, x, \bar{w}, c, q)
+\end{array} \right\rbrace &amp; (5) \\
+\quad \mathbf{let} \, y = \text{ptr::read}(x) &amp; (3) \\
+\left\lbrace \begin{array}{l}
+\exists c', c'' \in \mathbb{Z}_{+}, q', q'' \in \mathbb{Q}_1. \\
+\left( x \overset{q'}{\mapsto} c' :: \bar{w} \right) \ast \text{shared_own}(\tau, x, \bar{w}, c', q') \; \ast \\
+\left( y \overset{q''}{\mapsto} c'' :: \bar{w} \right) \ast \text{shared_own}(\tau, y, \bar{w}, c'', q'')
+\end{array} \right\rbrace &amp; (4) \\
+\end{array}
+\]</p>
+<p><img src="images/rc-clone-2.png" alt="Rc::clone" /></p>
+<p>应用\( \text{shared_own} \)的第二个性质，将(5)式中的\( \text{shared_own}(\tau, x, \bar{w}, c, q) \)拆分为两个\( {}^q/{}_2 \)的份额
+\[
+\begin{array}{l}
+\text{shared_own}(\tau, x, \bar{w}, c, q) \; -\!\ast \\
+\quad \text{shared_own}(\tau, x, \bar{w}, c + 1, {}^q/{}_2) \; \ast \\
+\quad \text{shared_own}(\tau, x, \bar{w}, c + 1, {}^q/{}_2)
+\end{array}
+\]
+再将\( x \overset{q}{\mapsto} (c + 1) :: \bar{w} \)也拆成两个\( {}^q/{}_2 \)的份额
+\[
+x \overset{q}{\mapsto} (c + 1) :: \bar{w} \; -\!\ast \;
+\left( x \overset{{}^q/{}_2}{\mapsto} (c + 1) :: \bar{w} \right) \ast \left( x \overset{{}^q/{}_2}{\mapsto} (c + 1) :: \bar{w} \right)
+\]</p>
+<p><img src="images/rc-clone-3.png" alt="Rc::clone" /></p>
+<p>得
+\[
+\begin{array}{lr}
+\left\lbrace \begin{array}{l}
+\exists c \in \mathbb{Z}_{+}, q \in \mathbb{Q}_1. \\
+\left( x \overset{{}^q/{}_2}{\mapsto} (c + 1) :: \bar{w} \right) \ast
+\left( x \overset{{}^q/{}_2}{\mapsto} (c + 1) :: \bar{w} \right) \ast \\
+\text{shared_own}(\tau, x, \bar{w}, c + 1, {}^q/{}_2) \; \ast \\
+\text{shared_own}(\tau, x, \bar{w}, c + 1, {}^q/{}_2)
+\end{array} \right\rbrace &amp; (5')
+\end{array}
+\]</p>
+<p><img src="images/rc-clone-4.png" alt="Rc::clone" /></p>
+<p>令\( q' = q'' = {}^q/{}_2 \)，\(c' = c'' = c + 1\)，则
+\[
+\begin{array}{lr}
+\left\lbrace \begin{array}{l}
+\exists c', c'' = c + 1, q', q'' = {}^q/{}_2. \\
+\left( x \overset{q'}{\mapsto} c' :: \bar{w} \right) \ast \text{shared_own}(\tau, x, \bar{w}, c', q') \; \ast \\
+\left( x \overset{q''}{\mapsto} c'' :: \bar{w} \right) \ast \text{shared_own}(\tau, x, \bar{w}, c'', q'')
+\end{array} \right\rbrace &amp; (5'') \\
+\quad \mathbf{let} \, y = \text{ptr::read}(x) &amp; (3) \\
+\left\lbrace \begin{array}{l}
+\exists c', c'' \in \mathbb{Z}_{+}, q', q'' \in \mathbb{Q}_1. \\
+\left( x \overset{q'}{\mapsto} c' :: \bar{w} \right) \ast \text{shared_own}(\tau, x, \bar{w}, c', q') \; \ast \\
+\left( y \overset{q''}{\mapsto} c'' :: \bar{w} \right) \ast \text{shared_own}(\tau, y, \bar{w}, c'', q'')
+\end{array} \right\rbrace &amp; (4) \\
+\end{array}
+\]
+(3)式中的\( \text{ptr::read} \)为浅复制，因此上式不难得证．\(\square\)</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../2023-06-rustbelt/03-rust-semantics.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../2022-01-polonius/00.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../2023-06-rustbelt/03-rust-semantics.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../2022-01-polonius/00.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="https://utteranc.es/client.js"
+                repo="frank-king/rustblog-zh"
+                issue-term="title"
+                theme="github-dark"
+                crossorigin="anonymous"
+                async>
+        </script>
+
+    </body>
+</html>
