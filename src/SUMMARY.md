@@ -2,6 +2,13 @@
 
 - [序言](overview.md)
 
+# 2023-06
+- [RustBelt——Rust语言的形式化语义模型](2023-06-rustbelt/00.md)
+    - [（零）背景](2023-06-rustbelt/01-background.md)
+    - [（一）形式化逻辑基础](2023-06-rustbelt/02-logics.md)
+    - [（二）Rust语义模型](2023-06-rustbelt/03-rust-semantics.md)
+    - [（三）示例`Rc`](2023-06-rustbelt/04-rc.md)
+
 # 2022-01
 - [Polonius学习笔记](2022-01-polonius/00.md)
 	- [（零）原子式与输入](2022-01-polonius/01-21-借用检查（零）-原子式与输入.md)
